@@ -1,0 +1,51 @@
+<div>
+    <div id="content">
+        <form id="login-form" method="post" autocomplete="off">
+            <fieldset>
+                <legend>
+                    <i class="icon-lock small"></i> {{ msgs["tbelims.login.loginHeading"] }}
+                </legend>
+				<div id="validationErrorAlert" class="alert alert-danger ng-hide" ng-show="formErrors" role="alert">
+					<div>{{ formErrors }}</div>
+					</div>
+				<section class="form-entry-section">
+	                <div>
+	                    <label for="username">{{ msgs["tbelims.login.username"] }}:</label>
+	                    <input ng-model="username" type="text" name="username" autofocus="autofocus" required 
+							placeholder='{{ msgs["tbelims.login.username.placeholder"] }}' />
+	                </div>
+	
+	                <div>
+	                    <label for="password">{{ msgs["tbelims.login.password"] }}:</label>
+	                    <input ng-model="password" type="password" name="password" required 
+							placeholder='{{ msgs["tbelims.login.password.placeholder"] }}'/>
+	                </div>
+                </section>
+				<section class="form-bottom-bar-section">
+					<button class="confirm big-confirm" ng-click="login()" >{{ msgs["tbelims.login.button"] }}</button>
+					
+					<br><br>
+			        <a id="cantLogin" href="javascript:void(0)" class="pull-right">
+                    <i class="icon-question-sign small"></i> {{ msgs["tbelims.login.cannotLogin"] }}
+                    </a>
+				</section>
+            </fieldset>
+
+            <input type="hidden" name="redirectUrl" value="${redirectUrl}" />
+
+        </form>
+
+    </div>
+</div>
+
+<div id="cannotLoginPopup" class="dialog" style="display: none">
+    <div class="dialog-header">
+        <i class="icon-info-sign"></i>
+        <h3>{{ msgs["tbelims.login.cannotLogin"] }}</h3>
+    </div>
+    <div class="dialog-content">
+        <p class="dialog-instructions">{{ msgs["tbelims.login.cannotLoginInstructions"] }}</p>
+
+        <button class="confirm">{{ msgs["tbelims.okay"] }}</button>
+    </div>
+</div>

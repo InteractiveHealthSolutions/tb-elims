@@ -1,0 +1,79 @@
+<style>
+.ui-grid-pager-panel {
+	border: thin solid silver;
+}
+.watermark {
+    position: absolute;
+    top: 50%;                    
+    transform: translateY(-50%); 
+    opacity: 0.25;
+    font-size: 3em;
+    width: 100%;
+    text-align: center;
+    z-index: 1000;
+}
+/* */
+</style>
+<h1 class="heading">Patients List</h1>
+
+<div class="form" ng-controller="LocationController" ng-init="loadTree(false)">
+
+<table class="noborder">
+<tr>
+<td>Division:</td><td>
+	<select ng-model="searchFilter.stateProvince">
+		<option></option>
+		<option ng-repeat="loc in divisions" value="{{ loc.name }}">{{ loc.name }}</option>
+	</select>
+</td>
+<td>Union: </td><td>
+	<select ng-model="searchFilter.union">
+		<option></option>
+		<option ng-repeat="loc in unions | filter: { parent : searchFilter.cityVillage }" value="{{ loc.name }}">{{ loc.name }}</option>
+	</select>
+</td>
+<td colspan="2">
+	<input ng-model="searchFilter.q" class="inline" placeholder="Enter name or identifier"><i class="icon-search small"></i>
+</td>
+</tr>
+<tr>
+<td>District:</td><td>
+	<select ng-model="searchFilter.countyDistrict">
+		<option></option>
+		<option ng-repeat="loc in districts | filter: { parent : searchFilter.stateProvince }" value="{{ loc.name }}">{{ loc.name }}</option>
+	</select>
+</td>
+<td>Sex: </td><td>
+	<select ng-model="searchFilter.gender">
+		<option></option>
+		<option value="M">Male</option>
+		<option value="F">Female</option>
+		<option value="O">Others</option>
+	</select>
+</td>
+<td colspan="2"></td>
+</tr>
+<tr>
+<td>Upazilla:</td><td>
+	<select ng-model="searchFilter.cityVillage">
+		<option></option>
+		<option ng-repeat="loc in upazillas | filter: { parent : searchFilter.countyDistrict }" value="{{ loc.name }}">{{ loc.name }}</option>
+	</select>
+</td>
+<td>Age: </td><td>
+	<input ng-model="searchFilter.age" class="inline" type="number">
+</td>
+<td colspan="2"><input type="button" ng-click="loadPatients()" value="Search" class="big-confirm"/></td>
+</tr>
+</table>
+
+</div>
+
+<div ui-grid="patientsList"  ui-grid-pagination ui-grid-auto-resize style="height: {{gridHeight}}">
+    <div class="watermark" ng-show="searchFilter && !patientsList.data.length">No data available for given search filter</div>
+    <div class="watermark" ng-show="!searchFilter">Add atleast one search filter to fetch data</div>
+</div>
+
+<script type="text/ng-template" id="view-profile-button.html">
+	<div><button class="btn btn-info btn-sm btn-block" ng-click="grid.appScope.openProfile(row.entity)">View Profile</button><div>
+</script>

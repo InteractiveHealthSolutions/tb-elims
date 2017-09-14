@@ -1,0 +1,16 @@
+<h3>Location Tree</h3>
+<script type="text/ng-template" id="nodes_renderer.html">
+  <div ui-tree-handle>
+    -- {{node.display}}
+  </div>
+  <ol ui-tree-nodes="" ng-show="node.children" ng-model="node.children">
+	<li ng-repeat="node in node.children" ui-tree-node ng-include="'nodes_renderer.html'"></li>
+  </ol>
+</script>
+
+<div ui-tree data-drag-enabled="false">
+  <ol ui-tree-nodes="" ng-model="locationList" id="tree-root">
+    <li ng-repeat="node in locationList" ui-tree-node ng-include="'nodes_renderer.html'"></li>
+  </ol>
+</div>
+

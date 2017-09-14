@@ -1,0 +1,40 @@
+<table class="noborder-ex" ng-modal="dataMap" style="padding: 10pt; width: 80%; float: left;">
+
+	<tr><td colspan="3"><h1 class="heading">Patients Profile</h1></td>
+		<td><button type="button" class="btn btn-warning btn-sm btn-block">Edit Profile</button>
+			<br>
+			<button type="button" class="btn btn-danger btn-sm btn-block">Delete Profile</button></td></tr>
+
+	<tr><td>Patient Registration ID</td><td colspan="3">{{ dataMap.patient.identifiers | identifierValue :'OpenMRS ID' }}</td></tr>
+
+	<tr>
+		<td>Name</td><td>{{ dataMap.patient.person.display }}</td>
+		<td>Age</td><td>{{ dataMap.patient.person.age }}</td>
+	</tr>
+	<tr>
+		<td>Occupation</td><td>{{ dataMap.patient.person.attributes | attributeValue :'Occupation' }}</td>
+		<td>Sex</td><td>{{ dataMap.patient.person.gender }}</td>
+	</tr>
+	<tr>
+		<td>Father/Husband Name (??)</td><td>{{ dataMap.patient.person.attributes | attributeValue :'Father Name' }}</td>
+		<td>Contact No.</td><td>{{ dataMap.patient.person.attributes | attributeValue :'Primary Contact Number' }}</td>
+	</tr>
+	<tr>
+		<td>Address</td><td>{{ dataMap.patient.person.addresses | addressValue }}</td>
+		<td>Patient History</td><td>???</td>
+	</tr>
+	<tr>
+		<td>Referring Facility</td><td>???</td>
+		<td>HIV Status</td><td>???</td>
+	</tr>
+	<tr>
+		<td>Address of Referring Facility</td><td>???</td>
+		<td></td><td></td>
+	</tr>
+	<tr>
+		<td>Patient Status</td><td>???</td>
+		<td>Date</td><td>???</td>
+	</tr>
+	<tr><td colspan="3"></td>
+		<td><button type="button" class="btn btn-info btn-sm btn-block">Add Test Info</button></td></tr>
+</table>

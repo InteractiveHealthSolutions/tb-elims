@@ -1,0 +1,18 @@
+[
+    {
+        "id": "${project.parent.artifactId}.patientDashboardApp",
+        "description": "Patient Dashboard for e-TBLIMS",
+        "extensionPoints": [
+           {"id": "labTestsActions"}
+        ],
+        "contextModel": [ "patientId", "activeVisitId" ]
+    },
+    {
+        "id": "${project.parent.artifactId}.pabTestsDasboardApp",
+        "description": "Lab Tests Dashboard for e-TBLIMS",
+        "extensionPoints": [
+            {"id": "patientDataActions" }
+        ],
+        "contextModel": [ "xrayConceptId", "patientId" ]
+    }
+]

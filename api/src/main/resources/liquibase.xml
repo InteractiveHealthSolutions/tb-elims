@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+                  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+ 
+    <changeSet id="tbelims-201709052109" author="maimoonak">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">select count(*) from person_attribute_type where name='occupation'</sqlCheck>
+		</preConditions>
+		<comment>Adding person attribute type occupation</comment>
+		<sql>INSERT INTO `person_attribute_type` (`name`, `description`, `format`, `searchable`, `creator`, `date_created`, `retired`, `uuid`) 
+		    VALUES ('Occupation', 'Occupation of this person', 'java.lang.String', '0', '1', NOW(), '0', UUID());</sql>
+    </changeSet>
+    <changeSet id="tbelims-201709052121" author="maimoonak">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">select count(*) from person_attribute_type where name='primary contact number'</sqlCheck>
+		</preConditions>
+		<comment>Adding person attribute type contact number</comment>
+		<sql>INSERT INTO `person_attribute_type` (`name`, `description`, `format`, `searchable`, `creator`, `date_created`, `retired`, `uuid`) 
+		    VALUES ('Primary Contact Number', 'Primary Contact Number of this person', 'java.lang.String', '1', '1', NOW(), '0', UUID());</sql>
+    </changeSet>
+    <!--
+    	See http://wiki.openmrs.org/display/docs/Module+liquibase+File for 
+    	documentation on this file.
+    
+        See http://www.liquibase.org/manual/home#available_database_refactorings
+        for a list of supported elements and attributes
+    -->
+ 
+ 	<!-- Uncomment the changeset below if you want to make the Item class persistable, see also Item and TBeLIMSDaoTest -->
+ 	<!--
+	<changeSet id="tbelims-2016-08-02-12-21" author="raff">
+		<preConditions onFail="MARK_RAN">
+			<not><tableExists tableName="tbelims_item"/></not>
+		</preConditions>
+		<comment>
+			Creating the tbelims_item table
+		</comment>
+		<createTable tableName="tbelims_item">
+			<column name="tbelims_item_id" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name="uuid" type="char(38)">
+				<constraints nullable="false" unique="true"></constraints>
+			</column>
+			<column name="owner" type="int" />
+			<column name="description" type="varchar(255)" />
+		</createTable>
+        <addForeignKeyConstraint constraintName="tbelims_item_owner_fk" baseTableName="tbelims_item" baseColumnNames="owner"  referencedTableName="users"
+                                 referencedColumnNames="user_id" />
+    </changeSet> -->
+ 
+</databaseChangeLog>
