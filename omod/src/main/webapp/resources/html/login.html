@@ -1,28 +1,28 @@
 <div>
-    <div id="content">
-        <form id="login-form" method="post" autocomplete="off">
+    <div id="login-form">
+        <form method="post" autocomplete="off">
             <fieldset>
                 <legend>
                     <i class="icon-lock small"></i> {{ msgs["tbelims.login.loginHeading"] }}
                 </legend>
 				<div id="validationErrorAlert" class="alert alert-danger ng-hide" ng-show="formErrors" role="alert">
 					<div>{{ formErrors }}</div>
-					</div>
-				<section class="form-entry-section">
+				</div>
+				<section>
 	                <div>
-	                    <label for="username">{{ msgs["tbelims.login.username"] }}:</label>
-	                    <input ng-model="username" type="text" name="username" autofocus="autofocus" required 
+	                    <!-- <label for="username">{{ msgs["tbelims.login.username"] }}:</label> -->
+	                    <input title='{{ msgs["tbelims.login.username.placeholder"] }}' ng-model="username" type="text" name="username" autofocus="autofocus" required 
 							placeholder='{{ msgs["tbelims.login.username.placeholder"] }}' />
 	                </div>
 	
 	                <div>
-	                    <label for="password">{{ msgs["tbelims.login.password"] }}:</label>
-	                    <input ng-model="password" type="password" name="password" required 
+	                    <!-- <label for="password">{{ msgs["tbelims.login.password"] }}:</label> -->
+	                    <input title='{{ msgs["tbelims.login.password.placeholder"] }}' ng-model="password" type="password" name="password" required 
 							placeholder='{{ msgs["tbelims.login.password.placeholder"] }}'/>
 	                </div>
                 </section>
-				<section class="form-bottom-bar-section">
-					<button class="confirm big-confirm" ng-click="login()" >{{ msgs["tbelims.login.button"] }}</button>
+				<section>
+					<button class="btn btn-success btn-lg btn-block" ng-click="login()" >{{ msgs["tbelims.login.button"] }}</button>
 					
 					<br><br>
 			        <a id="cantLogin" href="javascript:void(0)" class="pull-right">

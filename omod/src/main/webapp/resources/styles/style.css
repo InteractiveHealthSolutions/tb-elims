@@ -11,16 +11,8 @@
 	float: right;
 	margin-top: 20pt !important;
 }
-
-.form-entry-section div{
+#login-form section {
 	margin-top: 20pt !important;
-}
-.form-bottom-bar-section{
-	margin-top: 30pt !important;
-	width: 80%;
-}
-.big-confirm{
-	min-width: 80% !important;
 }
 
 .inline {
@@ -29,6 +21,28 @@
 .heading {
 	margin: 1px !important;
 	padding: 1px !important;	
+}
+.search-form {
+	margin-top: 20pt;
+	margin-bottom: 10pt;
+}
+.search-form input[type="text"], .search-form select {
+	width: 150pt !important;
+	height: 20pt;
+}
+.search-form input[type="radio"] {
+	width: 10pt;
+}
+.search-form button, .search-form input[type="button"] {
+	display: inline-block;
+	width: auto;
+}
+.squeeze {
+	display: inline-block;
+	padding-right: 10pt;
+}
+.squeeze input, .squeeze select{
+	width: 100pt !important;
 }
 /* normalize.css v2.0.1 | MIT License | git.io/normalize */
 /* ==========================================================================
@@ -264,6 +278,7 @@ fieldset {
  */
 legend {
   border: 0;
+  border-bottom: none !important;
   /* 1 */
   padding: 0;
   /* 2 */
@@ -529,26 +544,33 @@ em {
   font-weight: normal;
   font-style: normal;
 }
-
+required{
+	color: red;
+}
 form, .form {
   overflow: hidden;
 }
 form input, form select, form textarea, form ul.select, .form input, .form select, .form textarea, .form ul.select {
-  min-width: 80%;
   color: #363463;
-  display: block;
-  padding: 5px 10px;
+  padding: 3px 3px;
   margin: 0;
   margin-top: 5px;
   background-color: #FFF;
   border: 1px solid #dddddd;
+  height: 25pt;
+  width: 100%;
+}
+form input[type="radio"]  {
+	width: 10pt;
+	height: 10pt;
+	padding: 5px 10px;
+}
+form input[type="date"]  {
+	width: 130pt;
 }
 form input:focus, form select:focus, form textarea:focus, form ul.select:focus, .form input:focus, .form select:focus, .form textarea:focus, .form ul.select:focus {
   outline: 2px solid #007fff;
   background: #fffdf7;
-}
-form select, .form select {
-  min-width: 200px;
 }
 form select[disabled], .form select[disabled] {
   background: #EEE;
@@ -611,7 +633,6 @@ form fieldset legend, .form fieldset legend {
   text-transform: uppercase;
 }
 form label, .form label {
-  display: block;
   text-align: left;
   margin-bottom: 0px;
   margin-top: 8px;
@@ -781,11 +802,11 @@ table thead th {
 }
 
 .left {
-  float: left;
+  float: left !important;
 }
 
 .right {
-  float: right;
+  float: right !important;
 }
 
 .align-center {

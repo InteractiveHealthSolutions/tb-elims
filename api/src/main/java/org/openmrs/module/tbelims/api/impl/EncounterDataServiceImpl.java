@@ -12,25 +12,25 @@ package org.openmrs.module.tbelims.api.impl;
 import java.util.Date;
 import java.util.List;
 
-import org.openmrs.Patient;
+import org.openmrs.Encounter;
 import org.openmrs.PersonAddress;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.tbelims.api.PaginationHandler;
-import org.openmrs.module.tbelims.api.PatientDataService;
-import org.openmrs.module.tbelims.api.dao.PatientListDao;
+import org.openmrs.module.tbelims.api.EncounterDataService;
+import org.openmrs.module.tbelims.api.dao.EncounterListDao;
 
-public class PatientDataServiceImpl extends BaseOpenmrsService implements PatientDataService {
+public class EncounterDataServiceImpl extends BaseOpenmrsService implements EncounterDataService {
 	
-	PatientListDao dao;
+	EncounterListDao dao;
 	
-	public void setDao(PatientListDao dao) {
+	public void setDao(EncounterListDao dao) {
 		this.dao = dao;
 	}
 	
 	@Override
-	public List<Patient> findPatients(String query, String gender, Integer ageFrom, Integer ageTo, PersonAddress address,
-	        Date dateFrom, Date dateTo, PaginationHandler pagination) {
-		return dao.findPatients(query, gender, ageFrom, ageTo, address, dateFrom, dateTo, pagination);
+	public List<Encounter> findEncounters(String patient, String location, List<String> encounterTypes,
+	        PersonAddress address, Date dateFrom, Date dateTo, PaginationHandler pagination) {
+		return dao.findEncounters(patient, location, encounterTypes, address, dateFrom, dateTo, pagination);
 	}
 	
 }

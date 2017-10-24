@@ -32,7 +32,7 @@ patientApp.controller('PatientListController', ['$scope', '$filter', '$state', '
         onRegisterApi: function (gridApi) {           
         	// make grid adapt to height according to page size or resultset
             gridApi.core.on.rowsRendered(null, function(gridApi) {
-            	resetGridHeight();
+            	resetGridHeight($scope.patientsList, $scope);
 			});
             
             gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
@@ -42,21 +42,6 @@ patientApp.controller('PatientListController', ['$scope', '$filter', '$state', '
                 $scope.loadPatients();
             });
         }
-	};
-	
-	resetGridHeight = function() {
-		if(!$scope.patientsList){
-			return;
-		}
-		var rowHeight = $scope.patientsList.rowHeight; 
-	    var headerHeight = $scope.patientsList.headerRowHeight; 
-	    var paginationPageSize = $scope.patientsList.paginationPageSize;
-	    var dataSize = $scope.patientsList.data.length;
-	    var pageSize = (dataSize>paginationPageSize||dataSize<6)?paginationPageSize:dataSize;
-	
-	    $scope.gridHeight = (pageSize * rowHeight + headerHeight*3) + "px";
-	
-	    console.log('Grid height reset to '+$scope.gridHeight);
 	};
 	
 	$scope.loadPatients = function() {

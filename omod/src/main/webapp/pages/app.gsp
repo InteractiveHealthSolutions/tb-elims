@@ -18,11 +18,15 @@
 
 	ui.includeJavascript("tbelims", "services/session.js")
 	ui.includeJavascript("tbelims", "services/patientService.js")
+	ui.includeJavascript("tbelims", "services/locationService.js")
+	ui.includeJavascript("tbelims", "services/labService.js")
 	
 	ui.includeJavascript("tbelims", "app.authorization.js")
 	ui.includeJavascript("tbelims", "app.patient.js")
 	ui.includeJavascript("tbelims", "app.location.js")
+	ui.includeJavascript("tbelims", "app.lab.js")
 	ui.includeJavascript("tbelims", "filter.patient.js")
+	ui.includeJavascript("tbelims", "filter.location.js")
 	
 	ui.includeCss("uicommons", "angular-ui/ng-grid.min.css")
 	ui.includeCss("tbelims", "ui-bootstrap-3.3.7.min.css")

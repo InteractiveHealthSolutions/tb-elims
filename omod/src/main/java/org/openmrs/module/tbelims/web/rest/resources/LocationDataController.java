@@ -31,7 +31,7 @@ public class LocationDataController {
 	public @ResponseBody
 	SimpleObject getLocationTree() {
 		SimpleObject result = new SimpleObject();
-		Logger.getLogger(getClass()).info("I AM IN THIS IDIOT METHOD");
+		Logger.getLogger(getClass()).info("I AM IN THIS METHOD");
 		try {
 			result.put("data", getHierarchyAsJson());
 		}

@@ -1,0 +1,47 @@
+<style>
+.ui-grid-pager-panel {
+	border: thin solid silver;
+}
+.watermark {
+    position: absolute;
+    top: 50%;                    
+    transform: translateY(-20%); 
+    opacity: 0.25;
+    font-size: 3em;
+    width: 100%;
+    padding-top: 20pt;
+    z-index: 1000;
+}
+</style>
+
+<h1 class="heading">{{ msgs["tbelims.lab-list.label"] }} 
+<button class="btn btn-success right" ng-click="doLabRegistration();">{{ msgs["tbelims.lab-registration.trigger.label"] }} </button></h1>
+
+<div class="search-form" ng-controller="LocationController" ng-init="loadTree(false)">
+	<select id="labType" ng-model="searchFilter.labType">
+		<option value="">{{ msgs["tbelims.lab-list.filter.labType.label"] }} </option>
+		<option>Microscopy Lab</option>
+		<option>CXR Lab</option>
+		<option>GeneXpert Lab</option>
+	</select>
+	<select id="organizationType" ng-model="searchFilter.organizationType">
+		<option value="">{{ msgs["tbelims.lab-list.filter.organizationType.label"] }}</option>
+		<option>Govt</option>
+		<option>NGO</option>
+	</select>
+	<input id="q" ng-model="searchFilter.q" class="inline" placeholder='{{ msgs["tbelims.lab-list.filter.q.label"] }}'>
+	<button type="button" ng-click="loadLabs()" class="btn btn-secondary">{{ msgs["tbelims.lab-list.filter.trigger.label"] }}</button>
+</div>
+
+<div ui-grid="labsList"  ui-grid-pagination ui-grid-auto-resize style="height: {{gridHeight}}">
+    <div class="watermark" ng-show="searchFilter && !labsList.data.length">{{ msgs["tbelims.lab-list.filter.watermark1.label"] }}</div>
+    <div class="watermark" ng-show="!searchFilter">{{ msgs["tbelims.lab-list.filter.watermark2.label"] }}</div>
+</div>
+
+<script type="text/ng-template" id="view-profile-button.html">
+	<div><button class="btn btn-info btn-sm btn-block" ng-click="grid.appScope.openProfile(row.entity)">Profile</button><div>
+</script>
+<script type="text/ng-template" id="edit-profile-button.html">
+	<div><button class="btn btn-warning btn-sm btn-block" ng-hide="row.entity.retired" ng-click="grid.appScope.editProfile(row.entity)">Edit</button><div>
+	<div><button class="btn btn-danger btn-sm btn-block" ng-show="row.entity.retired">Deleted</button><div>
+</script>

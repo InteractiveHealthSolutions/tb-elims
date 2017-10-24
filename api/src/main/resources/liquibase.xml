@@ -21,6 +21,68 @@
 		<sql>INSERT INTO `person_attribute_type` (`name`, `description`, `format`, `searchable`, `creator`, `date_created`, `retired`, `uuid`) 
 		    VALUES ('Primary Contact Number', 'Primary Contact Number of this person', 'java.lang.String', '1', '1', NOW(), '0', UUID());</sql>
     </changeSet>
+    <changeSet id="tbelims-201710101055" author="maimoonak">
+		<comment>Adding location tags (lab,country,division,district,upazilla,union,ward)</comment>
+		<sql>INSERT INTO `location_tag`(`name`, `description`, `creator`, `date_created`, `retired`, `uuid`)
+			VALUES ('Lab', 'Locations where Lab Tests are conducted; DONOT MODIFY- Used in eLIMS for Lab management', 1, NOW(), 0, UUID()),
+			('Country', 'Location of type Country', 1, NOW(), 0, UUID()),
+			('Division', 'Location of type Division; DONOT MODIFY- Used in eLIMS for Location hierarchy management', 1, NOW(), 0, UUID()),
+			('District', 'Location of type District; DONOT MODIFY- Used in eLIMS for Location hierarchy management', 1, NOW(), 0, UUID()),
+			('Upazilla', 'Location of type Upazilla; DONOT MODIFY- Used in eLIMS for Location hierarchy management', 1, NOW(), 0, UUID()),
+			('Union', 'Location of type Union; DONOT MODIFY- Used in eLIMS for Location hierarchy management', 1, NOW(), 0, UUID()),
+			('Ward', 'Location of type Ward', 1, NOW(), 0, UUID());
+		</sql>
+    </changeSet>
+    <changeSet id="tbelims-201710101332" author="maimoonak">
+		<comment>Adding location attribute types (identifier,location type,organization type,organization name)</comment>
+		<sql>
+			INSERT INTO `location_attribute_type`
+			(`name`,`description`,`datatype`,`datatype_config`,`preferred_handler`,`handler_config`,
+			`min_occurs`,`creator`,`date_created`,`retired`,`uuid`)
+			VALUES 
+			('Identifier', 'Identifier associated with location; DONOT modify - Used in eLIMS to identify locations and labs',
+			'org.openmrs.customdatatype.datatype.FreeTextDatatype', null, null, null, 0, 1, NOW(), 0, UUID()),
+			('Location Type', 'Location type; DONOT modify - Used in eLIMS to manage labs',
+			'org.openmrs.customdatatype.datatype.SpecifiedTextOptionsDatatype', null, 
+			'org.openmrs.web.attribute.handler.SpecifiedTextOptionsDropdownHandler', 'DEFAULT,Microscopy Lab,CXR Lab,GeneXpert Lab', 0, 1, NOW(), 0, UUID()),
+			('Organization Type', 'Location administration type; DONOT modify - Used in eLIMS to manage labs',
+			'org.openmrs.customdatatype.datatype.SpecifiedTextOptionsDatatype', null, 
+			'org.openmrs.web.attribute.handler.SpecifiedTextOptionsDropdownHandler', 'DEFAULT,GOVT,NGO', 0, 1, NOW(), 0, UUID()),
+			('Organization Name', 'Location administrator organization; DONOT modify - Used in eLIMS to manage labs',
+			'org.openmrs.customdatatype.datatype.FreeTextDatatype', null, null, null, 0, 1, NOW(), 0, UUID());
+		</sql>
+    </changeSet>
+    <changeSet id="tbelims-201710122017" author="maimoonak">
+		<comment>Adding location attribute type (registration date)</comment>
+		<sql>
+			INSERT INTO `location_attribute_type`
+			(`name`,`description`,`datatype`,`datatype_config`,`preferred_handler`,`handler_config`,
+			`min_occurs`,`creator`,`date_created`,`retired`,`uuid`)
+			VALUES 
+			('Registration Date', 'Location registration date; DONOT modify - Used in eLIMS to manage labs',
+			'org.openmrs.customdatatype.datatype.DateDatatype', null, 
+			'org.openmrs.web.attribute.handler.DateFieldGenDatatypeHandler', null, 0, 1, NOW(), 0, UUID());
+		</sql>
+    </changeSet>
+    <changeSet id="tbelims-201710231804" author="maimoonak">
+		<comment>Adding encounter type (patient registration, test order, test result)</comment>
+		<sql>
+		    INSERT INTO `encounter_type` (`name`, `description`, `creator`, `date_created`, `retired`, `uuid`) 
+		    VALUES  ('Patient Registration', 'Enroll patient into system. DONOT MODIFY: Used by TBeLIMS', '1', CURDATE(), '0', UUID()),
+		    		('Test Order', 'Add a Test Order Info. DONOT MODIFY: Used by TBeLIMS', '1', CURDATE(), '0', UUID()),
+		    		('Test Result', 'Add a Test Result for a Test Order. DONOT MODIFY: Used by TBeLIMS', '1', CURDATE(), '0', UUID());
+		</sql>
+    </changeSet>
+    <changeSet id="tbelims-201710231933" author="maimoonak">
+		<comment>Adding order type (microscopy, cxr, rif)</comment>
+		<sql>
+		    INSERT INTO `order_type` (`name`, `description`, `creator`, `date_created`, `retired`, `uuid`, `java_class_name`) 
+			VALUES 	('Microscopy Test Order', 'DONOT MODIFY: Added by TBeLIMS', '1', CURDATE(), '0', UUID(), 'org.openmrs.TestOrder'),
+					('CXR Test Order', 'DONOT MODIFY: Added by TBeLIMS', '1', CURDATE(), '0', UUID(), 'org.openmrs.TestOrder'),
+			        ('RIF Test Order', 'DONOT MODIFY: Added by TBeLIMS', '1', CURDATE(), '0', UUID(), 'org.openmrs.TestOrder');
+		</sql>
+    </changeSet>
+    
     <!--
     	See http://wiki.openmrs.org/display/docs/Module+liquibase+File for 
     	documentation on this file.

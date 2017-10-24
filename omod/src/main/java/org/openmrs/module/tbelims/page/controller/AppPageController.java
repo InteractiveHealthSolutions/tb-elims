@@ -65,6 +65,9 @@ public class AppPageController {
 			//TODO return "forward:" + ui.pageLink(Constants.TBELIMS_MODULE_ID, "app");
 		}
 		
+		pageRequest.setProviderNameOverride(Constants.TBELIMS_MODULE_ID);
+		pageRequest.setPageNameOverride("app");
+		
 		String redirectUrl = getStringSessionAttribute(SESSION_ATTRIBUTE_REDIRECT_URL, pageRequest.getRequest());
 		if (StringUtils.isBlank(redirectUrl))
 			redirectUrl = pageRequest.getRequest().getParameter(REQUEST_PARAMETER_NAME_REDIRECT_URL);

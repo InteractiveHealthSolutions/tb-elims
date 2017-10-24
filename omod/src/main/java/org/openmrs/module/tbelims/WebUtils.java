@@ -1,5 +1,9 @@
 package org.openmrs.module.tbelims;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.openmrs.module.webservices.rest.web.RequestContext;
@@ -7,6 +11,8 @@ import org.openmrs.module.webservices.rest.web.RequestContext;
 import com.mysql.jdbc.StringUtils;
 
 public class WebUtils {
+	
+	public static final SimpleDateFormat GLOBAL_JAVA_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	
 	public static String getStringFilter(String param, RequestContext req) {
 		return (StringUtils.isEmptyOrWhitespaceOnly(req.getParameter(param))) ? null : req.getParameter(param);
@@ -31,12 +37,12 @@ public class WebUtils {
 		return strval == null ? null : Float.parseFloat(strval);
 	}
 	
-	/*	public static Date getDateFilter(String param, HttpServletRequest req) throws ParseException{
-			String strval = getStringFilter(param, req);
-			return strval==null?null:WebGlobals.GLOBAL_JAVA_DATE_FORMAT.parse(strval);	
-		}
-		
-		public static String setDateFilter(Date date) throws ParseException{
+	public static Date getDateFilter(String param, RequestContext req) throws ParseException {
+		String strval = getStringFilter(param, req);
+		return strval == null ? null : GLOBAL_JAVA_DATE_FORMAT.parse(strval);
+	}
+	
+	/*	public static String setDateFilter(Date date) throws ParseException{
 			return date==null?null:WebGlobals.GLOBAL_JAVA_DATE_FORMAT.format(date);	
 		}*/
 }

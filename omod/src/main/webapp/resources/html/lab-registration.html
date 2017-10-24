@@ -1,0 +1,86 @@
+<script>
+	jQuery('required').append("*");
+</script>
+<h1 class="heading"> {{ msgs["tbelims.lab-registration.label"] }} </h1>
+<br>
+<form ng-submit="submitForm()">
+<table ng-controller="LocationController" ng-init="loadTree(false)">
+  <tr>
+    <td> {{ msgs["tbelims.lab-registration.label.labType"] }} <required/></td>
+	<td>
+		<input type="radio" name="labType" ng-model="location.labType" ng-required="!location.labType" value="Microscopy Lab"> Microscopy Lab<br>
+		<input type="radio" name="labType" ng-model="location.labType" ng-required="!location.labType" value="CXR Lab"> CXR Lab<br>
+		<input type="radio" name="labType" ng-model="location.labType" ng-required="!location.labType" value="GeneXpert Lab"> GeneXpert Lab
+	</td>
+	<td></td>
+    <td> {{ msgs["tbelims.lab-registration.label.registrationDate"] }} <required/></td>
+    <td><input type="date" name="registrationDate" ng-model="location.registrationDate" min="2017-10-01" max="2017-11-31" required /></td>
+  </tr>
+  <tr>
+    <td> {{ msgs["tbelims.lab-registration.label.labName"] }} <required/></td>
+    <td colspan="2"><input type="text" name="labName" ng-model="location.name" required min="3" maxlength="50"/></td>
+    <td colspan="2"></td>
+  </tr>
+  <tr>
+    <td> {{ msgs["tbelims.lab-registration.label.labAddress"] }} <required/></td>
+    <td colspan="4">
+    	<div class="squeeze">
+    	<select ng-model="location.stateProvince" required ng-change="updateIds()">
+			<option value="">Division</option>
+			<option ng-repeat="loc in divisions" value="{{ loc.name }}">{{ loc.name }}</option>
+		</select>
+    	<select ng-model="location.countyDistrict" required ng-change="updateIds()">
+			<option value="">District</option>
+			<option ng-repeat="loc in districts | filter: { parent : location.stateProvince }" value="{{ loc.name }}">{{ loc.name }}</option>
+		</select>
+	    <select ng-model="location.cityVillage" required ng-change="updateIds()">
+			<option value="">Upazilla</option>
+			<option ng-repeat="loc in upazillas | filter: { parent : location.countyDistrict }" value="{{ loc.name }}">{{ loc.name }}</option>
+		</select>
+    	<select ng-model="location.address3" required ng-change="updateIds()">
+			<option value="">Union</option>
+			<option ng-repeat="loc in unions | filter: { parent : location.cityVillage }" value="{{ loc.name }}">{{ loc.name }}</option>
+		</select>
+		</div>
+    </td>
+  </tr>
+  <tr>
+    <td> {{ msgs["tbelims.lab-registration.label.labAddressId"] }} <required/></td>
+    <td colspan="4">
+    <div class="squeeze">
+    <input type="text" name="stateProvinceId" ng-model="stateProvinceId" required readonly />
+    <input type="text" name="countyDistrictId" ng-model="countyDistrictId" required readonly />
+    <input type="text" name="cityVillageId" ng-model="cityVillageId" required readonly />
+    <input type="text" name="address3Id" ng-model="address3Id" required readonly />
+    </div>
+    <h1>{{myForm.myInput.$valid}}</h1>
+    </td>
+  </tr>
+  <tr>
+    <td> {{ msgs["tbelims.lab-registration.label.organizationType"] }} <required/></td>
+  	<td>
+    	<select ng-model="location.organizationType" required>
+			<option></option>
+			<option>Govt</option>
+			<option>NGO</option>
+		</select>
+    </td>
+    <td colspan="3"></td>
+  </tr>
+  <tr>
+    <td> {{ msgs["tbelims.lab-registration.label.organizationName"] }} <required/></td>
+  	<td colspan="2"><input type="text" name="organizationName" ng-model="location.organizationName" required  min="3" maxlength="50"/></td>
+    <td colspan="2"></td>
+  </tr>
+  <tr>
+    <td> {{ msgs["tbelims.lab-registration.label.labIdentifier"] }} <required/></td>
+    <td colspan="2"><input type="text" name="identifier" ng-model="location.identifier" required readonly/></td>
+    <td colspan="2"></td>
+  </tr>
+  <tr>
+    <td colspan="3"></td>
+    <td><button type="button" ng-click="cancelRegistration();" class="btn btn-danger">Cancel</button></td>
+  	<td><button type="submit" name="submit" class="btn btn-success">Submit</button></td>
+  </tr>
+</table>
+</form>

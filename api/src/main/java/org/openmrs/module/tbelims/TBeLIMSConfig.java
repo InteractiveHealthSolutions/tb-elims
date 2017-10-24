@@ -9,6 +9,12 @@
  */
 package org.openmrs.module.tbelims;
 
+import java.util.Iterator;
+
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.impl.CriteriaImpl;
+import org.hibernate.impl.CriteriaImpl.CriterionEntry;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,4 +24,18 @@ import org.springframework.stereotype.Component;
 public class TBeLIMSConfig {
 	
 	public final static String MODULE_PRIVILEGE = "TB eLIMS Privilege";
+	
+	@SuppressWarnings("unchecked")
+	public static void removeCriterions(Criteria criteria, Class<? extends Criterion> type) {
+		Iterator<CriterionEntry> criterionIterator = ((CriteriaImpl) criteria).iterateExpressionEntries();
+		while (criterionIterator.hasNext()) {
+			CriterionEntry criterionEntry = criterionIterator.next();
+			if (criterionEntry.getCriteria() == criteria) {
+				Criterion criterion = criterionEntry.getCriterion();
+				if (null == type || criterion.getClass() == type) {
+					criterionIterator.remove();
+				}
+			}
+		}
+	}
 }

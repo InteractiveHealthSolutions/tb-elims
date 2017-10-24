@@ -11,12 +11,15 @@ package org.openmrs.module.tbelims.api;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
-import org.openmrs.Patient;
-import org.openmrs.PersonAddress;
+import org.hibernate.criterion.MatchMode;
+import org.openmrs.Location;
 
-public interface PatientDataService {
+public interface LocationDataService {
 	
-	List<Patient> findPatients(String query, String gender, Integer ageFrom, Integer ageTo, PersonAddress address,
+	List<Location> findLocations(String query, String parentLocation, List<String> tags, Map<String, Object> attributes,
 	        Date dateFrom, Date dateTo, PaginationHandler pagination);
+	
+	long countLocations(String parentLocation, List<String> tags, Map<String, Object> attributes, MatchMode attributeMatch);
 }
