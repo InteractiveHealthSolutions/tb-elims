@@ -19,13 +19,19 @@
 	ui.includeJavascript("tbelims", "services/session.js")
 	ui.includeJavascript("tbelims", "services/patientService.js")
 	ui.includeJavascript("tbelims", "services/locationService.js")
-	ui.includeJavascript("tbelims", "services/labService.js")
+	ui.includeJavascript("tbelims", "services/roleService.js")
+	ui.includeJavascript("tbelims", "services/userService.js")
+	ui.includeJavascript("tbelims", "services/privilegeService.js")
+	ui.includeJavascript("tbelims", "services/personAttributeTypeService.js")
+	
 	
 	ui.includeJavascript("tbelims", "app.authorization.js")
 	ui.includeJavascript("tbelims", "app.patient.js")
 	ui.includeJavascript("tbelims", "app.location.js")
 	ui.includeJavascript("tbelims", "app.lab.js")
-	ui.includeJavascript("tbelims", "filter.patient.js")
+	ui.includeJavascript("tbelims", "app.role.js")
+	ui.includeJavascript("tbelims", "app.user.js")
+	ui.includeJavascript("tbelims", "filter.person.js")
 	ui.includeJavascript("tbelims", "filter.location.js")
 	
 	ui.includeCss("uicommons", "angular-ui/ng-grid.min.css")
@@ -52,15 +58,13 @@ jQuery( document ).ready(function() {
 </style>
 
 <header>
-<div class="logo">e-LIMS</div>
+<div class="logo"><img ng-if="('login' | isState) ? false : true" src="/openmrs/ms/uiframework/resource/tbelims/images/logohorizontal.png"></div>
 <div class="user-options">
-	<li ng-controller="LocationController">
-		<a ng-click="openTreeModal()" ng-if="!('login' | isState)" ng-init="loadTree()">
-			Locations <i class="icon-home small"></i>
-		</a>
+	<li ng-controller="LocationController" ng-if="!('login' | isState)" ng-init="loadLocations(true, ['division','district','upazilla'])">
+
 	</li>
 	<li ng-controller="LogoutController">
-		<a ng-click="logout()">
+		<a ng-if="('login' | isState) ? false : true" ng-click="logout()">
 			Logout <i class="icon-signout small"></i>
 		</a>
 	</li>

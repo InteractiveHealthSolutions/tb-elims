@@ -1,11 +1,11 @@
 <h1 class="heading"> {{ msgs["tbelims.lab-profile.label"] }} </h1>
 <br>
-<table>
+<table ng-controller="LabController">
   <tr>
     <td colspan="3">
     	<div ng-show="voidToggle">
 			<input type="text" placeholder='{{ msgs["tbelims.lab-void.reason.label"] }}' ng-model="voidReason"/>
-	    	<button ng-click="voidRegistration(dataMap.location);" class="btn btn-danger"> {{ msgs["tbelims.okay"] }} </button>
+	    	<button ng-click="voidProfile(dataMap.location);" class="btn btn-danger"> {{ msgs["tbelims.okay"] }} </button>
     	</div>
     </td>
     <td>
@@ -32,10 +32,10 @@
   <tr>
     <td> {{ msgs["tbelims.lab-profile.label.labAddress"] }} </td>
     <td colspan="4">
-    	<div class="squeeze"> {{ dataMap.location.stateProvince }} </div>
-    	<div class="squeeze"> {{ dataMap.location.countyDistrict }} </div>
-    	<div class="squeeze"> {{ dataMap.location.cityVillage }} </div>
-    	<div class="squeeze"> {{ dataMap.location.address3 }} </div>
+    	<div class="squeeze" style="border: thin dashed silver;"> {{ dataMap.location.stateProvince }} </div>
+    	<div class="squeeze" style="border: thin dashed silver;"> {{ dataMap.location.countyDistrict }} </div>
+    	<div class="squeeze" style="border: thin dashed silver;"> {{ dataMap.location.cityVillage }} </div>
+    	<div class="squeeze" style="border: thin dashed silver;"> {{ dataMap.location.address3 }} </div>
     </td>
   </tr>
   <tr>

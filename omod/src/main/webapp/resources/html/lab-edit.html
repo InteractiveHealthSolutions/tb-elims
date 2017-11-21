@@ -3,7 +3,7 @@
 </script>
 <h1 class="heading"> {{ msgs["tbelims.lab-edit.label"] }} </h1>
 <br>
-<form ng-submit="submitForm()">
+<form ng-submit="submitForm()" ng-controller="LabController">
 <table ng-controller="LocationController" ng-init="loadTree(false)">
   <tr>
     <td> {{ msgs["tbelims.lab-edit.label.labType"] }} <required/></td>
@@ -24,25 +24,29 @@
   <tr>
     <td> {{ msgs["tbelims.lab-edit.label.labAddress"] }} <required/></td>
     <td colspan="4">
+    	<!-- Location names have ids appended to make them unique. So we would bind model with name but to display only simple name
+    	address6 which has display name would be bind to html option text -->
     	<div class="squeeze">
-    	<select ng-model="location.stateProvince" required >
-			<option value="">Division</option>
-			<option ng-repeat="loc in divisions" value="{{ loc.name }}">{{ loc.name }}</option>
+    	<!-- The default option must be there to make sure that location is selected when page is loaded on even slow network-->
+    	<select ng-model="location.stateProvince" required>
+			<option value="{{location.stateProvince}}" selected="selected"> {{ location.stateProvince }} </option>
+			<option ng-repeat="loc in divisions" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 		</select>
-    	<select ng-model="location.countyDistrict" required >
-			<option value="">District</option>
-			<option ng-repeat="loc in districts | filter: { parent : location.stateProvince }" value="{{ loc.name }}">{{ loc.name }}</option>
+    	<select ng-model="location.countyDistrict" required>
+			<option value="{{location.countyDistrict}}" selected="selected"> {{ location.countyDistrict }} </option>
+			<option ng-repeat="loc in districts | filter: { parentLocation: { name: location.stateProvince} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 		</select>
-	    <select ng-model="location.cityVillage" required >
-			<option value="">Upazilla</option>
-			<option ng-repeat="loc in upazillas | filter: { parent : location.countyDistrict }" value="{{ loc.name }}">{{ loc.name }}</option>
+	    <select ng-model="location.cityVillage" required ng-change="fetchScopeLocations('union', 'unions', location.cityVillage, 'loadingData');">
+			<option value="{{location.cityVillage}}" selected="selected"> {{ location.cityVillage }} </option>
+			<option ng-repeat="loc in upazillas | filter: { parentLocation: { name: location.countyDistrict} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 		</select>
-    	<select ng-model="location.address3" required >
-			<option value="">Union</option>
-			<option ng-repeat="loc in unions | filter: { parent : location.cityVillage }" value="{{ loc.name }}">{{ loc.name }}</option>
+    	<select ng-model="location.address3" required>
+			<option value="{{location.address3}}" selected="selected"> {{ location.address3 }} </option>
+			<option ng-repeat="loc in unions | filter: { parentLocation: { name: location.cityVillage} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 		</select>
+		<i class="icon-refresh small" ng-show="loadingData"></i>
 		</div>
-		<div>The updated location hierarchy does not get reflected in identifier</div>
+		<div> {{ msgs["tbelims.lab-edit.label.warningIdentifier"] }} </div>
     </td>
   </tr>
   <tr>
@@ -68,8 +72,8 @@
   </tr>
   <tr>
     <td colspan="3"></td>
-    <td><button type="button" ng-click="cancelEdit();" class="btn btn-danger">Cancel</button></td>
-  	<td><button type="submit" name="submit" class="btn btn-success">Submit</button></td>
+    <td><button type="button" ng-click="cancelEdit();" class="btn btn-danger">{{ msgs["tbelims.cancel"] }}</button></td>
+  	<td><button type="submit" name="submit" class="btn btn-success">{{ msgs["tbelims.submit"] }}</button></td>
   </tr>
 </table>
 </form>

@@ -12,7 +12,7 @@
 			var OPENMRS_CONTEXT_PATH = '${ ui.contextPath() }';
 		</script>
 		<script>
-			if ('serviceWorker' in navigator) {
+			/* if ('serviceWorker' in navigator) {
 				navigator.serviceWorker.register('/openmrs/service-worker.js', { scope: "/openmrs/" })
 				.then(function(reg) {
 				  console.info('Registration succeeded. Scope is ' + reg.scope);
@@ -22,7 +22,7 @@
 			}
 			else {
 				alert('Offline mode is disabled or not supported by your browser');
-			}
+			} */
 		</script>			
 			
 		${ ui.resourceLinks() }

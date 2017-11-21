@@ -3,7 +3,6 @@
 	font-stretch: ultra-expanded;
 	font-weight: bolder;
 	font-family: serif;
-	padding: 20px;
 }
 
 #login-form fieldset {
@@ -44,6 +43,10 @@
 .squeeze input, .squeeze select{
 	width: 100pt !important;
 }
+.popup {
+	height: 100%;
+	padding: 20pt;
+}
 /* normalize.css v2.0.1 | MIT License | git.io/normalize */
 /* ==========================================================================
    HTML5 display definitions
@@ -71,7 +74,7 @@ summary {
 	display: inline-block !important;
 }
 nav li {
-	border: solid thin red;
+	border: solid thin silver;
 }
 /*
  * Corrects `inline-block` display not defined in IE 8/9.
@@ -96,6 +99,13 @@ audio:not([controls]) {
  */
 [hidden] {
   display: none;
+}
+.loader {
+    /* For the loading indicator to be vertically centered ensure */
+    /* the html and body elements take up the full viewport */
+    min-height: 300pt !important;
+    background: url('../images/loader.gif') no-repeat 50% 50% !important;
+    padding: 2pt !important;
 }
 html {
     /* For the loading indicator to be vertically centered ensure */
@@ -565,6 +575,11 @@ form input[type="radio"]  {
 	height: 10pt;
 	padding: 5px 10px;
 }
+form input[type="checkbox"]  {
+	width: 10pt;
+	height: 10pt;
+	padding: 5px 10px;
+}
 form input[type="date"]  {
 	width: 130pt;
 }
@@ -853,8 +868,9 @@ body:after {
 }
 
 header {
+  min-height: 50pt;
   position: relative;
-  background-color: #00463f;
+  background-color: #50a1ce;
   color: #CCC;
   line-height: 1em;
   -moz-border-radius: 5px;

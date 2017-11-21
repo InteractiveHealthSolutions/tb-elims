@@ -3,8 +3,8 @@
 </script>
 <h1 class="heading"> {{ msgs["tbelims.lab-registration.label"] }} </h1>
 <br>
-<form ng-submit="submitForm()">
-<table ng-controller="LocationController" ng-init="loadTree(false)">
+<form ng-submit="submitForm()" ng-controller="LabController">
+<table ng-controller="LocationController">
   <tr>
     <td> {{ msgs["tbelims.lab-registration.label.labType"] }} <required/></td>
 	<td>
@@ -24,23 +24,36 @@
   <tr>
     <td> {{ msgs["tbelims.lab-registration.label.labAddress"] }} <required/></td>
     <td colspan="4">
+    <!-- Location names have ids appended to make them unique. So we would bind model with name but to display only simple name
+    	address6 which has display name would be bind to html option text -->
     	<div class="squeeze">
-    	<select ng-model="location.stateProvince" required ng-change="updateIds()">
-			<option value="">Division</option>
-			<option ng-repeat="loc in divisions" value="{{ loc.name }}">{{ loc.name }}</option>
+    	<!-- Update location id variable with selected location id in given locations -->
+    	<!-- Due to network sometimes locations dont load so reload next level locations -->
+    	<select ng-model="location.stateProvince" required 
+    			ng-change="updateId(divisions, location.stateProvince, 'stateProvinceId');
+    						loadScopeLocations('district','districts');">
+			<option value="">{{ msgs["tbelims.stateProvince.label"] }}</option>
+			<option ng-repeat="loc in divisions" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 		</select>
-    	<select ng-model="location.countyDistrict" required ng-change="updateIds()">
-			<option value="">District</option>
-			<option ng-repeat="loc in districts | filter: { parent : location.stateProvince }" value="{{ loc.name }}">{{ loc.name }}</option>
+    	<select ng-model="location.countyDistrict" required 
+    			ng-change="updateId(districts, location.countyDistrict, 'countyDistrictId');
+    						loadScopeLocations('upazilla','upazillas');">
+			<option value="">{{ msgs["tbelims.countyDistrict.label"] }}</option>
+			<option ng-if="location.stateProvince" ng-repeat="loc in districts | filter: { parentLocation: { name: location.stateProvince} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 		</select>
-	    <select ng-model="location.cityVillage" required ng-change="updateIds()">
-			<option value="">Upazilla</option>
-			<option ng-repeat="loc in upazillas | filter: { parent : location.countyDistrict }" value="{{ loc.name }}">{{ loc.name }}</option>
+		<!-- Load child locations i.e. unions with parent and given tag and update the flag variable in icon below -->
+	    <select ng-model="location.cityVillage" required 
+	    		ng-change="updateId(upazillas, location.cityVillage, 'cityVillageId'); 
+	    					fetchScopeLocations('union', 'unions', location.cityVillage, 'loadingData');">
+			<option value="">{{ msgs["tbelims.cityVillage.label"] }}</option>
+			<option ng-if="location.countyDistrict" ng-repeat="loc in upazillas | filter: { parentLocation: { name: location.countyDistrict} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 		</select>
-    	<select ng-model="location.address3" required ng-change="updateIds()">
-			<option value="">Union</option>
-			<option ng-repeat="loc in unions | filter: { parent : location.cityVillage }" value="{{ loc.name }}">{{ loc.name }}</option>
+    	<select ng-model="location.address3" required 
+    			ng-change="updateId(unions, location.address3, 'address3Id')">
+			<option value="">{{ msgs["tbelims.address3.label"] }}</option>
+			<option ng-if="location.cityVillage" ng-repeat="loc in unions | filter: { parentLocation: { name: location.cityVillage} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 		</select>
+		<i class="icon-refresh small" ng-show="loadingData||!divisions||!districts||!upazillas"></i>
 		</div>
     </td>
   </tr>
@@ -79,8 +92,8 @@
   </tr>
   <tr>
     <td colspan="3"></td>
-    <td><button type="button" ng-click="cancelRegistration();" class="btn btn-danger">Cancel</button></td>
-  	<td><button type="submit" name="submit" class="btn btn-success">Submit</button></td>
+    <td><button type="button" ng-click="cancelRegistration();" class="btn btn-danger">{{ msgs["tbelims.cancel"] }}</button></td>
+  	<td><button type="submit" name="submit" class="btn btn-success">{{ msgs["tbelims.submit"] }}</button></td>
   </tr>
 </table>
 </form>

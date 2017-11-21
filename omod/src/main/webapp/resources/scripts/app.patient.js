@@ -1,8 +1,18 @@
-var patientApp = angular.module('app.patient',['patient.filter','app.location','patientService','ui.grid','ui.grid.pagination'
+var patientApp = angular.module('app.patient',['person.filter','app.location','patientService','ui.grid','ui.grid.pagination'
                                               ,'ui.grid.autoResize', 'ui.tree']);
 
-patientApp.controller('PatientListController', ['$scope', '$filter', '$state', 'uiGridConstants', 'PatientService', 
-    function($scope, $filter, $state, uiGridConstants, PatientService) {
+patientApp.controller('PatientListController', ['$scope', '$filter', '$state', 'uiGridConstants', 'PatientService', 'LocationService',
+    function($scope, $filter, $state, uiGridConstants, PatientService,LocationService) {
+	
+	LocationService.getLocationsByTag('division', true).then(function(response) {
+		$scope.divisions = response;
+	});
+	LocationService.getLocationsByTag('district', true).then(function(response) {
+		$scope.districts = response;
+	});
+	LocationService.getLocationsByTag('upazilla', true).then(function(response) {
+		$scope.upazillas = response;
+	});
 	
 	$scope.searchFilter = {};
 	

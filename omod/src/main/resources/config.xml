@@ -32,6 +32,7 @@
 	<aware_of_modules>
 		<aware_of_module>org.openmrs.module.legacyui</aware_of_module>
 	</aware_of_modules>
+	
 
 <!-- 	<servlet>
 		<servlet-name>tbelimsStartupServlet</servlet-name>
@@ -46,12 +47,72 @@
 	 /AOP -->
 	
 	
-	<!-- Required Privileges 
+	<!-- Required Privileges -->
 	<privilege>
-		<name>Form Entry</name>
-		<description>Allows user to access Form Entry pages/functions</description>
+		<name>eLIMS - Add Patient</name>
+		<description>Allows to register patient</description>
 	</privilege>
-	 /Required Privileges -->
+	<privilege>
+		<name>eLIMS - View Patient Profile</name>
+		<description>Allows to search/view patient details</description>
+	</privilege>
+	<privilege>
+		<name>eLIMS - Edit Patient Profile</name>
+		<description>Allows to edit patient data</description>
+	</privilege>
+	<privilege>
+		<name>eLIMS - Delete Patient Profile</name>
+		<description>Allows to delete patient data</description>
+	</privilege>
+	<privilege>
+		<name>eLIMS - Add Test Info</name>
+		<description>Allows to add test order data</description>
+	</privilege>
+	<privilege>
+		<name>eLIMS - Edit Test Info</name>
+		<description>Allows to edit test order data</description>
+	</privilege>
+	<privilege>
+		<name>eLIMS - Delete Test Info</name>
+		<description>Allows to delete test order data</description>
+	</privilege>
+	<privilege>
+		<name>eLIMS - Add Test Result</name>
+		<description>Allows to add test result data</description>
+	</privilege>
+	<privilege>
+		<name>eLIMS - Edit Test Result</name>
+		<description>Allows to edit test result data</description>
+	</privilege>
+	<privilege>
+		<name>eLIMS - Delete Test Result</name>
+		<description>Allows to delete test result data</description>
+	</privilege>
+	<privilege>
+		<name>eLIMS - Add User</name>
+		<description>Allows to register user</description>
+	</privilege>
+	<privilege>
+		<name>eLIMS - View User Profile</name>
+		<description>Allows to search/view user details</description>
+	</privilege>
+	<privilege>
+		<name>eLIMS - Edit User Profile</name>
+		<description>Allows to edit user data</description>
+	</privilege>
+	<privilege>
+		<name>eLIMS - Delete User Profile</name>
+		<description>Allows to delete user data</description>
+	</privilege>
+		<privilege>
+		<name>eLIMS - Add Role</name>
+		<description>Allows to add role</description>
+	</privilege>
+	<privilege>
+		<name>eLIMS - Delete Role</name>
+		<description>Allows to delete role</description>
+	</privilege>
+	<!-- Required Privileges -->
 
 
 	<!-- Required Global Properties 

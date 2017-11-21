@@ -82,6 +82,34 @@
 			        ('RIF Test Order', 'DONOT MODIFY: Added by TBeLIMS', '1', CURDATE(), '0', UUID(), 'org.openmrs.TestOrder');
 		</sql>
     </changeSet>
+    <changeSet id="tbelims-201711071438" author="maimoonak">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">select count(*) from person_attribute_type where name='designation'</sqlCheck>
+		</preConditions>
+		<comment>Adding person attribute type designation</comment>
+		<sql>INSERT INTO `person_attribute_type` (`name`, `description`, `format`, `searchable`, `creator`, `date_created`, `retired`, `uuid`) 
+		    VALUES ('Designation', 'Designation of this person', 'java.lang.String', '0', '1', NOW(), '0', UUID());</sql>
+    </changeSet>
+    <changeSet id="tbelims-201711071440" author="maimoonak">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">select count(*) from person_attribute_type where name='organization'</sqlCheck>
+		</preConditions>
+		<comment>Adding person attribute type organization</comment>
+		<sql>INSERT INTO `person_attribute_type` (`name`, `description`, `format`, `searchable`, `creator`, `date_created`, `retired`, `uuid`) 
+		    VALUES ('Organization', 'Organization this person is associated with', 'java.lang.String', '0', '1', NOW(), '0', UUID());</sql>
+    </changeSet>
+    <changeSet id="tbelims-201711071510" author="maimoonak">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">select count(*) from person_attribute_type where name='email'</sqlCheck>
+		</preConditions>
+		<comment>Adding person attribute type email</comment>
+		<sql>INSERT INTO `person_attribute_type` (`name`, `description`, `format`, `searchable`, `creator`, `date_created`, `retired`, `uuid`) 
+		    VALUES ('Email', 'Email of this person', 'java.lang.String', '0', '1', NOW(), '0', UUID());</sql>
+    </changeSet>
+    <changeSet id="tbelims-201711080100" author="maimoonak">
+		<comment>Updating rest webservice absolute limit for max results i.e. the property webservices.rest.maxResultsAbsolute</comment>
+		<sql>UPDATE global_property SET property_value='99999' WHERE property='webservices.rest.maxResultsAbsolute';</sql>
+    </changeSet>
     
     <!--
     	See http://wiki.openmrs.org/display/docs/Module+liquibase+File for 

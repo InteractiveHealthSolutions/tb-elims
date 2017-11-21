@@ -34,8 +34,6 @@ angular.module('session', ['ngResource','base64'])
 	
 	     service.request = function(config) {
 	    	 if(config.url.indexOf('/session') !== -1){
-		    	 console.debug('config');
-		    	 console.debug(config);
 		         config.headers['Authorization'] = 'Basic '+SessionConfig.getCurrentAuthToken();
 	    	 }
 	         return config;
@@ -64,9 +62,9 @@ angular.module('session', ['ngResource','base64'])
                 });
             },
             logout: function() {
-            	Session.delete();
-            	
             	SessionConfig.clear();
+
+            	Session.delete();            	
             },
             hasPrivilege: function(privilege) {
                 return new OpenMRS.UserModel(this.get().user).hasPrivilege(privilege);

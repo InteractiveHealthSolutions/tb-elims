@@ -4,18 +4,20 @@
 }
 .watermark {
     position: absolute;
-    top: 50%;                    
+    top: 10%;                    
     transform: translateY(-20%); 
     opacity: 0.25;
     font-size: 3em;
     width: 100%;
     padding-top: 20pt;
     z-index: 1000;
+    text-align: center;
 }
 </style>
 
+<div ng-controller="LabController">
 <h1 class="heading">{{ msgs["tbelims.lab-list.label"] }} 
-<button class="btn btn-success right" ng-click="doLabRegistration();">{{ msgs["tbelims.lab-registration.trigger.label"] }} </button></h1>
+<button class="btn btn-success right" ng-click="registerProfile();">{{ msgs["tbelims.lab-registration.trigger.label"] }} </button></h1>
 
 <div class="search-form" ng-controller="LocationController" ng-init="loadTree(false)">
 	<select id="labType" ng-model="searchFilter.labType">
@@ -34,10 +36,10 @@
 </div>
 
 <div ui-grid="labsList"  ui-grid-pagination ui-grid-auto-resize style="height: {{gridHeight}}">
-    <div class="watermark" ng-show="searchFilter && !labsList.data.length">{{ msgs["tbelims.lab-list.filter.watermark1.label"] }}</div>
-    <div class="watermark" ng-show="!searchFilter">{{ msgs["tbelims.lab-list.filter.watermark2.label"] }}</div>
+    <div class="watermark" ng-show="searchFilter && !labsList.data.length">{{ msgs["tbelims.data-list.filter.watermark1.label"] }}</div>
+    <div class="watermark" ng-show="!searchFilter">{{ msgs["tbelims.data-list.filter.watermark2.label"] }}</div>
 </div>
-
+</div>
 <script type="text/ng-template" id="view-profile-button.html">
 	<div><button class="btn btn-info btn-sm btn-block" ng-click="grid.appScope.openProfile(row.entity)">Profile</button><div>
 </script>

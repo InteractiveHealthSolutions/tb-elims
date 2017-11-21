@@ -18,9 +18,8 @@ public class TBeLIMSStartup implements ApplicationListener<ContextRefreshedEvent
 	
 	@Override
 	public void onApplicationEvent(final ContextRefreshedEvent event) {
-		try {
-			log.info("Starting TBeLIMSStartupListener");
-			
+		log.info("Starting TBeLIMSStartupListener");
+		/*try {
 			File wbifDir = event.getApplicationContext().getResource("/WEB-INF").getFile();
 			File serWDir = event.getApplicationContext().getResource(Constants.SERVICE_WORKER_PATH).getFile();
 			
@@ -33,6 +32,6 @@ public class TBeLIMSStartup implements ApplicationListener<ContextRefreshedEvent
 		catch (IOException e) {
 			e.printStackTrace();
 			log.error("Error while moving ServiceWorker to root. TB eLIMS may not work properly.", e);
-		}
+		}*/
 	}
 }

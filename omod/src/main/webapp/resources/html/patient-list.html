@@ -20,10 +20,10 @@
 
 <table class="noborder">
 <tr>
-<td>Division:</td><td>
+<td></td><td>
 	<select ng-model="searchFilter.stateProvince">
-		<option></option>
-		<option ng-repeat="loc in divisions" value="{{ loc.name }}">{{ loc.name }}</option>
+		<option value="">{{ msgs["tbelims.stateProvince.label"] }}</option>
+		<option ng-repeat="loc in divisions" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 	</select>
 </td>
 <td>Union: </td><td>
@@ -37,10 +37,10 @@
 </td>
 </tr>
 <tr>
-<td>District:</td><td>
+<td></td><td>
 	<select ng-model="searchFilter.countyDistrict">
-		<option></option>
-		<option ng-repeat="loc in districts | filter: { parent : searchFilter.stateProvince }" value="{{ loc.name }}">{{ loc.name }}</option>
+		<option value="">{{ msgs["tbelims.countyDistrict.label"] }}</option>
+		<option ng-if="searchFilter.stateProvince" ng-repeat="loc in districts | filter: { parentLocation: { name: searchFilter.stateProvince} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 	</select>
 </td>
 <td>Sex: </td><td>
@@ -54,10 +54,10 @@
 <td colspan="2"></td>
 </tr>
 <tr>
-<td>Upazilla:</td><td>
+<td></td><td>
 	<select ng-model="searchFilter.cityVillage">
-		<option></option>
-		<option ng-repeat="loc in upazillas | filter: { parent : searchFilter.countyDistrict }" value="{{ loc.name }}">{{ loc.name }}</option>
+		<option value="">{{ msgs["tbelims.cityVillage.label"] }}</option>
+		<option ng-if="searchFilter.countyDistrict" ng-repeat="loc in upazillas | filter: { parentLocation: { name: searchFilter.countyDistrict} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 	</select>
 </td>
 <td>Age: </td><td>

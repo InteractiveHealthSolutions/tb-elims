@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
@@ -88,8 +89,12 @@ public class LocationListDao {
 		if (StringUtils.isNotBlank(parentLocation)) {
 			criMain.createAlias("parentLocation", "p");
 			
-			criMain.add(Restrictions.disjunction().add(Restrictions.eq("p.name", parentLocation))
-			        .add(Restrictions.eq("p.uuid", parentLocation)).add(Restrictions.ilike("p.locationId", parentLocation)));
+			if (NumberUtils.isNumber(parentLocation)) {
+				criMain.add(Restrictions.eq("p.locationId", Integer.parseInt(parentLocation)));
+			} else {
+				criMain.add(Restrictions.disjunction().add(Restrictions.eq("p.name", parentLocation))
+				        .add(Restrictions.eq("p.uuid", parentLocation)));
+			}
 		}
 		
 		if (dateFrom != null) {

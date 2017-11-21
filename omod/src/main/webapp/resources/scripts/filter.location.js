@@ -2,11 +2,10 @@ var locationFilterApp = angular.module('location.filter',[]);
 
 locationFilterApp.filter('attributeValue', function() {
 	return function(attributeList, attribute) {
-		console.debug(attributeList);
-		console.debug(attribute);
 		for (var i = 0; i < attributeList.length; i++) {
 			var item = attributeList[i];
-			if (item.name && attribute.toLowerCase() === item.name.toLowerCase()) {
+			attributeName = item.name||item.attributeType.display;
+			if (attributeName && attribute.toLowerCase() === attributeName.toLowerCase()) {
 				return item.value;
 			}
 		}
@@ -17,6 +16,23 @@ locationFilterApp.filter('attributeValue', function() {
 	return function(item, attribute) {
 		if(item && item.attributes){
 			attributeList = item.attributes;
+			return attributeValueFilter(attributeList, attribute);
+		}
+		return 'n/a';
+	};
+})
+.filter('getAttributeValueOf', function(attributeValueFilter) {
+	return function(item, entity, attribute) {
+		// first get attributes directly from entity otherwise search in other nested objects
+		var attributeList = null;
+		if(!entity){
+			attributeList = item.attributes;
+		}
+		else {
+			attributeList = item[entity].attributes;
+		}
+		
+		if(attributeList){
 			return attributeValueFilter(attributeList, attribute);
 		}
 		return 'n/a';
