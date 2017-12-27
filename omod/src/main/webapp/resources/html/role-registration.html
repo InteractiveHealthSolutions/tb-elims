@@ -1,0 +1,23 @@
+<script>
+	jQuery('required').append("*");
+</script>
+<h1 translate > tbelims.role-registration.label</h1>
+<form ng-submit="submitForm()">
+<table>
+	<tr>
+		<td><span translate > tbelims.role-registration.label.roleName </span><required/></td>
+		<td><input type="text" name="roleName" ng-model="role.name" required min="3" minlength="3" maxlength="50"/></td>
+	</tr>
+	<tr>
+		<td colspan="2"><span translate > tbelims.role-registration.label.roleEditWarning</span>   
+		<input type="checkbox" required/>
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+	  	<td><button type="button" ng-click="cancel();" class="btn btn-danger" translate > tbelims.cancel</button>
+	  		<button type="submit" name="submit" class="btn btn-success" translate > tbelims.submit</button>
+	  	</td>
+	</tr>
+</table>
+</form>

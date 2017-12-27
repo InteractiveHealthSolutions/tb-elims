@@ -4,7 +4,7 @@
 			<img alt="" src="/openmrs/ms/uiframework/resource/tbelims/images/logo.png" width="400px" height="400px">
             <fieldset>
                 <legend>
-                    <i class="icon-lock small"></i> {{ msgs["tbelims.login.loginHeading"] }}
+                    <i class="icon-lock small"></i><span translate>tbelims.login.loginHeading</span>
                 </legend>
 				<div id="validationErrorAlert" class="alert alert-danger ng-hide" ng-show="formErrors" role="alert">
 					<div>{{ formErrors }}</div>
@@ -13,21 +13,21 @@
 	                <div>
 	                    <!-- <label for="username">{{ msgs["tbelims.login.username"] }}:</label> -->
 	                    <input title='{{ msgs["tbelims.login.username.placeholder"] }}' ng-model="username" type="text" name="username" autofocus="autofocus" required 
-							placeholder='{{ msgs["tbelims.login.username.placeholder"] }}' />
+							placeholder='{{ "tbelims.login.username.placeholder" | translate }}' />
 	                </div>
 	
 	                <div>
 	                    <!-- <label for="password">{{ msgs["tbelims.login.password"] }}:</label> -->
 	                    <input title='{{ msgs["tbelims.login.password.placeholder"] }}' ng-model="password" type="password" name="password" required 
-							placeholder='{{ msgs["tbelims.login.password.placeholder"] }}'/>
+							placeholder='{{ "tbelims.login.password.placeholder" | translate }}'/>
 	                </div>
                 </section>
 				<section>
-					<button class="btn btn-success btn-lg btn-block" ng-click="login()" >{{ msgs["tbelims.login.button"] }}</button>
+					<button class="btn btn-success btn-lg btn-block" ng-click="login()"  translate>tbelims.login.button</button>
 					
 					<br><br>
 			        <a id="cantLogin" href="javascript:void(0)" class="pull-right">
-                    <i class="icon-question-sign small"></i> {{ msgs["tbelims.login.cannotLogin"] }}
+                    <i class="icon-question-sign small"></i> <span translate>tbelims.login.cannotLogin</span>
                     </a>
 				</section>
             </fieldset>

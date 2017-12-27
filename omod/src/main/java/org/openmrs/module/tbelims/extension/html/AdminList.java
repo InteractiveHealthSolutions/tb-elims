@@ -44,7 +44,7 @@ public class AdminList extends AdministrationSectionExt {
 		Map<String, String> map = new HashMap<String, String>();
 		
 		map.put("module/tbelims/tbelims.form", "tbelims.title");
-		map.put("tbelims/tbelims.page", "tbelims.refapp.title");
+		map.put("tbelims/app.page", "tbelims.refapp.title");
 		
 		return map;
 	}

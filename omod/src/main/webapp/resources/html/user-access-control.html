@@ -1,0 +1,29 @@
+<h1 class="heading" translate > tbelims.user-access-control.label</h1>
+<br>
+<h2 class="heading"> {{ progressMessage }} </h2>
+
+<form ng-submit="submitForm()" class="loader" ng-init="loadMetadata();">
+	<table ng-if="loadComplete" style="background-color: white">
+		<tr>
+			<th></th>
+			<th ng-repeat="r in roles">{{ r.display }}</th>
+		</tr>
+		<tr ng-repeat="pr in privileges">
+			<td>{{ pr.display.replace('eLIMS - ', '') }}</td>
+			<td ng-repeat="r in roles"><input type="checkbox" value="{{ pr.display }}" ng-model="roles[r.name]['privilegeMap'][pr.display]"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td colspan="100">
+				<button type="button" ng-click="cancelRegistration();" class="btn btn-danger" translate > tbelims.cancel</button>
+				<button type="submit" name="submit" class="btn btn-success"translate > tbelims.submit</button>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="100">
+				<h2 class="heading"> {{ progressMessage }} </h2>
+			</td>
+		</tr>
+		
+	</table>
+</form>

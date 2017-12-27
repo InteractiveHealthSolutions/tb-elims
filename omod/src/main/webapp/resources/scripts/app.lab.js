@@ -3,10 +3,16 @@ var labApp = angular.module('app.lab',['location.filter','app.location','locatio
 
 labApp.controller('LabController', ['$scope', '$filter', '$state', 'uiGridConstants', 'LocationService',
        function($scope, $filter, $state, uiGridConstants, LocationService) {
-	
-	LocationService.loadLocationsByTag('division', $scope, 'divisions');
+
+    LocationService.loadLocationsByTag('division', $scope, 'divisions');
 	LocationService.loadLocationsByTag('district', $scope, 'districts');
 	LocationService.loadLocationsByTag('upazilla', $scope, 'upazillas');
+	
+	$scope.today = new Date();
+	$scope.previousYearDate = new Date();
+	$scope.previousYearDate.setFullYear($scope.today.getFullYear() - 1);
+	
+    var $translate = $filter('translate');
 	
 	$scope.openProfile = function(current) {
 		$state.go('lab-profile', {lab: current});
@@ -21,30 +27,32 @@ labApp.controller('LabController', ['$scope', '$filter', '$state', 'uiGridConsta
 	}
 	
 	$scope.cancelRegistration = function() {
-		if (confirm($rootScope.msgs['tbelims.lab-registration.label.cancel'])) {
+		if (confirm($translate('tbelims.lab-registration.label.cancel'))) {
 			$state.go('lab-list');
 		}
 	}
 	
 	$scope.cancelEdit = function() {
-		if (confirm($rootScope.msgs['tbelims.lab-edit.label.cancel'])) {
+		if (confirm($translate('tbelims.lab-edit.label.cancel'))) {
 			$state.go('lab-list');
 		}
 	}
 	
 	$scope.voidProfile = function(current) {
 		if(!$scope.voidReason){
-			alert($rootScope.msgs['tbelims.lab-void.reason.missing.warning']);
+			alert($translate('tbelims.lab-void.reason.missing.warning'));
 			return;
 		}
 		LocationService.voidLab(current.uuid, $scope.voidReason).then(function(res) {
 			console.debug('Lab voided');
-			$state.go('lab-list');
+			LocationService.getLab(res.uuid).then(function(res) {
+				$state.go('lab-profile', {lab: res});
+			});
 		},
 		function(response) {
 			console.debug('lab void error');
 			console.log(response);
-			alert('Error voiding lab');
+			alert('Error voiding lab '+response.data.error.message);
 		});
 	}
 }]);
@@ -150,7 +158,7 @@ labApp.controller('LabRegistrationController', ['$scope', '$rootScope', '$filter
 			function(response) {
 				console.debug('lab submission error');
 				console.log(response);
-				alert('Error saving lab. Make sure that Lab name is unique and all required properties are specified');
+				alert('Error saving lab. Make sure that Lab name is unique and all required properties are specified '+response.data.error.message);
 			});
 	};
 
@@ -206,7 +214,7 @@ labApp.controller('LabEditController', ['$scope', '$rootScope', '$filter', '$sta
 		function(response) {
 			console.debug('lab edit error');
 			console.log(response);
-			alert('Error editing lab. Make sure that Lab name is unique and all required properties are specified');
+			alert('Error editing lab. Make sure that Lab name is unique and all required properties are specified '+response.data.error.message);
 		});
 	};
 }]);

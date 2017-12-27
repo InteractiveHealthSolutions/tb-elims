@@ -1,0 +1,77 @@
+<style>
+.ui-grid-pager-panel {
+	border: thin solid silver;
+}
+.watermark {
+    position: absolute;
+    top: 50%;                    
+    transform: translateY(-50%); 
+    opacity: 0.25;
+    font-size: 3em;
+    width: 100%;
+    text-align: center;
+    z-index: 1000;
+}
+/* */
+</style>
+<h1 class="heading">{{ msgs["tbelims.report-list.label"] }} 
+<button class="btn btn-success right" ng-click="doUserRegistration();">{{ msgs["tbelims.user-registration.trigger.label"] }} </button></h1>
+
+<div class="form" ng-controller="LocationController">
+
+<table class="noborder">
+<tr>
+<td>
+	<select ng-model="searchFilter.stateProvince">
+		<option value="">{{ msgs["tbelims.stateProvince.label"] }}</option>
+			<option ng-repeat="loc in divisions" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+	</select>
+</td>
+<td>
+	<select ng-model="searchFilter.countyDistrict">
+		<option value="">{{ msgs["tbelims.countyDistrict.label"] }}</option>
+			<option ng-if="searchFilter.stateProvince" ng-repeat="loc in districts | filter: { parentLocation: { name: searchFilter.stateProvince} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+	</select>
+</td>
+<td>
+	<select ng-model="searchFilter.cityVillage">
+		<option value="">{{ msgs["tbelims.cityVillage.label"] }}</option>
+			<option ng-if="searchFilter.countyDistrict" ng-repeat="loc in upazillas | filter: { parentLocation: { name: searchFilter.countyDistrict} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+	</select>
+</td>
+<td>
+	<select ng-model="searchFilter.address3">
+		<option value="">{{ msgs["tbelims.address3.label"] }}</option>
+			<option ng-if="searchFilter.cityVillage" ng-repeat="loc in unions | filter: { parentLocation: { name: searchFilter.cityVillage} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+	</select>
+</td>
+<td>
+	<select ng-model="searchFilter.lab">
+		<option value="">{{ msgs["tbelims.lab.label"] }}</option>
+			<option ng-if="searchFilter.address3" ng-repeat="loc in labs | filter: { parentLocation: { name: searchFilter.address3} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+	</select>
+</td>
+<td>
+	<input ng-model="searchFilter.dateFrom" class="inline" placeholder='{{ msgs["tbelims.user.query.label"] }}'>
+</td>
+<td>
+	<input ng-model="searchFilter.dateTo" class="inline" placeholder='{{ msgs["tbelims.user.query.label"] }}'>
+</td>
+<td><input type="button" ng-click="loadUsers()" value="Search" class="big-confirm"/></td>
+</tr>
+</table>
+
+</div>
+
+<div ui-grid="usersList"  ui-grid-pagination ui-grid-auto-resize style="height: {{gridHeight}}">
+    <div class="watermark" ng-show="searchFilter && !usersList.data.length">{{ msgs["tbelims.data-list.filter.watermark1.label"] }}</div>
+    <div class="watermark" ng-show="!searchFilter || searchFilter.length == 0">{{ msgs["tbelims.data-list.filter.watermark2.label"] }}</div>
+</div>
+
+<script type="text/ng-template" id="delete-profile-button.html">
+	<div><button class="btn btn-info btn-sm btn-block" ng-click="grid.appScope.editProfile(row.entity)">Delete</button><div>
+</script>
+<script type="text/ng-template" id="edit-profile-button.html">
+	<div><button class="btn btn-warning btn-sm btn-block" ng-hide="row.entity.retired" ng-click="grid.appScope.editProfile(row.entity)">Edit</button><div>
+	<div><button class="btn btn-danger btn-sm btn-block" ng-show="row.entity.retired">Deleted</button><div>
+</script>

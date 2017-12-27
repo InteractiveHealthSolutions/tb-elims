@@ -1,3 +1,17 @@
+.ui-grid-pager-panel {
+	border: thin solid silver;
+}
+.watermark {
+    position: absolute;
+    top: 50%;                    
+    transform: translateY(-20%); 
+    opacity: 0.25;
+    font-size: 3em;
+    width: 100%;
+    padding-top: 20pt;
+    z-index: 1000;
+}
+
 .logo{
 	font-size: 40pt;
 	font-stretch: ultra-expanded;
@@ -894,6 +908,9 @@ header h1 {
   color: #FFF;
   margin: 0;
   padding: 10px;
+}
+header select {
+  background-color: #50a1ce !important;
 }
 header .logo {
   float: left;

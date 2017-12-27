@@ -25,4 +25,14 @@
 	<bean class="org.openmrs.ui.framework.StandardModuleUiConfiguration">
 		<property name="moduleId" value="tbelims"/>
 	</bean>
+	
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+	  <property name="defaultLocale" value="en" />
+	</bean>
+	
+	<bean id="messageSource" class="org.openmrs.module.tbelims.web.rest.SerializableResourceBundleMessageSource">
+	  <property name="basename">
+	    <value>classpath:/messages</value>
+	  </property>
+	</bean>
 </beans>

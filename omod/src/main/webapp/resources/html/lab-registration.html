@@ -1,64 +1,67 @@
 <script>
 	jQuery('required').append("*");
 </script>
-<h1 class="heading"> {{ msgs["tbelims.lab-registration.label"] }} </h1>
+<h1 class="heading" translate >tbelims.lab-registration.label</h1>
 <br>
-<form ng-submit="submitForm()" ng-controller="LabController">
-<table ng-controller="LocationController">
+<form ng-submit="submitForm()" ng-controller="LocationController">
+<table ng-controller="LabController">
   <tr>
-    <td> {{ msgs["tbelims.lab-registration.label.labType"] }} <required/></td>
+    <td><span translate > tbelims.lab-registration.label.labType</span><required/></td>
 	<td>
 		<input type="radio" name="labType" ng-model="location.labType" ng-required="!location.labType" value="Microscopy Lab"> Microscopy Lab<br>
 		<input type="radio" name="labType" ng-model="location.labType" ng-required="!location.labType" value="CXR Lab"> CXR Lab<br>
 		<input type="radio" name="labType" ng-model="location.labType" ng-required="!location.labType" value="GeneXpert Lab"> GeneXpert Lab
 	</td>
 	<td></td>
-    <td> {{ msgs["tbelims.lab-registration.label.registrationDate"] }} <required/></td>
-    <td><input type="date" name="registrationDate" ng-model="location.registrationDate" min="2017-10-01" max="2017-11-31" required /></td>
+    <td><span translate > tbelims.lab-registration.label.registrationDate</span><required/></td>
+    <td><input type="date" name="registrationDate" ng-model="location.registrationDate" max="{{today | date:'yyyy-MM-dd'}}" required /></td>
   </tr>
   <tr>
-    <td> {{ msgs["tbelims.lab-registration.label.labName"] }} <required/></td>
+    <td><span translate > tbelims.lab-registration.label.labName</span><required/></td>
     <td colspan="2"><input type="text" name="labName" ng-model="location.name" required min="3" maxlength="50"/></td>
     <td colspan="2"></td>
   </tr>
   <tr>
-    <td> {{ msgs["tbelims.lab-registration.label.labAddress"] }} <required/></td>
+    <td><span translate > tbelims.lab-registration.label.labAddress</span><required/></td>
     <td colspan="4">
     <!-- Location names have ids appended to make them unique. So we would bind model with name but to display only simple name
     	address6 which has display name would be bind to html option text -->
+    	
     	<div class="squeeze">
+    	
     	<!-- Update location id variable with selected location id in given locations -->
     	<!-- Due to network sometimes locations dont load so reload next level locations -->
     	<select ng-model="location.stateProvince" required 
     			ng-change="updateId(divisions, location.stateProvince, 'stateProvinceId');
     						loadScopeLocations('district','districts');">
-			<option value="">{{ msgs["tbelims.stateProvince.label"] }}</option>
-			<option ng-repeat="loc in divisions" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+			<option value="" translate >tbelims.stateProvince.label</option>
+ 			<option ng-repeat="loc in divisions" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 		</select>
     	<select ng-model="location.countyDistrict" required 
     			ng-change="updateId(districts, location.countyDistrict, 'countyDistrictId');
-    						loadScopeLocations('upazilla','upazillas');">
-			<option value="">{{ msgs["tbelims.countyDistrict.label"] }}</option>
-			<option ng-if="location.stateProvince" ng-repeat="loc in districts | filter: { parentLocation: { name: location.stateProvince} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+    						loadScopeLocations('upazilla','upazillas');"
+    			ng-disabled="!location.stateProvince">
+			<option value="" translate >tbelims.countyDistrict.label</option>
+			<option ng-repeat="loc in districts | filter: { parentLocation: { name: location.stateProvince} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 		</select>
 		<!-- Load child locations i.e. unions with parent and given tag and update the flag variable in icon below -->
 	    <select ng-model="location.cityVillage" required 
 	    		ng-change="updateId(upazillas, location.cityVillage, 'cityVillageId'); 
 	    					fetchScopeLocations('union', 'unions', location.cityVillage, 'loadingData');">
-			<option value="">{{ msgs["tbelims.cityVillage.label"] }}</option>
-			<option ng-if="location.countyDistrict" ng-repeat="loc in upazillas | filter: { parentLocation: { name: location.countyDistrict} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+			<option value="" translate >tbelims.cityVillage.label</option>
+			<option ng-repeat="loc in upazillas | filter: { parentLocation: { name: location.countyDistrict} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 		</select>
     	<select ng-model="location.address3" required 
     			ng-change="updateId(unions, location.address3, 'address3Id')">
-			<option value="">{{ msgs["tbelims.address3.label"] }}</option>
-			<option ng-if="location.cityVillage" ng-repeat="loc in unions | filter: { parentLocation: { name: location.cityVillage} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+			<option value="" translate >tbelims.address3.label</option>
+			<option ng-repeat="loc in unions | filter: { parentLocation: { name: location.cityVillage} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 		</select>
 		<i class="icon-refresh small" ng-show="loadingData||!divisions||!districts||!upazillas"></i>
 		</div>
     </td>
   </tr>
   <tr>
-    <td> {{ msgs["tbelims.lab-registration.label.labAddressId"] }} <required/></td>
+    <td><span translate > tbelims.lab-registration.label.labAddressId</span><required/></td>
     <td colspan="4">
     <div class="squeeze">
     <input type="text" name="stateProvinceId" ng-model="stateProvinceId" required readonly />
@@ -70,7 +73,7 @@
     </td>
   </tr>
   <tr>
-    <td> {{ msgs["tbelims.lab-registration.label.organizationType"] }} <required/></td>
+    <td><span translate > tbelims.lab-registration.label.organizationType</span><required/></td>
   	<td>
     	<select ng-model="location.organizationType" required>
 			<option></option>
@@ -81,19 +84,19 @@
     <td colspan="3"></td>
   </tr>
   <tr>
-    <td> {{ msgs["tbelims.lab-registration.label.organizationName"] }} <required/></td>
+    <td><span translate > tbelims.lab-registration.label.organizationName</span><required/></td>
   	<td colspan="2"><input type="text" name="organizationName" ng-model="location.organizationName" required  min="3" maxlength="50"/></td>
     <td colspan="2"></td>
   </tr>
   <tr>
-    <td> {{ msgs["tbelims.lab-registration.label.labIdentifier"] }} <required/></td>
+    <td><span translate > tbelims.lab-registration.label.labIdentifier</span><required/></td>
     <td colspan="2"><input type="text" name="identifier" ng-model="location.identifier" required readonly/></td>
     <td colspan="2"></td>
   </tr>
   <tr>
     <td colspan="3"></td>
-    <td><button type="button" ng-click="cancelRegistration();" class="btn btn-danger">{{ msgs["tbelims.cancel"] }}</button></td>
-  	<td><button type="submit" name="submit" class="btn btn-success">{{ msgs["tbelims.submit"] }}</button></td>
+    <td><button type="button" ng-click="cancelRegistration();" class="btn btn-danger" translate >tbelims.cancel</button></td>
+  	<td><button type="submit" name="submit" class="btn btn-success" translate >tbelims.submit</button></td>
   </tr>
 </table>
 </form>

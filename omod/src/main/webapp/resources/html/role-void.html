@@ -1,0 +1,16 @@
+<h1><span translate > tbelims.role-void.label</span> '{{ role.name }}'</h1>
+<form ng-submit="submitForm()">
+<table>
+	<tr>
+		<td colspan="2" ng-show="!error" translate > tbelims.role-void.confirmation.label</td>
+		<td colspan="2" ng-show="error" translate > tbelims.role-void.failed.label</td>
+	</tr>
+	<tr>
+		<td></td>
+	  	<td><button ng-show="!error" type="button" ng-click="cancel();" class="btn btn-danger" translate > tbelims.cancel</button>
+	  		<button ng-show="!error" type="submit" name="submit" class="btn btn-success" translate > tbelims.submit</button>
+	  		<button ng-show="error" type="button" ng-click="cancel();" class="btn btn-warning" translate > tbelims.okay</button>
+	  	</td>
+	</tr>
+</table>
+</form>

@@ -1,0 +1,14 @@
+<style>
+
+</style>
+
+<h1 class="heading"> <span translate > tbelims.role-list.label</span>
+<button class="btn btn-success right" ng-click="doRoleRegistration();" translate > tbelims.role-registration.trigger.label </button></h1>
+
+<div ui-grid="rolesList"  ui-grid-pagination ui-grid-auto-resize style="height: {{gridHeight}}">
+    <div class="watermark" ng-show="!rolesList.data.length" translate > tbelims.data-list.filter.watermark1.label</div>
+</div>
+
+<script type="text/ng-template" id="delete-profile-button.html">
+	<div><button class="btn btn-danger btn-sm btn-block" ng-hide="row.entity.retired" ng-click="grid.appScope.delete(row.entity)">Delete</button><div>
+</script>

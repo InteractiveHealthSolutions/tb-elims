@@ -1,24 +1,69 @@
 var patientApp = angular.module('app.patient',['person.filter','app.location','patientService','ui.grid','ui.grid.pagination'
                                               ,'ui.grid.autoResize', 'ui.tree']);
 
+patientApp.controller('PatientController', ['$scope', '$filter', '$state', 'uiGridConstants', 'LocationService',
+    function($scope, $filter, $state, uiGridConstants, LocationService) {
+
+	LocationService.loadLocationsByTag('division', $scope, 'divisions');
+	LocationService.loadLocationsByTag('district', $scope, 'districts');
+	LocationService.loadLocationsByTag('upazilla', $scope, 'upazillas');
+	
+	$scope.today = new Date();
+	$scope.previousYearDate = new Date();
+	$scope.previousYearDate.setFullYear($scope.today.getFullYear() - 1);
+	
+	var $translate = $filter('translate');
+	
+	$scope.openProfile = function(current) {
+		$state.go('patient-profile', {patient: current});
+	}
+	
+	$scope.editProfile = function(current) {
+		$state.go('patient-edit', {patient: current});//TODO doesnot exist
+	}
+
+	$scope.registerProfile = function() {
+		$state.go('patient-registration');//TODO doesnot exist
+	}
+	
+	$scope.cancelRegistration = function() {//TODO doesnot exist
+		if (confirm($translate('tbelims.patient-registration.label.cancel'))) {
+			$state.go('patient-list');
+		}
+	}
+	
+	$scope.cancelEdit = function() {//TODO doesnot exist
+		if (confirm($translate('tbelims.patient-edit.label.cancel'))) {
+			$state.go('patient-list');
+		}
+	}
+	
+	$scope.voidProfile = function(current) {//TODO doesnot exist
+		if(!$scope.voidReason){
+			alert($translate('tbelims.patient-void.reason.missing.warning'));
+			return;
+		}
+		PatientService.voidPatient(current.uuid, $scope.voidReason).then(function(res) {//TODO doesnot exist
+			console.debug('patient voided');
+			LocationService.getLab(res.uuid).then(function(res) {
+				$state.go('patient-profile', {lab: res});
+			});
+		},
+		function(response) {
+			console.debug('patient void error');
+			console.log(response);
+			alert('Error voiding patient '+response.data.error.message);
+		});
+	}
+}]);
+
 patientApp.controller('PatientListController', ['$scope', '$filter', '$state', 'uiGridConstants', 'PatientService', 'LocationService',
     function($scope, $filter, $state, uiGridConstants, PatientService,LocationService) {
-	
-	LocationService.getLocationsByTag('division', true).then(function(response) {
-		$scope.divisions = response;
-	});
-	LocationService.getLocationsByTag('district', true).then(function(response) {
-		$scope.districts = response;
-	});
-	LocationService.getLocationsByTag('upazilla', true).then(function(response) {
-		$scope.upazillas = response;
-	});
-	
+
 	$scope.searchFilter = {};
 	
 	var paginationOptions = {
-	    pageNumber:1,
-	    pageSize: 5,
+	    pageNumber:1, pageSize: 20,
 	};
 	
 	// Initializing data grid default options
@@ -51,32 +96,17 @@ patientApp.controller('PatientListController', ['$scope', '$filter', '$state', '
                 
                 $scope.loadPatients();
             });
+            
+            $scope.loadPatients();
         }
 	};
 	
 	$scope.loadPatients = function() {
-		console.debug('fetching data using searchFilter');
-		console.debug($scope.searchFilter);
-		
 		var sf = $scope.searchFilter;
 		sf.limit = paginationOptions.pageSize;
 		sf.start = (paginationOptions.pageNumber-1)*sf.limit;
 		
-		var searchFilterProvided = false;
-		
-		for ( var key in sf) {
-			if (sf.hasOwnProperty(key) && sf[key]) {
-				searchFilterProvided = true;
-			}
-		}
-		
-		if(!searchFilterProvided){
-			alert('Atleast one search filter must be specified');
-			return;
-		}
-		
-		PatientService.getPatients(sf)
-			.then(function(response) {
+		PatientService.getPatients(sf).then(function(response) {
 					console.debug('patients');
 					console.debug(response);
 					if (response) {
@@ -90,22 +120,6 @@ patientApp.controller('PatientListController', ['$scope', '$filter', '$state', '
 					console.log(response);
 				});
 	};
-
-	$scope.openProfile = function(currentPatient) {
-		console.debug(currentPatient);
-		$state.go('patient-profile', {patient: currentPatient});
-	}
-	
-	$scope.attributeValue = function(attributeList, attribute) {
-		return $filter("attributeValue")(attributeList, attribute);
-	};
-	
-	$scope.identifierValue = function(identifierList, identifier) {
-		console.debug(identifierList);
-		console.debug(identifier);
-		return $filter("identifierValue")(identifierList, identifier);
-	}
-
 }]);
 
 patientApp.controller('PatientProfileController', ['$scope', '$filter', '$state', 'PatientService', 

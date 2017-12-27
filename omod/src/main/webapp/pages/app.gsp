@@ -6,9 +6,10 @@
 	ui.includeJavascript("uicommons", "angular.js")
 	ui.includeJavascript("uicommons", "angular-common.js")
 	ui.includeJavascript("uicommons", "angular-resource.min.js")
-	ui.includeJavascript("uicommons", "angular-common.js")
 	ui.includeJavascript("uicommons", "angular-ui/angular-ui-router.min.js")
 	ui.includeJavascript("tbelims", "angular-base64.min.js")
+	ui.includeJavascript("tbelims", "angular-translate.min.js")
+	ui.includeJavascript("tbelims", "angular-translate-loader-url.min.js")
 	
 	ui.includeCss("tbelims", "ui-grid.min.css")
 	ui.includeJavascript("tbelims", "ui-grid.min.js")
@@ -67,6 +68,11 @@ jQuery( document ).ready(function() {
 		<a ng-if="('login' | isState) ? false : true" ng-click="logout()">
 			Logout <i class="icon-signout small"></i>
 		</a>
+	</li>
+	<li><select ng-model="locale" ng-change="changeLanguage(locale);">
+			<option>en</option>
+			<option>de</option>
+		</select>
 	</li>
 </div>
 </li>

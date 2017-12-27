@@ -1,0 +1,56 @@
+<style>
+
+</style>
+
+<div class="form" ng-controller="UserController" >
+
+<h1 class="heading"> <span translate > tbelims.user-list.label</span>
+<button class="btn btn-success right" ng-click="registerProfile();" translate > tbelims.user-registration.trigger.label</button></h1>
+
+<table ng-controller="LocationController" class="noborder">
+<tr>
+<td>
+	<select ng-model="searchFilter.stateProvince">
+		<option value="" translate > tbelims.stateProvince.label</option>
+		<option ng-repeat="loc in divisions" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+	</select>
+</td>
+<td>
+	<select ng-model="searchFilter.countyDistrict">
+		<option value="" translate > tbelims.countyDistrict.label</option>
+		<option ng-if="searchFilter.stateProvince" ng-repeat="loc in districts | filter: { parentLocation: { name: searchFilter.stateProvince} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+	</select>
+</td>
+<td>
+	<select ng-model="searchFilter.cityVillage">
+		<option value="" translate > tbelims.cityVillage.label</option>
+		<option ng-if="searchFilter.countyDistrict" ng-repeat="loc in upazillas | filter: { parentLocation: { name: searchFilter.countyDistrict} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+	</select>
+</td>
+<td>
+	<select ng-model="searchFilter.role">
+		<option value="" translate > tbelims.role.label</option>
+			<option ng-repeat="role in roles" value="{{ role.name }}">{{ role.name }}</option>
+	</select>
+</td>
+<td>
+	<input ng-model="searchFilter.q" class="inline" placeholder='{{ msgs["tbelims.user.query.label"] }}'>
+</td>
+<td><input type="button" ng-click="loadUsers()" value="Search" class="big-confirm"/></td>
+</tr>
+</table>
+
+</div>
+
+<div ui-grid="usersList"  ui-grid-pagination ui-grid-auto-resize style="height: {{gridHeight}}">
+    <div class="watermark" ng-show="searchFilter && !usersList.data.length" translate > tbelims.data-list.filter.watermark1.label</div>
+    <div class="watermark" ng-show="!searchFilter || searchFilter.length == 0" translate > tbelims.data-list.filter.watermark2.label</div>
+</div>
+
+<script type="text/ng-template" id="view-profile-button.html">
+	<div><button class="btn btn-info btn-sm btn-block" ng-click="grid.appScope.openProfile(row.entity)">Profile</button><div>
+</script>
+<script type="text/ng-template" id="edit-profile-button.html">
+	<div><button class="btn btn-warning btn-sm btn-block" ng-hide="row.entity.retired" ng-click="grid.appScope.editProfile(row.entity)">Edit</button><div>
+	<div><button class="btn btn-danger btn-sm btn-block" ng-show="row.entity.retired">Deleted</button><div>
+</script>

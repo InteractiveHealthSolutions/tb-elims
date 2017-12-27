@@ -20,7 +20,11 @@ import org.openmrs.module.tbelims.api.PaginationHandler;
 import org.openmrs.module.webservices.rest.web.RequestContext;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.annotation.Resource;
+import org.openmrs.module.webservices.rest.web.representation.DefaultRepresentation;
+import org.openmrs.module.webservices.rest.web.representation.FullRepresentation;
+import org.openmrs.module.webservices.rest.web.representation.Representation;
 import org.openmrs.module.webservices.rest.web.resource.impl.AlreadyPaged;
+import org.openmrs.module.webservices.rest.web.resource.impl.DelegatingResourceDescription;
 import org.openmrs.module.webservices.rest.web.response.ResourceDoesNotSupportOperationException;
 import org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_9.LocationResource1_9;
 
@@ -30,6 +34,33 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Resource(name = RestConstants.VERSION_1 + "/locationdata", supportedClass = Location.class, supportedOpenmrsVersions = {
         "1.11.*", "1.12.*", "2.0.*", "2.1.*" })
 public class LocationDataResource extends LocationResource1_9 {
+	
+	@Override
+	public DelegatingResourceDescription getRepresentationDescription(Representation rep) {
+		if (rep instanceof DefaultRepresentation) {
+			DelegatingResourceDescription description = new DelegatingResourceDescription();
+			description.addProperty("uuid");
+			description.addProperty("display");
+			description.addProperty("name");
+			description.addProperty("cityVillage");
+			description.addProperty("stateProvince");
+			description.addProperty("country");
+			description.addProperty("latitude");
+			description.addProperty("longitude");
+			description.addProperty("countyDistrict");
+			description.addProperty("address3");
+			description.addProperty("address4");
+			description.addProperty("address5");
+			description.addProperty("address6");
+			description.addProperty("tags", Representation.REF);
+			description.addProperty("parentLocation", Representation.REF);
+			description.addProperty("retired");
+			description.addProperty("attributes", Representation.DEFAULT);
+			return description;
+		}
+		
+		return super.getRepresentationDescription(rep);
+	}
 	
 	private PaginationHandler pagination = new PaginationHandler() {};
 	

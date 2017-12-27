@@ -1,0 +1,56 @@
+<h1 class="heading" translate > tbelims.user-profile.label</h1>
+<br>
+<table>
+  <tr>
+    <td colspan="2">
+    	<div ng-show="voidToggle">
+			<input type="text" placeholder='{{ msgs["tbelims.user-void.reason.label"] }}' ng-model="voidReason"/>
+	    	<button ng-click="voidRegistration(user);" class="btn btn-danger" translate > tbelims.okay</button>
+    	</div>
+    </td>
+    <td>
+    	<button ng-model="voidToggle" ng-click="voidToggle = !voidToggle" class="btn btn-danger" 
+    			ng-hide="user.retired">
+	    			<span ng-show="!voidToggle" translate > tbelims.user-void.trigger.label</span>
+	    			<span ng-show="voidToggle" translate > tbelims.cancel</span></button>
+    	<button ng-click="editProfile(user);" class="btn btn-warning" ng-hide="user.retired" translate > tbelims.user-edit.trigger.label</button>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td translate > tbelims.user-profile.label.firstName</td>
+    <td> {{ user.person.preferredName.givenName }} </td>
+    <td translate > tbelims.user-profile.label.lastName</td>
+    <td> {{ user.person.preferredName.familyName }} </td>
+  </tr>
+  <tr>
+    <td translate > tbelims.user-profile.label.designation</td>
+	<td> {{ attributes.designation.value }} </td>
+    <td translate > tbelims.user-profile.label.organization</td>
+    <td> {{ attributes.organization.value }} </td>
+  </tr>
+  <tr>
+    <td translate > tbelims.user-profile.label.contactNumber</td>
+    <td colspan="2"> {{ attributes['primary contact number'].value }} </td>
+  </tr>
+  <tr>
+    <td translate > tbelims.user-profile.label.email</td>
+    <td colspan="2"> {{ attributes.email.value }} </td>
+  </tr>
+  <tr>
+    <td translate > tbelims.user-profile.label.username</td>
+    <td colspan="2"> {{ user.username }} </td>
+  </tr>
+  <tr>
+    <td translate > tbelims.user-profile.label.role</td>
+  	<td colspan="2"> {{ user.roles[0].name }} </td>
+  </tr>
+  <tr>
+    <td translate > tbelims.user-profile.label.location</td>
+    <td colspan="2"> {{ attributes['health center'].value }} </td>
+  </tr>
+  <tr ng-show="user.retired">
+    <td><span style="color: red" translate > tbelims.user-voided.label</span></td>
+    <td colspan="4"> ( {{ user.auditInfo.dateRetired | date:'dd-MMM-yyyy'}} ) {{ user.auditInfo.retireReason }} </td>
+  </tr>
+</table>

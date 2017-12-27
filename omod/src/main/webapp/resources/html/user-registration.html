@@ -1,0 +1,88 @@
+<script>
+	jQuery('required').append("*");
+</script>
+<h1 class="heading" translate > tbelims.user-registration.label </h1>
+<br>
+<form name="frm" ng-submit="submitForm(frm.$valid)" ng-controller="LocationController" ng-init="loadTree(false)">
+<table ng-init="loadMetadata()" >
+  <tr>
+    <td><span translate > tbelims.user-registration.label.firstName </span><required/></td>
+    <td><input type="text" name="firstName" ng-model="user.person.names[0].givenName" required min="5" maxlength="20"/></td>
+    <td><span translate > tbelims.user-registration.label.lastName </span><required/></td>
+    <td><input type="text" name="familyName" ng-model="user.person.names[0].familyName" required min="5" maxlength="20"/></td>
+  </tr>
+  <tr>
+    <td><span translate > tbelims.user-registration.label.designation </span><required/></td>
+	<td>
+		<input type="radio" name="designation" ng-model="attributes.designation.value" ng-required="!attributes.designation.value" value="Manager"> Manager<br>
+		<input type="radio" name="designation" ng-model="attributes.designation.value" ng-required="!attributes.designation.value" value="Supervisor"> Supervisor<br>
+	</td>
+    <td><span translate > tbelims.user-registration.label.organization </span><required/></td>
+    <td><input type="text" name="organization" ng-model="attributes.organization.value" min="3" maxlength="30" required /></td>
+  </tr>
+  <tr>
+    <td><span translate > tbelims.user-registration.label.contactNumber </span><required/></td>
+    <td colspan="2"><input type="tel" name="contactNumber" ng-model="attributes['primary contact number'].value" required min="5" maxlength="20"/></td>
+  </tr>
+  <tr>
+    <td><span translate > tbelims.user-registration.label.email </span><required/></td>
+    <td colspan="2"><input type="email" name="email" ng-model="attributes.email.value" required min="10" maxlength="50"/></td>
+  </tr>
+  <tr>
+    <td><span translate > tbelims.user-registration.label.username </span><required/></td>
+    <td colspan="2"><input type="text" name="username" ng-model="user.username" required min="5" maxlength="20"/></td>
+  </tr>
+  <tr>
+    <td><span translate > tbelims.user-registration.label.password </span><required/></td>
+    <td colspan="2"><input type="password" name="password" ng-model="user.password" required min="5" maxlength="20"/></td>
+  </tr>
+  <tr>
+    <td><span translate > tbelims.user-registration.label.confirmPassword </span><required/></td>
+    <td colspan="2"><input type="password" name="confirmPassword" ng-model="confirmPassword" compare-to="user.password" min="5" maxlength="20"/>
+    <span class="error" ng-show="!frm.confirmPassword.$valid">passwords must match</span>
+    </td>
+  </tr>
+  <tr>
+    <td><span translate > tbelims.user-registration.label.role </span><required/></td>
+  	<td colspan="2">
+    	<select ng-model="user.roles[0].uuid" required>
+			<option value="" translate > tbelims.role.label</option>
+			<option ng-repeat="role in roles" value="{{ role.uuid }}">{{ role.name }}</option>
+		</select>
+    </td>
+  </tr>
+  <tr>
+    <td><span translate > tbelims.user-registration.label.location</span></td>
+    <td colspan="3">
+    	<div class="squeeze">
+    	<select ng-model="location.stateProvince">
+			<option value="" translate > tbelims.stateProvince.label</option>
+			<option ng-repeat="loc in divisions" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+		</select>
+    	<select ng-model="location.countyDistrict">
+			<option value="" translate > tbelims.countyDistrict.label</option>
+			<option ng-if="location.stateProvince" ng-repeat="loc in districts | filter: { parentLocation: { name: location.stateProvince} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+		</select>
+	    <select ng-model="location.cityVillage" ng-change="loadUnions();">
+			<option value="" translate > tbelims.cityVillage.label</option>
+			<option ng-if="location.countyDistrict" ng-repeat="loc in upazillas | filter: { parentLocation: { name: location.countyDistrict} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+		</select>
+    	<select ng-model="location.address3" ng-change="loadLabs();">
+			<option value="" translate > tbelims.address3.label</option>
+			<option ng-if="location.cityVillage" ng-repeat="loc in unions | filter: { parentLocation: { name: location.cityVillage} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+		</select>
+		<select ng-model="location.lab">
+			<option value="" translate > tbelims.lab.label</option>
+			<option ng-if="location.address3" ng-repeat="loc in labs | filter: { parentLocation: { name: location.address3 } }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+		</select>
+		<i class="icon-refresh small" ng-show="loadingData"></i>
+		</div>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2"></td>
+    <td><button type="button" ng-click="cancelRegistration();" class="btn btn-danger" translate > tbelims.cancel</button></td>
+  	<td><button type="submit" name="submit" class="btn btn-success" translate > tbelims.submit</button></td>
+  </tr>
+</table>
+</form>

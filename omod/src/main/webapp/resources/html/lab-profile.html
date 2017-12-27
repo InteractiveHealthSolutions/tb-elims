@@ -1,36 +1,36 @@
-<h1 class="heading"> {{ msgs["tbelims.lab-profile.label"] }} </h1>
+<h1 class="heading" translate>tbelims.lab-profile.label</h1>
 <br>
 <table ng-controller="LabController">
   <tr>
     <td colspan="3">
     	<div ng-show="voidToggle">
-			<input type="text" placeholder='{{ msgs["tbelims.lab-void.reason.label"] }}' ng-model="voidReason"/>
-	    	<button ng-click="voidProfile(dataMap.location);" class="btn btn-danger"> {{ msgs["tbelims.okay"] }} </button>
+			<input type="text" placeholder='{{ "tbelims.lab-void.reason.label" | translate }}' ng-model="voidReason"/>
+	    	<button ng-click="voidProfile(dataMap.location);" class="btn btn-danger" translate> tbelims.okay </button>
     	</div>
     </td>
     <td>
     	<button ng-model="voidToggle" ng-click="voidToggle = !voidToggle" class="btn btn-danger" 
     			ng-hide="dataMap.location.retired">
-	    			<span ng-show="!voidToggle"> {{ msgs["tbelims.lab-void.trigger.label"] }} </span>
-	    			<span ng-show="voidToggle"> {{ msgs["tbelims.cancel"] }} </span></button>
-    	<button ng-click="editProfile(dataMap.location);" class="btn btn-warning" ng-hide="dataMap.location.retired"> {{ msgs["tbelims.lab-edit.trigger.label"] }} </button>
+	    			<span ng-show="!voidToggle" translate > tbelims.lab-void.trigger.label</span>
+	    			<span ng-show="voidToggle" translate > tbelims.cancel </span></button>
+    	<button ng-click="editProfile(dataMap.location);" class="btn btn-warning" ng-hide="dataMap.location.retired" translate > tbelims.lab-edit.trigger.label</button>
     </td>
     <td></td>
   </tr>
   <tr>
-    <td> {{ msgs["tbelims.lab-profile.label.labType"] }} </td>
+    <td translate > tbelims.lab-profile.label.labType </td>
 	<td> {{ dataMap.location.labType }} </td>
 	<td></td>
-    <td> {{ msgs["tbelims.lab-profile.label.registrationDate"] }} </td>
+    <td translate > tbelims.lab-profile.label.registrationDate </td>
     <td> {{ dataMap.location.registrationDate | date:'dd-MMM-yyyy' }} </td>
   </tr>
   <tr>
-    <td> {{ msgs["tbelims.lab-profile.label.labName"] }} </td>
+    <td translate > tbelims.lab-profile.label.labName </td>
     <td colspan="2"> {{ dataMap.location.name }} </td>
     <td colspan="2"></td>
   </tr>
   <tr>
-    <td> {{ msgs["tbelims.lab-profile.label.labAddress"] }} </td>
+    <td translate > tbelims.lab-profile.label.labAddress </td>
     <td colspan="4">
     	<div class="squeeze" style="border: thin dashed silver;"> {{ dataMap.location.stateProvince }} </div>
     	<div class="squeeze" style="border: thin dashed silver;"> {{ dataMap.location.countyDistrict }} </div>
@@ -39,21 +39,21 @@
     </td>
   </tr>
   <tr>
-    <td> {{ msgs["tbelims.lab-profile.label.organizationType"] }} </td>
+    <td translate > tbelims.lab-profile.label.organizationType </td>
   	<td> {{ dataMap.location.organizationType }} </td>
     <td colspan="3"></td>
   </tr>
   <tr>
-    <td> {{ msgs["tbelims.lab-profile.label.organizationName"] }} </td>
+    <td translate > tbelims.lab-profile.label.organizationName </td>
   	<td colspan="2"> {{ dataMap.location.organizationName }} </td>
     <td colspan="2"></td>
   </tr>
   <tr>
-    <td> {{ msgs["tbelims.lab-profile.label.labIdentifier"] }} </td>
+    <td translate > tbelims.lab-profile.label.labIdentifier </td>
     <td colspan="4"> {{ dataMap.location.identifier }} </td>
   </tr>
   <tr ng-show="dataMap.location.retired">
-    <td><span style="color: red"> {{ msgs["tbelims.lab-voided.label"] }} </span></td>
+    <td><span style="color: red" translate > tbelims.lab-voided.label</span></td>
     <td colspan="4"> ( {{ dataMap.location.auditInfo.dateRetired | date:'dd-MMM-yyyy'}} ) {{ dataMap.location.auditInfo.retireReason }} </td>
   </tr>
 </table>

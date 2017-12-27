@@ -1,17 +1,27 @@
-var routerApp = angular.module('app.tbelims',['ui.router','ui.bootstrap', 
+var routerApp = angular.module('app.tbelims',['ui.router','ui.bootstrap','pascalprecht.translate', 
              'app.patient','app.location','app.lab','app.role','app.user','app.authorization','session']);
 
 var fillStateInfo = function(stateProvider, state, url, page, controller, params) {
-	stateProvider.state(state, {
+	var data = {
         url: url,
         templateUrl: '/openmrs/ms/uiframework/resource/tbelims/html/'+page+'.html',
         controller: controller,
         params: params
-    });
+    };
+	// if page has a dom
+	if(page.indexOf('<') !== -1 && page.indexOf('>') !== -1){
+		data = {
+	        url: url,
+	        template: page,
+	        params: params
+	    };
+	}
+	stateProvider.state(state, data);
 };
 
 routerApp.config(function($stateProvider, $urlRouterProvider) {
 	fillStateInfo($stateProvider, 'empty', '', 'login', 'AuthorizationController');
+	fillStateInfo($stateProvider, '404', '', '<h1>Page Not Found. Make sure to hit valid URL</h1>');
 	fillStateInfo($stateProvider, 'login', '/login', 'login', 'AuthorizationController');
 	fillStateInfo($stateProvider, 'logout', '/logout', 'login', 'LogoutController');
 	fillStateInfo($stateProvider, 'patient-list', '/patient-list', 'patient-list', 'PatientListController');
@@ -26,41 +36,49 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
     fillStateInfo($stateProvider, 'user-access-control','/user-access-control', 'user-access-control', 'UserAccessControlController');
     fillStateInfo($stateProvider, 'user-edit', '/user-edit', 'user-edit', 'UserEditController', {user: null});
     fillStateInfo($stateProvider, 'user-profile', '/user-profile', 'user-profile', 'UserProfileController', {user: null});
+    
+    $urlRouterProvider.otherwise(function($injector, $location){
+	   var state = $injector.get('$state');
+	   state.go('404');
+	   return $location.path();
+    });
 })
-.controller('LogoutController', ['$scope', '$state', 'SessionInfo', function($scope, $state, SessionInfo) {
-	$scope.logout = function() {
-		try{
-			console.debug('Logging out session');
-			sobj = SessionInfo.logout();
-			
-			$state.go('login');
-		}
-		catch (e) {
-			// TODO some good way to response back
-			alert('Unable to terminate session due to an error '+e);
-		}
-	};
+.config(function ($translateProvider) {
+    $translateProvider.useUrlLoader('/openmrs/data/rest/tbelims/localization/messages.json');
+    $translateProvider.useSanitizeValueStrategy('escape');
+    $translateProvider.useStorage('UrlLanguageStorage');
+    $translateProvider.preferredLanguage('en');
+    $translateProvider.fallbackLanguage('en');
+})
+.controller('LanguageController', ['$scope','$translate','$location', function($scope, $translate, $location) {
+    $scope.changeLanguage = function (locale) {
+        $translate.use(locale);
+        $location.search('lang', locale);
+        //window.location.href = $location.absUrl();
+        //window.location.reload();
+    };
+}])
+.factory('UrlLanguageStorage', ['$location', function($location) {
+    return {
+        put: function (name, value) {},
+        get: function (name) {
+            return $location.search()['lang']
+        }
+    };
 }])
 .run(['$rootScope', '$location', 'SessionInfo', '$state', function ($rootScope, $location, SessionInfo, $state) {
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-    	currentSess = SessionInfo.get();
-    	if(!currentSess || !currentSess.authenticated){
-    		var msgCodes = [
-	            'tbelims.title', 'tbelims.refapp.title', 'tbelims.login.title', 'tbelims.login.loginHeading', 'tbelims.login.username', 'tbelims.login.password', 'tbelims.login.username.placeholder', 'tbelims.login.password.placeholder', 'tbelims.login.button', 'tbelims.login.sessionLocation', 'tbelims.login.cannotLogin', 'tbelims.login.cannotLoginInstructions', 'tbelims.home.title', 'tbelims.home.currentUser', 'tbelims.home.logIn', 'tbelims.homepageExt.description', 'tbelims.okay', 'tbelims.submit', 'tbelims.cancel', 'tbelims.date', 'tbelims.stateProvince.label', 'tbelims.countyDistrict.label', 'tbelims.cityVillage.label', 'tbelims.address3.label', 'tbelims.lab.label', 'tbelims.role.label', 'tbelims.user.query.label', 'tbelims.lab-list.label', 'tbelims.lab-list.filter.labType.label', 'tbelims.lab-list.filter.organizationType.label', 'tbelims.lab-list.filter.q.label', 'tbelims.lab-list.filter.trigger.label', 'tbelims.data-list.filter.watermark1.label', 'tbelims.data-list.filter.watermark2.label', 'tbelims.lab-profile.trigger.label', 'tbelims.lab-edit.trigger.label', 'tbelims.lab-void.trigger.label', 'tbelims.lab-voided.label', 'tbelims.lab-void.reason.label', 'tbelims.lab-registration.trigger.label', 'tbelims.lab-registration.label', 'tbelims.lab-registration.label.labType', 'tbelims.lab-registration.label.registrationDate', 'tbelims.lab-registration.label.labName', 'tbelims.lab-registration.label.labAddress', 'tbelims.lab-registration.label.labAddressId', 'tbelims.lab-registration.label.organizationType', 'tbelims.lab-registration.label.organizationName', 'tbelims.lab-registration.label.labIdentifier', 'tbelims.lab-registration.label.save', 'tbelims.lab-registration.label.cancel', 'tbelims.lab-edit.label', 'tbelims.lab-edit.label.labType', 'tbelims.lab-edit.label.registrationDate', 'tbelims.lab-edit.label.labName', 'tbelims.lab-edit.label.labAddress', 'tbelims.lab-edit.label.organizationType', 'tbelims.lab-edit.label.organizationName', 'tbelims.lab-edit.label.labIdentifier', 'tbelims.lab-edit.label.save', 'tbelims.lab-edit.label.cancel', 'tbelims.lab-edit.label.warningIdentifier', 'tbelims.lab-profile.label', 'tbelims.lab-profile.label.labType', 'tbelims.lab-profile.label.registrationDate', 'tbelims.lab-profile.label.labName', 'tbelims.lab-profile.label.labAddress', 'tbelims.lab-profile.label.organizationType', 'tbelims.lab-profile.label.organizationName', 'tbelims.lab-profile.label.labIdentifier', 'tbelims.role-list.label', 'tbelims.role-list.filter.roleName.label', 'tbelims.role-registration.trigger.label', 'tbelims.role-registration.label', 'tbelims.role-registration.label.roleName', 'tbelims.role-registration.label.roleEditWarning', 'tbelims.role-void.label', 'tbelims.role-void.confirmation.label', 'tbelims.role-void.failed.label', 'tbelims.user-list.label', 'tbelims.user-registration.trigger.label', 'tbelims.user-registration.label', 'tbelims.user-registration.label.firstName', 'tbelims.user-registration.label.lastName', 'tbelims.user-registration.label.designation', 'tbelims.user-registration.label.organization', 'tbelims.user-registration.label.contactNumber', 'tbelims.user-registration.label.email', 'tbelims.user-registration.label.username', 'tbelims.user-registration.label.password', 'tbelims.user-registration.label.confirmPassword', 'tbelims.user-registration.label.role', 'tbelims.user-registration.label.address', 'tbelims.user-registration.label.location', 'tbelims.user-edit.trigger.label', 'tbelims.user-edit.label', 'tbelims.user-edit.label.firstName', 'tbelims.user-edit.label.lastName', 'tbelims.user-edit.label.designation', 'tbelims.user-edit.label.organization', 'tbelims.user-edit.label.contactNumber', 'tbelims.user-edit.label.email', 'tbelims.user-edit.label.username', 'tbelims.user-edit.label.password', 'tbelims.user-edit.label.confirmPassword', 'tbelims.user-edit.label.role', 'tbelims.user-edit.label.address', 'tbelims.user-edit.label.location','tbelims.user-profile.trigger.label', 'tbelims.user-profile.label', 'tbelims.user-profile.label.firstName', 'tbelims.user-profile.label.lastName', 'tbelims.user-profile.label.designation', 'tbelims.user-profile.label.organization', 'tbelims.user-profile.label.contactNumber', 'tbelims.user-profile.label.email', 'tbelims.user-profile.label.username', 'tbelims.user-profile.label.role', 'tbelims.user-profile.label.address', 'tbelims.user-profile.label.location','tbelims.user-void.reason.label','tbelims.user-void.trigger.label','tbelims.user-edit.trigger.label','tbelims.user-voided.label','tbelims.user-access-control.label', 'tbelims.error.login.fail', 'tbelims.error.loadApps.fail', 'tbelims.login.error.invalidLocation', 'tbelims.login.error.locationRequired', 'tbelims.app.errors.invalidJson', 'tbelims.app.errors.serverError', 'tbelims.app.errors.IdsShouldMatch', 'tbelims.app.errors.duplicateAppId'
-	        ];
-	
-	    	console.info("Loading i18n messages");
-	
-	    	emr.loadMessages(msgCodes.toString(), function(msgs) {
-	        	console.debug(msgs);
-	        	$rootScope.msgs = msgs;
-	        });
-    		        	
-    		$location.path("/login");
-    	}
-    	else if(!toState.name || toState.name === ''){
-    		$location.path("/lab-list");
-    	}
+    	SessionInfo.login().then(function(response) {
+    		currentSess = response;
+    		console.debug(currentSess);
+
+        	if(!currentSess || !currentSess.authenticated){
+        		$location.path("/login");
+        	}
+        	else if(!toState.name || toState.name === ''){
+        		$location.path("/lab-list");
+        	}			
+		});
     });
 }]);
 

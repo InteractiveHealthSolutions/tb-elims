@@ -24,4 +24,18 @@ authorizationApp.controller('AuthorizationController', ['$scope', '$base64', '$w
 			});
 		}
 	}
+}])
+.controller('LogoutController', ['$scope', '$state', 'SessionInfo', function($scope, $state, SessionInfo) {
+	$scope.logout = function() {
+		try{
+			console.log('Logging out session');
+			sobj = SessionInfo.logout();
+			
+			$state.go('login');
+		}
+		catch (e) {
+			// TODO some good way to response back
+			alert('Unable to terminate session due to an error '+e);
+		}
+	};
 }]);
