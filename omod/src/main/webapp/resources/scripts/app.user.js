@@ -7,7 +7,7 @@ userApp.controller('UserController', ['$scope', '$filter', '$state', 'uiGridCons
 	var $translate = $filter('translate');
 
 	RoleService.loadRoles($scope, 'roles');
-
+	
 	LocationService.loadLocationsByTag('division', $scope, 'divisions');
 	LocationService.loadLocationsByTag('district', $scope, 'districts');
 	LocationService.loadLocationsByTag('upazilla', $scope, 'upazillas');
@@ -79,7 +79,7 @@ userApp.controller('UserListController', ['$scope', '$filter', '$state', 'uiGrid
           { name:'Designation', width: '15%', field: uiGridConstants.ENTITY_BINDING, cellFilter: 'getAttributeValueOf:"person":"Designation"'},
           { name:'Organization', width: '15%', field: uiGridConstants.ENTITY_BINDING, cellFilter: 'getAttributeValueOf:"person":"Organization"'},
           { name: 'Edit', width: '15%', field: 'uuid', cellTemplate: 'edit-profile-button.html'},
-          { name: 'Delete', width: '15%', field: 'uuid', cellTemplate: 'view-profile-button.html'}
+          { name: 'Profile', width: '15%', field: 'uuid', cellTemplate: 'view-profile-button.html'}
           ],
         data: [],
         onRegisterApi: function (gridApi) {       
@@ -169,24 +169,8 @@ userApp.controller('UserRegistrationController', ['$scope', '$rootScope', '$filt
 	$scope.attributes = {};
 	$scope.loadingData = false;
 
-	$scope.loadMetadata = function() {
-		console.log("loading Metadata");
-		//TODO duplicate code
-		PersonAttributeTypeService.getPersonAttributeTypes().then(function(response) {
-				console.debug(response);
-				if (response) {
-					for (var i = 0; i < response.results.length; i++) {
-						var pat = response.results[i];
-						$scope.attributes[pat.name.toLowerCase()] = pat;
-					}
-				}
-			},
-			function(response) {
-				//TODO handle this error and show to user
-				console.debug('roles error');
-				console.log(response);
-			});
-	};
+	// loading person attribute types in scope to bind with UI
+	PersonAttributeTypeService.loadPersonAttributeTypes($scope, 'attributes');
 	
 	$scope.submitForm = function(isValid) {
 		if(!isValid){
@@ -194,12 +178,13 @@ userApp.controller('UserRegistrationController', ['$scope', '$rootScope', '$filt
 		}
 		console.log('Submitting new User');
 		
+		// binding user location to the lowest level specified
 		userLocation = $scope.location.lab || $scope.location.address3 || $scope.location.cityVillage 
 					|| $scope.location.countyDistrict || $scope.location.stateProvince;
 		
 		console.log($scope.attributes);
 		
-		$scope.user.person.gender="U";
+		$scope.user.person.gender="U";// gender is mandatory but app doesnot need it
 		$scope.user.person.attributes.push({attributeType:$scope.attributes['email'].uuid, value: $scope.attributes.email.value});
 		$scope.user.person.attributes.push({attributeType:$scope.attributes['designation'].uuid, value: $scope.attributes.designation.value});
 		$scope.user.person.attributes.push({attributeType:$scope.attributes['organization'].uuid, value: $scope.attributes.organization.value});

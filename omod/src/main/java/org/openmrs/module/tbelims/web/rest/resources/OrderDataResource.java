@@ -16,10 +16,12 @@ import org.openmrs.PersonAddress;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.tbelims.api.OrderDataService;
 import org.openmrs.module.tbelims.api.PaginationHandler;
+import org.openmrs.module.tbelims.api.dao.OrderListDao;
 import org.openmrs.module.webservices.rest.web.RequestContext;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.annotation.Resource;
 import org.openmrs.module.webservices.rest.web.resource.impl.AlreadyPaged;
+import org.openmrs.module.webservices.rest.web.resource.impl.DelegatingResourceDescription;
 import org.openmrs.module.webservices.rest.web.response.ResourceDoesNotSupportOperationException;
 import org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_10.OrderResource1_10;
 
@@ -27,7 +29,31 @@ import org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_10.OrderRe
         "1.11.*", "1.12.*", "2.0.*", "2.1.*" })
 public class OrderDataResource extends OrderResource1_10 {
 	
+	@Override
+	public DelegatingResourceDescription getUpdatableProperties() {
+		DelegatingResourceDescription d = new DelegatingResourceDescription();
+		d.addProperty("action");
+		d.addProperty("accessionNumber");
+		d.addProperty("careSetting");
+		d.addProperty("dateStopped");
+		d.addProperty("autoExpireDate");
+		d.addProperty("previousOrder");
+		d.addProperty("urgency");
+		d.addProperty("instructions");
+		d.addProperty("commentToFulfiller");
+		return d;
+	}
+	
 	private PaginationHandler pagination = new PaginationHandler() {};
+	
+	@Override
+	public Order save(Order delegate) {
+		if (delegate.getOrderId() == null || delegate.getOrderId() <= 0) {
+			return Context.getOrderService().saveOrder(delegate, null);
+		} else {
+			return Context.getService(OrderListDao.class).updateOrder(delegate);
+		}
+	}
 	
 	@Override
 	protected AlreadyPaged<Order> doSearch(RequestContext context) {

@@ -29,6 +29,11 @@ public class OrderListDao {
 		return sessionFactory.getCurrentSession();
 	}
 	
+	public Order updateOrder(Order order) {
+		getSession().update(order);
+		return order;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Order> findOrders(String patient, String location, List<String> orderTypes, 
 			PersonAddress address, Date dateFrom, Date dateTo, PaginationHandler pagination) {

@@ -34,9 +34,9 @@
 	</select>
 </td>
 <td>
-	<input ng-model="searchFilter.q" class="inline" placeholder='{{ msgs["tbelims.user.query.label"] }}'>
+	<input ng-model="searchFilter.q" class="inline" placeholder='{{ "tbelims.user-list.filter.q.label" | translate }}'>
 </td>
-<td><input type="button" ng-click="loadUsers()" value="Search" class="big-confirm"/></td>
+<td>	<button type="button" ng-click="loadLabs()" class="btn btn-secondary" translate >tbelims.user-list.filter.trigger.label</button></td>
 </tr>
 </table>
 

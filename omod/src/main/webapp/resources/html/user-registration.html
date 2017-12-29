@@ -3,8 +3,8 @@
 </script>
 <h1 class="heading" translate > tbelims.user-registration.label </h1>
 <br>
-<form name="frm" ng-submit="submitForm(frm.$valid)" ng-controller="LocationController" ng-init="loadTree(false)">
-<table ng-init="loadMetadata()" >
+<form name="frm" ng-submit="submitForm(frm.$valid)" ng-controller="LocationController">
+<table ng-controller="UserController">
   <tr>
     <td><span translate > tbelims.user-registration.label.firstName </span><required/></td>
     <td><input type="text" name="firstName" ng-model="user.person.names[0].givenName" required min="5" maxlength="20"/></td>

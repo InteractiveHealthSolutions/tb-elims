@@ -33,4 +33,9 @@ public class OrderDataServiceImpl extends BaseOpenmrsService implements OrderDat
 		return dao.findOrders(patient, location, orderTypes, address, dateFrom, dateTo, pagination);
 	}
 	
+	@Override
+	public Order updateOrder(Order order) {
+		return dao.updateOrder(order);
+	}
+	
 }

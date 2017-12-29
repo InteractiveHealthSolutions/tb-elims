@@ -1,18 +1,18 @@
 <h1 class="heading" translate > tbelims.user-profile.label</h1>
 <br>
-<table>
+<table ng-controller="UserController">
   <tr>
-    <td colspan="2">
+    <td colspan="3">
     	<div ng-show="voidToggle">
-			<input type="text" placeholder='{{ msgs["tbelims.user-void.reason.label"] }}' ng-model="voidReason"/>
-	    	<button ng-click="voidRegistration(user);" class="btn btn-danger" translate > tbelims.okay</button>
+			<input type="text" placeholder='{{ "tbelims.user-void.reason.label" | translate }}' ng-model="voidReason"/>
+	    	<button ng-click="voidProfile(user);" class="btn btn-danger" translate> tbelims.okay </button>
     	</div>
     </td>
     <td>
     	<button ng-model="voidToggle" ng-click="voidToggle = !voidToggle" class="btn btn-danger" 
     			ng-hide="user.retired">
 	    			<span ng-show="!voidToggle" translate > tbelims.user-void.trigger.label</span>
-	    			<span ng-show="voidToggle" translate > tbelims.cancel</span></button>
+	    			<span ng-show="voidToggle" translate > tbelims.cancel </span></button>
     	<button ng-click="editProfile(user);" class="btn btn-warning" ng-hide="user.retired" translate > tbelims.user-edit.trigger.label</button>
     </td>
     <td></td>

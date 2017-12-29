@@ -23,6 +23,17 @@ angular.module('personAttributeTypeService', ['ngResource', 'uicommons.common'])
                 return PersonAttributeType.query(params).$promise.then(function(res) {
                     return res;
                 });
+            },
+            loadPersonAttributeTypes: function(scope, key, params) {
+                PersonAttributeType.query(params).$promise.then(function(response) {
+                	console.debug(response);
+            		if (response) {
+            			for (var i = 0; i < response.results.length; i++) {
+            				var pat = response.results[i];
+            				scope.attributes[pat.name.toLowerCase()] = pat;
+            			}
+            		}
+            	});
             }
         }
     });
