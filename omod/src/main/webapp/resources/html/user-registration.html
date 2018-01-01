@@ -55,27 +55,35 @@
     <td><span translate > tbelims.user-registration.label.location</span></td>
     <td colspan="3">
     	<div class="squeeze">
-    	<select ng-model="location.stateProvince">
-			<option value="" translate > tbelims.stateProvince.label</option>
-			<option ng-repeat="loc in divisions" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+		<!-- Update location id variable with selected location id in given locations -->
+    	<!-- Due to network sometimes locations dont load so reload next level locations -->
+    	<select ng-model="location.stateProvince" required 
+    			ng-change="loadScopeLocations('district','districts');">
+			<option value="" translate >tbelims.stateProvince.label</option>
+ 			<option ng-repeat="loc in divisions" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 		</select>
-    	<select ng-model="location.countyDistrict">
-			<option value="" translate > tbelims.countyDistrict.label</option>
-			<option ng-if="location.stateProvince" ng-repeat="loc in districts | filter: { parentLocation: { name: location.stateProvince} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+    	<select ng-model="location.countyDistrict" required 
+    			ng-change="loadScopeLocations('upazilla','upazillas');"
+    			ng-disabled="!location.stateProvince">
+			<option value="" translate >tbelims.countyDistrict.label</option>
+			<option ng-repeat="loc in districts | filter: { parentLocation: { name: location.stateProvince} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 		</select>
-	    <select ng-model="location.cityVillage" ng-change="loadUnions();">
-			<option value="" translate > tbelims.cityVillage.label</option>
-			<option ng-if="location.countyDistrict" ng-repeat="loc in upazillas | filter: { parentLocation: { name: location.countyDistrict} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+		<!-- Load child locations i.e. unions with parent and given tag and update the flag variable in icon below -->
+	    <select ng-model="location.cityVillage" required 
+	    		ng-change="fetchScopeLocations('union', 'unions', location.cityVillage, 'loadingData');">
+			<option value="" translate >tbelims.cityVillage.label</option>
+			<option ng-repeat="loc in upazillas | filter: { parentLocation: { name: location.countyDistrict} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 		</select>
-    	<select ng-model="location.address3" ng-change="loadLabs();">
-			<option value="" translate > tbelims.address3.label</option>
-			<option ng-if="location.cityVillage" ng-repeat="loc in unions | filter: { parentLocation: { name: location.cityVillage} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+    	<select ng-model="location.address3" required 
+    			ng-change="fetchScopeLocations('lab', 'labs', location.address3, 'loadingData');">
+			<option value="" translate >tbelims.address3.label</option>
+			<option ng-repeat="loc in unions | filter: { parentLocation: { name: location.cityVillage} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 		</select>
 		<select ng-model="location.lab">
 			<option value="" translate > tbelims.lab.label</option>
-			<option ng-if="location.address3" ng-repeat="loc in labs | filter: { parentLocation: { name: location.address3 } }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+			<option ng-repeat="loc in labs | filter: { parentLocation: { name: location.address3 } }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 		</select>
-		<i class="icon-refresh small" ng-show="loadingData"></i>
+		<i class="icon-refresh small" ng-show="loadingData||!divisions||!districts||!upazillas"></i>
 		</div>
     </td>
   </tr>

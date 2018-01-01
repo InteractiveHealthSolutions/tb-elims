@@ -233,7 +233,10 @@ userApp.controller('UserEditController', ['$scope', '$rootScope', '$filter', '$s
 	$scope.location = {};
 	$scope.attributes = {};
 	$scope.loadingData = false;
-	$scope.startInitForm = false;
+	$scope.formNotInitable = true;
+	
+	// loading person attribute types in scope to bind with UI
+	PersonAttributeTypeService.loadPersonAttributeTypes($scope, 'attributes', null, 'formNotInitable');
 	
 	$scope.initForm = function() {
 		$scope.loadingData = true;
@@ -286,30 +289,11 @@ userApp.controller('UserEditController', ['$scope', '$rootScope', '$filter', '$s
 						$scope.loadingData = false;
 					});
 				}
+				
+				$scope.startInitForm = true;
 			}
 		}
 	}
-	
-	$scope.loadMetadata = function() {
-		//TODO duplicate code
-		PersonAttributeTypeService.getPersonAttributeTypes().then(function(response) {
-				console.debug(response);
-				if (response) {
-					for (var i = 0; i < response.results.length; i++) {
-						var pat = response.results[i];
-						$scope.attributes[pat.name.toLowerCase()] = pat;
-					}
-				}
-				$scope.startInitForm = true;
-			},
-			function(response) {
-				//TODO handle this error and show to user
-				console.debug('roles error');
-				console.log(response);
-
-				$scope.startInitForm = true;
-			});
-	};
 	
 	$scope.submitForm = function(isValid) {
 		if(!isValid){

@@ -40,11 +40,10 @@
 </tr>
 </table>
 
-</div>
-
 <div ui-grid="usersList"  ui-grid-pagination ui-grid-auto-resize style="height: {{gridHeight}}">
     <div class="watermark" ng-show="searchFilter && !usersList.data.length" translate > tbelims.data-list.filter.watermark1.label</div>
     <div class="watermark" ng-show="!searchFilter || searchFilter.length == 0" translate > tbelims.data-list.filter.watermark2.label</div>
+</div>
 </div>
 
 <script type="text/ng-template" id="view-profile-button.html">

@@ -24,7 +24,7 @@ angular.module('personAttributeTypeService', ['ngResource', 'uicommons.common'])
                     return res;
                 });
             },
-            loadPersonAttributeTypes: function(scope, key, params) {
+            loadPersonAttributeTypes: function(scope, key, params, flag) {
                 PersonAttributeType.query(params).$promise.then(function(response) {
                 	console.debug(response);
             		if (response) {
@@ -32,6 +32,10 @@ angular.module('personAttributeTypeService', ['ngResource', 'uicommons.common'])
             				var pat = response.results[i];
             				scope.attributes[pat.name.toLowerCase()] = pat;
             			}
+            			
+            			if(flag){
+    						scope[flag] = false;
+    					}
             		}
             	});
             }

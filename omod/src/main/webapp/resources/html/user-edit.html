@@ -3,9 +3,8 @@
 </script>
 <h1 class="heading" translate > tbelims.user-edit.label </h1>
 <br>
-<form name="frm" ng-submit="submitForm(frm.$valid)" ng-controller="LocationController" ng-init="loadTree(false)">
-<div ng-init="loadMetadata()">
-<table ng-if="startInitForm" ng-init="initForm()" >
+<form name="frm" ng-submit="submitForm(frm.$valid)" ng-controller="LocationController">
+<table ng-if="!formNotInitable" ng-init="initForm()" ng-controller="UserController">
   <tr>
     <td><span translate > tbelims.user-edit.label.firstName </span><required/></td>
     <td><input type="text" name="firstName" ng-model="user.person.preferredName.givenName" required min="5" maxlength="20"/></td>
@@ -56,35 +55,39 @@
     <td><span translate > tbelims.user-edit.label.location</span></td>
     <td colspan="3">
     	<div class="squeeze">
-    	<select ng-model="location.stateProvince">
-			<option value="" translate > tbelims.stateProvince.label</option>
-			<option ng-repeat="loc in divisions" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+		<!-- Update location id variable with selected location id in given locations -->
+    	<!-- Due to network sometimes locations dont load so reload next level locations -->
+    	<select ng-model="location.stateProvince" required>
+			<option value="{{location.stateProvince}}" selected="selected"> {{ location.stateProvince }} </option>
+ 			<option ng-repeat="loc in divisions" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 		</select>
-    	<select ng-model="location.countyDistrict">
-			<option value="" translate > tbelims.countyDistrict.label</option>
-			<option ng-if="location.stateProvince" ng-repeat="loc in districts | filter: { parentLocation: { name: location.stateProvince} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+    	<select ng-model="location.countyDistrict" required >
+			<option value="{{location.countyDistrict}}" selected="selected"> {{ location.countyDistrict }} </option>
+			<option ng-repeat="loc in districts | filter: { parentLocation: { name: location.stateProvince} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 		</select>
-	    <select ng-model="location.cityVillage" ng-change="loadUnions();">
-			<option value="" translate > tbelims.cityVillage.label</option>
-			<option ng-if="location.countyDistrict" ng-repeat="loc in upazillas | filter: { parentLocation: { name: location.countyDistrict} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+		<!-- Load child locations i.e. unions with parent and given tag and update the flag variable in icon below -->
+	    <select ng-model="location.cityVillage" required 
+	    		ng-change="fetchScopeLocations('union', 'unions', location.cityVillage, 'loadingData');">
+			<option value="{{location.cityVillage}}" selected="selected"> {{ location.cityVillage }} </option>
+			<option ng-repeat="loc in upazillas | filter: { parentLocation: { name: location.countyDistrict} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 		</select>
-    	<select ng-model="location.address3" ng-change="loadLabs();">
-			<option value="" translate > tbelims.address3.label</option>
-			<option ng-if="location.cityVillage" ng-repeat="loc in unions | filter: { parentLocation: { name: location.cityVillage} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+    	<select ng-model="location.address3" required 
+    			ng-change="fetchScopeLocations('lab', 'labs', location.address3, 'loadingData');">
+			<option value="{{location.address3}}" selected="selected"> {{ location.address3 }} </option>
+			<option ng-repeat="loc in unions | filter: { parentLocation: { name: location.cityVillage} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 		</select>
 		<select ng-model="location.lab">
-			<option value="" translate > tbelims.lab.label</option>
-			<option ng-if="location.address3" ng-repeat="loc in labs | filter: { parentLocation: { name: location.address3 } }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+			<option value="{{location.lab}}" selected="selected"> {{ location.lab }} </option>
+			<option ng-repeat="loc in labs | filter: { parentLocation: { name: location.address3 } }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 		</select>
-		<i class="icon-refresh small" ng-show="loadingData"></i>
+		<i class="icon-refresh small" ng-show="loadingData||!divisions||!districts||!upazillas"></i>
 		</div>
     </td>
   </tr>
   <tr>
     <td colspan="2"></td>
-    <td><button type="button" ng-click="cancelRegistration();" class="btn btn-danger" translate > tbelims.cancel</button></td>
+    <td><button type="button" ng-click="cancelEdit();" class="btn btn-danger" translate > tbelims.cancel</button></td>
   	<td><button type="submit" name="submit" class="btn btn-success" translate > tbelims.submit</button></td>
   </tr>
 </table>
-</div>
 </form>

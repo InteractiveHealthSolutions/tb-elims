@@ -51,7 +51,7 @@ public class OrderDataResource extends OrderResource1_10 {
 		if (delegate.getOrderId() == null || delegate.getOrderId() <= 0) {
 			return Context.getOrderService().saveOrder(delegate, null);
 		} else {
-			return Context.getService(OrderListDao.class).updateOrder(delegate);
+			return Context.getService(OrderDataService.class).updateOrder(delegate);
 		}
 	}
 	
