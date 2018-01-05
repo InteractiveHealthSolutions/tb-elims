@@ -45,7 +45,7 @@ labApp.controller('LabController', ['$scope', '$filter', '$state', 'uiGridConsta
 		}
 		LocationService.voidLab(current.uuid, $scope.voidReason).then(function(res) {
 			console.debug('Lab voided');
-			LocationService.getLab(res.uuid).then(function(res) {
+			LocationService.getLab(current.uuid).then(function(res) {
 				$state.go('lab-profile', {lab: res});
 			});
 		},
