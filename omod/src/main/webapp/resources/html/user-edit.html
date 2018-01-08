@@ -61,7 +61,8 @@
 			<option value="{{location.stateProvince}}" selected="selected"> {{ location.stateProvince }} </option>
  			<option ng-repeat="loc in divisions" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 		</select>
-    	<select ng-model="location.countyDistrict" required >
+    	<select ng-model="location.countyDistrict" required 
+    			ng-change="fetchScopeLocations('upazilla', 'upazillas', location.countyDistrict, 'loadingData');">
 			<option value="{{location.countyDistrict}}" selected="selected"> {{ location.countyDistrict }} </option>
 			<option ng-repeat="loc in districts | filter: { parentLocation: { name: location.stateProvince} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 		</select>

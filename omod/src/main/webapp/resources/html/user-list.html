@@ -16,7 +16,7 @@
 	</select>
 </td>
 <td>
-	<select ng-model="searchFilter.countyDistrict">
+	<select ng-model="searchFilter.countyDistrict" ng-change="fetchScopeLocations('upazilla', 'upazillas', searchFilter.countyDistrict, 'loadingData');">
 		<option value="" translate > tbelims.countyDistrict.label</option>
 		<option ng-if="searchFilter.stateProvince" ng-repeat="loc in districts | filter: { parentLocation: { name: searchFilter.stateProvince} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 	</select>
@@ -26,6 +26,7 @@
 		<option value="" translate > tbelims.cityVillage.label</option>
 		<option ng-if="searchFilter.countyDistrict" ng-repeat="loc in upazillas | filter: { parentLocation: { name: searchFilter.countyDistrict} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 	</select>
+	<i class="icon-refresh small" ng-show="loadingData||!divisions||!districts"></i>
 </td>
 <td>
 	<select ng-model="searchFilter.role">
@@ -40,9 +41,9 @@
 </tr>
 </table>
 
-<div ui-grid="usersList"  ui-grid-pagination ui-grid-auto-resize style="height: {{gridHeight}}">
+<div ui-grid="usersList"  ui-grid-pagination ui-grid-auto-resize style="height: {{gridHeight}}" ng-class="loadingList ? 'loader' : ''">
     <div class="watermark" ng-show="searchFilter && !usersList.data.length" translate > tbelims.data-list.filter.watermark1.label</div>
-    <div class="watermark" ng-show="!searchFilter || searchFilter.length == 0" translate > tbelims.data-list.filter.watermark2.label</div>
+    <div class="watermark" ng-show="!searchFilter" translate > tbelims.data-list.filter.watermark2.label</div>
 </div>
 </div>
 

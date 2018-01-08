@@ -30,6 +30,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
     fillStateInfo($stateProvider, 'lab-registration', '/lab-registration', 'lab-registration', 'LabRegistrationController');
 	fillStateInfo($stateProvider, 'lab-edit','/lab-edit', 'lab-edit', 'LabEditController', {lab: null});
     fillStateInfo($stateProvider, 'lab-profile','/lab-profile', 'lab-profile', 'LabProfileController', {lab: null});
+    fillStateInfo($stateProvider, 'report-list','/report-list', 'report-list', null);
     fillStateInfo($stateProvider, 'role-list','/role-list', 'role-list', 'RoleListController');
     fillStateInfo($stateProvider, 'user-list','/user-list', 'user-list', 'UserListController', {q: null});
     fillStateInfo($stateProvider, 'user-registration','/user-registration', 'user-registration', 'UserRegistrationController');

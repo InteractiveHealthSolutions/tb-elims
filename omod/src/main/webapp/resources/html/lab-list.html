@@ -22,7 +22,7 @@
 	<button type="button" ng-click="loadLabs()" class="btn btn-secondary" translate >tbelims.lab-list.filter.trigger.label</button>
 </div>
 
-<div ui-grid="labsList"  ui-grid-pagination ui-grid-auto-resize style="height: {{gridHeight}}">
+<div ui-grid="labsList"  ui-grid-pagination ui-grid-auto-resize style="height: {{gridHeight}}" ng-class="loadingList ? 'loader' : ''">
     <div class="watermark" ng-show="searchFilter && !labsList.data.length" translate >tbelims.data-list.filter.watermark1.label</div>
     <div class="watermark" ng-show="!searchFilter" translate >tbelims.data-list.filter.watermark2.label</div>
 </div>

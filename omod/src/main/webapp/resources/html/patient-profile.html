@@ -1,11 +1,11 @@
 <table class="noborder-ex" ng-modal="dataMap" style="padding: 10pt; width: 80%; float: left;">
 
 	<tr><td colspan="3"><h1 class="heading">Patients Profile</h1></td>
-		<td><button type="button" class="btn btn-warning btn-sm btn-block">Edit Profile</button>
+		<td><!-- <button type="button" class="btn btn-warning btn-sm btn-block">Edit Profile</button>
 			<br>
-			<button type="button" class="btn btn-danger btn-sm btn-block">Delete Profile</button></td></tr>
+			<button type="button" class="btn btn-danger btn-sm btn-block">Delete Profile</button> --></td></tr>
 
-	<tr><td>Patient Registration ID</td><td colspan="3">{{ dataMap.patient.identifiers | identifierValue :'OpenMRS ID' }}</td></tr>
+	<tr><td>Patient Registration ID</td><td colspan="3">{{ dataMap.patient.identifiers | identifierValue :'eLIMS Identifier' }}</td></tr>
 
 	<tr>
 		<td>Name</td><td>{{ dataMap.patient.person.display }}</td>
@@ -35,6 +35,4 @@
 		<td>Patient Status</td><td>???</td>
 		<td>Date</td><td>???</td>
 	</tr>
-	<tr><td colspan="3"></td>
-		<td><button type="button" class="btn btn-info btn-sm btn-block">Add Test Info</button></td></tr>
 </table>

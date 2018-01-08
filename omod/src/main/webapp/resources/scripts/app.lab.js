@@ -6,7 +6,6 @@ labApp.controller('LabController', ['$scope', '$filter', '$state', 'uiGridConsta
 
     LocationService.loadLocationsByTag('division', $scope, 'divisions');
 	LocationService.loadLocationsByTag('district', $scope, 'districts');
-	LocationService.loadLocationsByTag('upazilla', $scope, 'upazillas');
 	
 	$scope.today = new Date();
 	$scope.previousYearDate = new Date();
@@ -103,6 +102,8 @@ labApp.controller('LabListController', ['$scope', '$filter', '$state', 'uiGridCo
 	};
 	
 	$scope.loadLabs = function() {
+		$scope.loadingList=true;
+
 		console.debug($scope.searchFilter);
 		
 		var sf = $scope.searchFilter;
@@ -115,6 +116,8 @@ labApp.controller('LabListController', ['$scope', '$filter', '$state', 'uiGridCo
 			if (response) {
 				$scope.labsList.data = response.results;
 				$scope.labsList.totalItems = response.totalCount;
+				
+				$scope.loadingList=false;
 			}
 		}, function(response) {
 			//TODO handle this error and show to user
@@ -189,8 +192,6 @@ labApp.controller('LabEditController', ['$scope', '$rootScope', '$filter', '$sta
 		$scope.location[fields[i]] = $state.params.lab[fields[i]];
 	}
 	
-	LocationService.loadChildLocations($state.params.lab.cityVillage, 'union', $scope, 'unions', 'loadingData');
-
 	$scope.location.registrationDate = castDateField($scope.location.registrationDate);
 	
 	$scope.submitForm = function() {

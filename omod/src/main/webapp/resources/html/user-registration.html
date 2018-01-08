@@ -57,13 +57,12 @@
     	<div class="squeeze">
 		<!-- Update location id variable with selected location id in given locations -->
     	<!-- Due to network sometimes locations dont load so reload next level locations -->
-    	<select ng-model="location.stateProvince" required 
-    			ng-change="loadScopeLocations('district','districts');">
+    	<select ng-model="location.stateProvince" required >
 			<option value="" translate >tbelims.stateProvince.label</option>
  			<option ng-repeat="loc in divisions" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 		</select>
     	<select ng-model="location.countyDistrict" required 
-    			ng-change="loadScopeLocations('upazilla','upazillas');"
+    			ng-change="fetchScopeLocations('upazilla', 'upazillas', location.countyDistrict, 'loadingData');"
     			ng-disabled="!location.stateProvince">
 			<option value="" translate >tbelims.countyDistrict.label</option>
 			<option ng-repeat="loc in districts | filter: { parentLocation: { name: location.stateProvince} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>

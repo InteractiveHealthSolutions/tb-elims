@@ -1,62 +1,53 @@
-<style>
-
-</style>
 <h1 class="heading" translate >tbelims.patient-list.label</h1>
 
-<div class="search-form" ng-controller="PatientController">
+<div class="form" ng-controller="PatientController">
 
 <table class="noborder" ng-controller="LocationController">
 <tr>
-<td></td><td>
+<td>
 	<select ng-model="searchFilter.stateProvince">
-		<option value="" translate >tbelims.stateProvince.label</option>
+		<option value="" translate > tbelims.stateProvince.label</option>
 		<option ng-repeat="loc in divisions" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 	</select>
 </td>
-<td></td><td>
-	<select ng-model="searchFilter.union">
-		<option translate >tbelims.address3.label</option>
-		<option ng-repeat="loc in unions | filter: { parent : searchFilter.cityVillage }" value="{{ loc.name }}">{{ loc.name }}</option>
-	</select>
-</td>
-<td colspan="2">
-	<input ng-model="searchFilter.q" class="inline" placeholder="Enter name or identifier">
-</td>
-</tr>
-<tr>
-<td></td><td>
-	<select ng-model="searchFilter.countyDistrict">
-		<option value="" translate >tbelims.countyDistrict.label</option>
+<td>
+	<select ng-model="searchFilter.countyDistrict" ng-change="fetchScopeLocations('upazilla', 'upazillas', searchFilter.countyDistrict, 'loadingData');">
+		<option value="" translate > tbelims.countyDistrict.label</option>
 		<option ng-if="searchFilter.stateProvince" ng-repeat="loc in districts | filter: { parentLocation: { name: searchFilter.stateProvince} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 	</select>
 </td>
-<td>Sex: </td><td>
-	<select ng-model="searchFilter.gender">
-		<option></option>
-		<option value="M">Male</option>
-		<option value="F">Female</option>
-		<option value="O">Others</option>
-	</select>
-</td>
-<td colspan="2"></td>
-</tr>
-<tr>
-<td></td><td>
-	<select ng-model="searchFilter.cityVillage">
-		<option value="" translate >tbelims.cityVillage.label</option>
+<td>
+	<select ng-model="searchFilter.cityVillage" ng-change="fetchScopeLocations('union', 'unions', searchFilter.cityVillage, 'loadingData');">
+		<option value="" translate > tbelims.cityVillage.label</option>
 		<option ng-if="searchFilter.countyDistrict" ng-repeat="loc in upazillas | filter: { parentLocation: { name: searchFilter.countyDistrict} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 	</select>
 </td>
-<td>Age: </td><td>
-	<input ng-model="searchFilter.age" class="inline" type="number">
+<td>
+	<select ng-model="searchFilter.union">
+		<option value="" translate > tbelims.address3.label</option>
+		<option ng-if="searchFilter.union" ng-repeat="loc in unions | filter: { parentLocation: { name: searchFilter.cityVillage} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+	</select>
+	<i class="icon-refresh small" ng-show="loadingData||!divisions||!districts"></i>
 </td>
-<td colspan="2"><input type="button" ng-click="loadPatients()" value="Search" class="big-confirm"/></td>
+<td>
+	<input ng-model="searchFilter.q" style="width: 120px" class="inline" placeholder='{{ "tbelims.patient-list.filter.q.label" | translate }}'>
+</td>
+<td>
+	<select ng-model="searchFilter.gender">
+		<option value="" translate >tbelims.patient-list.filter.gender.label</option>
+		<option value="M">Male</option>
+		<option value="F">Female</option>
+		<option value="O">Other</option>
+	</select>
+</td>
+<td>
+	<input ng-model="searchFilter.age" style="width: 100px" class="inline" type="number" placeholder='{{ "tbelims.patient-list.filter.age.label" | translate }}'>
+</td>
+<td><button type="button" ng-click="loadPatients()" class="btn btn-secondary" translate >tbelims.patient-list.filter.trigger.label</button></td>
 </tr>
 </table>
 
-</div>
-
-<div ui-grid="patientsList"  ui-grid-pagination ui-grid-auto-resize style="height: {{gridHeight}}">
+<div ui-grid="patientsList"  ui-grid-pagination ui-grid-auto-resize style="height: {{gridHeight}}" ng-class="loadingList ? 'loader' : ''">
     <div class="watermark" ng-show="searchFilter && !patientsList.data.length" translate >tbelims.data-list.filter.watermark1.label</div>
     <div class="watermark" ng-show="!searchFilter" translate >tbelims.data-list.filter.watermark2.label</div>
 </div>
@@ -64,3 +55,4 @@
 <script type="text/ng-template" id="view-profile-button.html">
 	<div><button class="btn btn-info btn-sm btn-block" ng-click="grid.appScope.openProfile(row.entity)">View Profile</button><div>
 </script>
+</div>

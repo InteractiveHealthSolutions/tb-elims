@@ -6,7 +6,6 @@ patientApp.controller('PatientController', ['$scope', '$filter', '$state', 'uiGr
 
 	LocationService.loadLocationsByTag('division', $scope, 'divisions');
 	LocationService.loadLocationsByTag('district', $scope, 'districts');
-	LocationService.loadLocationsByTag('upazilla', $scope, 'upazillas');
 	
 	$scope.today = new Date();
 	$scope.previousYearDate = new Date();
@@ -75,12 +74,12 @@ patientApp.controller('PatientListController', ['$scope', '$filter', '$state', '
         paginationPageSize: paginationOptions.pageSize,
         useExternalPagination: true, 
         columnDefs: [
-          { name:'Patient ID', width: '20%', field: uiGridConstants.ENTITY_BINDING, cellFilter: 'getIdentifierValue:"OpenMRS ID"' },
+          { name:'Patient ID', width: '20%', field: uiGridConstants.ENTITY_BINDING, cellFilter: 'getIdentifierValue:"eLIMS Identifier"' },
           { name:'Name', width: '20%', field: 'person.display' },
           { name:'Age', width: '7%', field: 'person.age'},
           { name:'Sex', width: '8%', field: 'person.gender'},
-          { name:'Occupation', width: '15%', field: uiGridConstants.ENTITY_BINDING, cellFilter: 'getAttributeValue:"Occupation"'},
-          { name:'Contact No.', width: '15%', field: uiGridConstants.ENTITY_BINDING, cellFilter: 'getAttributeValue:"Primary Contact Number"'},
+          { name:'Occupation', width: '15%', field: uiGridConstants.ENTITY_BINDING, cellFilter: 'getAttributeValueOf:"person":"Occupation"'},
+          { name:'Contact No.', width: '15%', field: uiGridConstants.ENTITY_BINDING, cellFilter: 'getAttributeValueOf:"person":"Primary Contact Number"'},
           { name: 'Profile', width: '15%', field: 'uuid', cellTemplate: 'view-profile-button.html'}
           ],
         data: [],
@@ -102,6 +101,8 @@ patientApp.controller('PatientListController', ['$scope', '$filter', '$state', '
 	};
 	
 	$scope.loadPatients = function() {
+		$scope.loadingList=true;
+
 		var sf = $scope.searchFilter;
 		sf.limit = paginationOptions.pageSize;
 		sf.start = (paginationOptions.pageNumber-1)*sf.limit;
@@ -112,6 +113,8 @@ patientApp.controller('PatientListController', ['$scope', '$filter', '$state', '
 					if (response) {
 						$scope.patientsList.data = response.results;
 						$scope.patientsList.totalItems = response.totalCount;
+
+						$scope.loadingList=false;
 					}
 				},
 				function(response) {

@@ -10,7 +10,6 @@ userApp.controller('UserController', ['$scope', '$filter', '$state', 'uiGridCons
 	
 	LocationService.loadLocationsByTag('division', $scope, 'divisions');
 	LocationService.loadLocationsByTag('district', $scope, 'districts');
-	LocationService.loadLocationsByTag('upazilla', $scope, 'upazillas');
 	
 	$scope.openProfile = function(current) {
 		$state.go('user-profile', {user: current});
@@ -100,6 +99,8 @@ userApp.controller('UserListController', ['$scope', '$filter', '$state', 'uiGrid
 	};
 	
 	$scope.loadUsers = function() {
+		$scope.loadingList=true;
+
 		console.debug('fetching data using searchFilter');
 		console.debug($scope.searchFilter);
 		
@@ -122,6 +123,8 @@ userApp.controller('UserListController', ['$scope', '$filter', '$state', 'uiGrid
 						
 						$scope.usersList.data = usrArr;
 						$scope.usersList.totalItems = response.totalCount;
+
+						$scope.loadingList=false;
 					}
 				},
 				function(response) {

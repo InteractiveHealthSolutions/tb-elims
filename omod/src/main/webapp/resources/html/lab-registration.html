@@ -33,13 +33,15 @@
     	<!-- Due to network sometimes locations dont load so reload next level locations -->
     	<select ng-model="location.stateProvince" required 
     			ng-change="updateId(divisions, location.stateProvince, 'stateProvinceId');
-    						loadScopeLocations('district','districts');">
+    						loadScopeLocations('district','districts');
+    						location.countyDistrict = ''; ">
 			<option value="" translate >tbelims.stateProvince.label</option>
  			<option ng-repeat="loc in divisions" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 		</select>
     	<select ng-model="location.countyDistrict" required 
     			ng-change="updateId(districts, location.countyDistrict, 'countyDistrictId');
-    						loadScopeLocations('upazilla','upazillas');"
+    						fetchScopeLocations('upazilla', 'upazillas', location.countyDistrict, 'loadingData');
+    						location.cityVillage = ''; "
     			ng-disabled="!location.stateProvince">
 			<option value="" translate >tbelims.countyDistrict.label</option>
 			<option ng-repeat="loc in districts | filter: { parentLocation: { name: location.stateProvince} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
@@ -47,7 +49,8 @@
 		<!-- Load child locations i.e. unions with parent and given tag and update the flag variable in icon below -->
 	    <select ng-model="location.cityVillage" required 
 	    		ng-change="updateId(upazillas, location.cityVillage, 'cityVillageId'); 
-	    					fetchScopeLocations('union', 'unions', location.cityVillage, 'loadingData');">
+	    					fetchScopeLocations('union', 'unions', location.cityVillage, 'loadingData');
+	    					location.address3 = ''; ">
 			<option value="" translate >tbelims.cityVillage.label</option>
 			<option ng-repeat="loc in upazillas | filter: { parentLocation: { name: location.countyDistrict} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 		</select>
@@ -56,7 +59,7 @@
 			<option value="" translate >tbelims.address3.label</option>
 			<option ng-repeat="loc in unions | filter: { parentLocation: { name: location.cityVillage} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 		</select>
-		<i class="icon-refresh small" ng-show="loadingData||!divisions||!districts||!upazillas"></i>
+		<i class="icon-refresh small" ng-show="loadingData||!divisions||!districts"></i>
 		</div>
     </td>
   </tr>

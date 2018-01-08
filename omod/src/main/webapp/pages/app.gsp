@@ -61,7 +61,8 @@ jQuery( document ).ready(function() {
 <header>
 <div class="logo"><img ng-if="('login' | isState) ? false : true" src="/openmrs/ms/uiframework/resource/tbelims/images/logohorizontal.png"></div>
 <div class="user-options">
-	<li ng-controller="LocationController" ng-if="!('login' | isState)" ng-init="loadLocations(true, ['division','district','upazilla'])">
+<!-- Loading locations of type division and district to make sure these are already available in pages when rendered -->
+	<li ng-controller="LocationController" ng-if="!('login' | isState)" ng-init="loadLocations(true, ['division','district'])">
 
 	</li>
 	<li ng-controller="LogoutController">
