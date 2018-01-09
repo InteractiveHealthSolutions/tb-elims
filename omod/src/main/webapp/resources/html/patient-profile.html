@@ -16,23 +16,29 @@
 		<td>Sex</td><td>{{ dataMap.patient.person.gender }}</td>
 	</tr>
 	<tr>
-		<td>Father/Husband Name (??)</td><td>{{ dataMap.patient.person.attributes | attributeValue :'Father Name' }}</td>
+		<td>Father/Husband Name</td><td>{{ dataMap.patient.person.preferredName.familyName }}</td>
 		<td>Contact No.</td><td>{{ dataMap.patient.person.attributes | attributeValue :'Primary Contact Number' }}</td>
 	</tr>
 	<tr>
 		<td>Address</td><td>{{ dataMap.patient.person.addresses | addressValue }}</td>
-		<td>Patient History</td><td>???</td>
+		<td>Patient History</td>
+		<td>{{ dataMap.encounters | getObsValue :'acf0ffd4-8fb3-457f-b754-278e6c480e17':'Patient Registration' }}</td>
 	</tr>
 	<tr>
-		<td>Referring Facility</td><td>???</td>
-		<td>HIV Status</td><td>???</td>
+		<td>Referring Facility</td>
+		<td>{{ dataMap.encounters | getObsValue :'160481AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':'Patient Registration' }}</td>
+		<td>HIV Status</td>		
+		<td>{{ dataMap.encounters | getObsValue :'1169AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':'Patient Registration' }}</td>
 	</tr>
 	<tr>
-		<td>Address of Referring Facility</td><td>???</td>
+		<td>Address of Referring Facility</td>
+		<td>{{ dataMap.encounters | getObsValue :'162725AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':'Patient Registration' }}</td>
 		<td></td><td></td>
 	</tr>
 	<tr>
-		<td>Patient Status</td><td>???</td>
-		<td>Date</td><td>???</td>
+		<td>Patient Status</td>
+		<td>{{ dataMap.encounters | getObsValue :'159786AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':'Patient Registration' }}</td>
+		<td>Date</td>
+		<td>{{ dataMap.encounters | getObsValue :'7fe877f2-aa02-4c4a-8145-db048eadfdce':'Patient Registration' }}</td>
 	</tr>
 </table>

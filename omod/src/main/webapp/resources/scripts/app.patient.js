@@ -1,5 +1,5 @@
-var patientApp = angular.module('app.patient',['person.filter','app.location','patientService','ui.grid','ui.grid.pagination'
-                                              ,'ui.grid.autoResize', 'ui.tree']);
+var patientApp = angular.module('app.patient',['person.filter','encounter.filter','app.location','patientService','encounterService',
+			'ui.grid','ui.grid.pagination','ui.grid.autoResize', 'ui.tree']);
 
 patientApp.controller('PatientController', ['$scope', '$filter', '$state', 'uiGridConstants', 'LocationService',
     function($scope, $filter, $state, uiGridConstants, LocationService) {
@@ -125,14 +125,27 @@ patientApp.controller('PatientListController', ['$scope', '$filter', '$state', '
 	};
 }]);
 
-patientApp.controller('PatientProfileController', ['$scope', '$filter', '$state', 'PatientService', 
-                       function($scope, $filter, $state, PatientService) {
+patientApp.controller('PatientProfileController', ['$scope', '$filter', '$state', 'PatientService', 'EncounterService', 
+                       function($scope, $filter, $state, PatientService, EncounterService) {
 	if(!$state.params.patient){
 		$state.go('patient-list');
 	}
 	
 	$scope.dataMap = {
-		patient : $state.params.patient
+		patient : $state.params.patient,
+		encounters: []
 	};
 	
+	EncounterService.getEncounters({patient: $state.params.patient.uuid}).then(function(response) {
+		console.debug('encounters');
+		console.debug(response);
+		if (response) {
+			$scope.dataMap.encounters = response.results;
+		}
+	},
+	function(response) {
+		//TODO handle this error and show to user
+		console.debug('encounters error');
+		console.log(response);
+	});
 }]);

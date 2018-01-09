@@ -19,6 +19,7 @@
 
 	ui.includeJavascript("tbelims", "services/session.js")
 	ui.includeJavascript("tbelims", "services/patientService.js")
+	ui.includeJavascript("tbelims", "services/encounterService.js")
 	ui.includeJavascript("tbelims", "services/locationService.js")
 	ui.includeJavascript("tbelims", "services/roleService.js")
 	ui.includeJavascript("tbelims", "services/userService.js")
@@ -33,6 +34,7 @@
 	ui.includeJavascript("tbelims", "app.role.js")
 	ui.includeJavascript("tbelims", "app.user.js")
 	ui.includeJavascript("tbelims", "filter.person.js")
+	ui.includeJavascript("tbelims", "filter.encounter.js")
 	ui.includeJavascript("tbelims", "filter.location.js")
 	
 	ui.includeCss("uicommons", "angular-ui/ng-grid.min.css")
