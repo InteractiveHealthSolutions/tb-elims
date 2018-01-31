@@ -1,6 +1,9 @@
 package org.openmrs.module.tbelims.api.dao;
 
 import java.lang.reflect.Field;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -8,11 +11,15 @@ import java.util.List;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.jdbc.ReturningWork;
+import org.hibernate.jdbc.Work;
 import org.joda.time.DateTime;
 import org.openmrs.Order;
 import org.openmrs.PersonAddress;
+import org.openmrs.api.context.Context;
 import org.openmrs.api.db.hibernate.DbSession;
 import org.openmrs.api.db.hibernate.DbSessionFactory;
 import org.openmrs.module.tbelims.api.PaginationHandler;
@@ -29,9 +36,40 @@ public class OrderListDao {
 		return sessionFactory.getCurrentSession();
 	}
 	
-	public Order updateOrder(Order order) {
-		getSession().update(order);
-		return order;
+	public Order updateOrder(final Order order) {
+		DbSession ses = getSession();
+		/*ses.saveOrUpdate(order);
+		tx.commit();
+		ses.flush();*/
+		return ses.doReturningWork(new ReturningWork<Order>() {
+			
+			@Override
+			public Order execute(Connection connection) throws SQLException {
+				PreparedStatement ps = connection.prepareStatement("UPDATE orders " + " SET accession_number=?, "
+				        + " instructions=?, " + " comment_to_fulfiller=? WHERE order_id=?");
+				ps.setString(1, order.getAccessionNumber());
+				ps.setString(2, order.getInstructions());
+				ps.setString(3, order.getCommentToFulfiller());
+				ps.setInt(4, order.getId());
+				
+				ps.executeUpdate();
+				
+				if (connection.getAutoCommit() == false) {
+					connection.commit();
+				}
+				return order;
+			}
+		});
+	}
+	
+	public Order getOrderByUuid(String uuid) {
+		return (Order) getSession().createQuery("from Order o where o.uuid = :uuid").setString("uuid", uuid).uniqueResult();
+	}
+	
+	public Order getOrderByOrderNumber(String orderNumber) {
+		Criteria searchCriteria = getSession().createCriteria(Order.class, "order");
+		searchCriteria.add(Restrictions.eq("order.orderNumber", orderNumber));
+		return (Order) searchCriteria.uniqueResult();
 	}
 	
 	@SuppressWarnings("unchecked")

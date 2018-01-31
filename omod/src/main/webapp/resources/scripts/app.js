@@ -1,5 +1,5 @@
 var routerApp = angular.module('app.tbelims',['ui.router','ui.bootstrap','pascalprecht.translate', 
-             'app.patient','app.location','app.lab','app.role','app.user','app.authorization','session']);
+             'app.patient','app.location','app.report','app.lab','app.role','app.user','app.authorization','session']);
 
 var fillStateInfo = function(stateProvider, state, url, page, controller, params) {
 	var data = {
@@ -30,7 +30,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
     fillStateInfo($stateProvider, 'lab-registration', '/lab-registration', 'lab-registration', 'LabRegistrationController');
 	fillStateInfo($stateProvider, 'lab-edit','/lab-edit', 'lab-edit', 'LabEditController', {lab: null});
     fillStateInfo($stateProvider, 'lab-profile','/lab-profile', 'lab-profile', 'LabProfileController', {lab: null});
-    fillStateInfo($stateProvider, 'report-list','/report-list', 'report-list', null);
+    fillStateInfo($stateProvider, 'report-list','/report-list', 'report-list', 'ReportController');
     fillStateInfo($stateProvider, 'role-list','/role-list', 'role-list', 'RoleListController');
     fillStateInfo($stateProvider, 'user-list','/user-list', 'user-list', 'UserListController', {q: null});
     fillStateInfo($stateProvider, 'user-registration','/user-registration', 'user-registration', 'UserRegistrationController');

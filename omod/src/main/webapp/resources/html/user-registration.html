@@ -45,9 +45,8 @@
   <tr>
     <td><span translate > tbelims.user-registration.label.role </span><required/></td>
   	<td colspan="2">
-    	<select ng-model="user.roles[0].uuid" required>
+    	<select ng-model="user.roles[0]" required ng-options="role.name for role in roles track by role.uuid">
 			<option value="" translate > tbelims.role.label</option>
-			<option ng-repeat="role in roles" value="{{ role.uuid }}">{{ role.name }}</option>
 		</select>
     </td>
   </tr>

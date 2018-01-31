@@ -32,19 +32,25 @@ public class OrderDataResource extends OrderResource1_10 {
 	@Override
 	public DelegatingResourceDescription getUpdatableProperties() {
 		DelegatingResourceDescription d = new DelegatingResourceDescription();
-		d.addProperty("action");
 		d.addProperty("accessionNumber");
-		d.addProperty("careSetting");
 		d.addProperty("dateStopped");
-		d.addProperty("autoExpireDate");
-		d.addProperty("previousOrder");
-		d.addProperty("urgency");
 		d.addProperty("instructions");
 		d.addProperty("commentToFulfiller");
 		return d;
 	}
 	
 	private PaginationHandler pagination = new PaginationHandler() {};
+	
+	//Overridden to allow Order data edit
+	@Override
+	public Order getByUniqueId(String uniqueId) {
+		System.out.println("WHY WHY?");
+		Order order = Context.getService(OrderDataService.class).getOrderByUuid(uniqueId);
+		if (order == null) {
+			order = Context.getService(OrderDataService.class).getOrderByOrderNumber(uniqueId);
+		}
+		return order;
+	}
 	
 	@Override
 	public Order save(Order delegate) {

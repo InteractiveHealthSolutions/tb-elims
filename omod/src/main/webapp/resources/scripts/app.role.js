@@ -69,7 +69,7 @@ roleApp.controller('RoleListController', ['$scope', '$filter', '$state', '$uibMo
 		    	console.debug(role);
 			    $scope.role = role;
 			    $scope.submitForm = function() {
-			    	role['inheritedRoles']=["8d94f852-c2cc-11de-8d13-0010c6dffd0f"];
+			    	role['inheritedRoles']=["ab2160f6-0941-430c-9752-6714353fbd3c"];
 			        console.debug('i m ok');
 			        RoleService.saveRole(role).then(function(res) {
 						console.debug('Role Submission result');

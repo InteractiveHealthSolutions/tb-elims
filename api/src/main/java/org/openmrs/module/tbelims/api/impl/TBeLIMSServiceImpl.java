@@ -9,10 +9,9 @@
  */
 package org.openmrs.module.tbelims.api.impl;
 
-import org.openmrs.api.APIException;
-import org.openmrs.api.UserService;
+import java.util.List;
+
 import org.openmrs.api.impl.BaseOpenmrsService;
-import org.openmrs.module.tbelims.Item;
 import org.openmrs.module.tbelims.api.TBeLIMSService;
 import org.openmrs.module.tbelims.api.dao.TBeLIMSDao;
 
@@ -20,33 +19,31 @@ public class TBeLIMSServiceImpl extends BaseOpenmrsService implements TBeLIMSSer
 	
 	TBeLIMSDao dao;
 	
-	UserService userService;
-	
-	/**
-	 * Injected in moduleApplicationContext.xml
-	 */
 	public void setDao(TBeLIMSDao dao) {
 		this.dao = dao;
 	}
 	
-	/**
-	 * Injected in moduleApplicationContext.xml
-	 */
-	public void setUserService(UserService userService) {
-		this.userService = userService;
+	public List getDataByHQL(String hql) {
+		return dao.getDataByHQL(hql);
 	}
 	
-	@Override
-	public Item getItemByUuid(String uuid) throws APIException {
-		return dao.getItemByUuid(uuid);
+	public List getDataBySQL(String sql) {
+		return dao.getDataBySQL(sql);
 	}
 	
-	@Override
-	public Item saveItem(Item item) throws APIException {
-		if (item.getOwner() == null) {
-			item.setOwner(userService.getUser(1));
-		}
-		
-		return dao.saveItem(item);
+	public List getDataByHQLMapResult(String hql) {
+		return dao.getDataByHQLMapResult(hql);
+	}
+	
+	public List getDataBySQLMapResult(String sql) {
+		return dao.getDataBySQLMapResult(sql);
+	}
+	
+	public List getDataByHQL(String hql, int startRow, int endRow) {
+		return dao.getDataByHQL(hql, startRow, endRow);
+	}
+	
+	public List getDataByHQLMapResult(String hql, int startRow, int endRow) {
+		return dao.getDataByHQLMapResult(hql, startRow, endRow);
 	}
 }

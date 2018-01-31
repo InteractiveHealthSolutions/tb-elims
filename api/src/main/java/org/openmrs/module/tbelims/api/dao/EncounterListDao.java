@@ -8,8 +8,16 @@ import java.util.List;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.engine.spi.SessionFactoryImplementor;
+import org.hibernate.internal.CriteriaImpl;
+import org.hibernate.internal.SessionImpl;
+import org.hibernate.loader.OuterJoinLoader;
+import org.hibernate.loader.criteria.CriteriaLoader;
+import org.hibernate.loader.criteria.CriteriaQueryTranslator;
+import org.hibernate.persister.entity.OuterJoinLoadable;
 import org.joda.time.DateTime;
 import org.openmrs.Encounter;
 import org.openmrs.PersonAddress;
@@ -35,7 +43,6 @@ public class EncounterListDao {
 		List<Encounter> results = new LinkedList<>();
 		Criteria cri = getSession().createCriteria(Encounter.class);
 		
-		cri.createAlias("obs", "o");
 		cri.createAlias("patient", "p");
 		
 		if(StringUtils.isNotBlank(patient)){
@@ -111,11 +118,31 @@ public class EncounterListDao {
 		long total = ((Number) cri.setProjection(Projections.rowCount()).uniqueResult()).longValue();
 		cri.setProjection(null).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		
+		System.out.println(toSql(cri));
+		
 		pagination.setTotalRows(total);
 
 		results = cri.setFirstResult(pagination.start()).setMaxResults(pagination.limit()).list();
 		
 		return results;
+	}
+	
+	public static String toSql(Criteria criteria) {
+		try {
+			CriteriaImpl c = (CriteriaImpl) criteria;
+			SessionImpl s = (SessionImpl) c.getSession();
+			SessionFactoryImplementor factory = (SessionFactoryImplementor) s.getSessionFactory();
+			String[] implementors = factory.getImplementors(c.getEntityOrClassName());
+			CriteriaLoader loader = new CriteriaLoader((OuterJoinLoadable) factory.getEntityPersister(implementors[0]),
+			        factory, c, implementors[0], s.getLoadQueryInfluencers());
+			
+			Field f = OuterJoinLoader.class.getDeclaredField("sql");
+			f.setAccessible(true);
+			return (String) f.get(loader);
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
 	@SuppressWarnings("unchecked")

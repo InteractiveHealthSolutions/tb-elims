@@ -65,7 +65,6 @@ public class PatientListDao {
 		}
 		
 		cri = getSession().createCriteria(Patient.class);
-		Criteria idCri = cri.createCriteria("identifiers", "id");
 		Criteria pnCri = cri.createCriteria("names", "pn");
 
 		// query was not for searchable attribute it must be for name

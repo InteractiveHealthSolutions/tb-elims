@@ -9,7 +9,10 @@
  */
 package org.openmrs.module.tbelims.api.dao;
 
+import java.util.List;
+
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
 import org.openmrs.api.db.hibernate.DbSession;
 import org.openmrs.api.db.hibernate.DbSessionFactory;
 import org.openmrs.module.tbelims.Item;
@@ -26,12 +29,28 @@ public class TBeLIMSDao {
 		return sessionFactory.getCurrentSession();
 	}
 	
-	public Item getItemByUuid(String uuid) {
-		return (Item) getSession().createCriteria(Item.class).add(Restrictions.eq("uuid", uuid)).uniqueResult();
+	public List getDataByHQL(String hql) {
+		return getSession().createQuery(hql).list();
 	}
 	
-	public Item saveItem(Item item) {
-		getSession().saveOrUpdate(item);
-		return item;
+	public List getDataBySQL(String sql) {
+		return getSession().createSQLQuery(sql).list();
+	}
+	
+	public List getDataByHQLMapResult(String hql) {
+		return getSession().createQuery(hql).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+	}
+	
+	public List getDataBySQLMapResult(String sql) {
+		return getSession().createSQLQuery(sql).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+	}
+	
+	public List getDataByHQL(String hql, Integer startRow, Integer endRow) {
+		return getSession().createQuery(hql).setFirstResult(startRow).setMaxResults(endRow).list();
+	}
+	
+	public List getDataByHQLMapResult(String hql, Integer startRow, Integer endRow) {
+		return getSession().createQuery(hql).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).setFirstResult(startRow)
+		        .setMaxResults(endRow).list();
 	}
 }

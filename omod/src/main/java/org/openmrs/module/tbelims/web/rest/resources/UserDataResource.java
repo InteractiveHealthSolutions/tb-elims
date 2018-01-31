@@ -86,7 +86,7 @@ public class UserDataResource extends UserResource1_8 {
 			
 			Context.getProviderService().saveProvider(prov);
 		} else {
-			Context.getUserService().updateUser(user.getUser());//TODO
+			Context.getUserService().saveUser(user.getUser());//TODO
 			Context.refreshAuthenticatedUser();
 		}
 		

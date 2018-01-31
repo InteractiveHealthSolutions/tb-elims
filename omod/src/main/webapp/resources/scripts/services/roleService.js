@@ -36,6 +36,15 @@ angular.module('roleService', ['ngResource', 'uicommons.common'])
                     return res;
                 });
 			},
+			findScopeRole: function(roles, identifier) {
+				for (var i = 0; i < roles.length; i++) {
+					r = roles[i];
+					
+					if(r.uuid === identifier || r.name.toLowerCase() === identifier.toLowerCase()){
+						return r;
+					}
+				}
+			},
 			loadRoles: function(scope, key, regex) {
 				Role.query({limit: 99999}).$promise.then(function(response) {
 					console.debug('Loading roles');

@@ -1,5 +1,5 @@
 /**
- * This Source Code Form is subject to the terms of the Mozilla Public License,
+ * This Source Code Form is subject to the terms of the Mozilla License,
  * v. 2.0. If a copy of the MPL was not distributed with this file, You can
  * obtain one at http://mozilla.org/MPL/2.0/. OpenMRS is also distributed under
  * the terms of the Healthcare Disclaimer located at http://openmrs.org/license.
@@ -9,12 +9,9 @@
  */
 package org.openmrs.module.tbelims.api;
 
-import org.openmrs.annotation.Authorized;
-import org.openmrs.api.APIException;
+import java.util.List;
+
 import org.openmrs.api.OpenmrsService;
-import org.openmrs.module.tbelims.TBeLIMSConfig;
-import org.openmrs.module.tbelims.Item;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The main service of this module, which is exposed for other modules. See
@@ -22,27 +19,15 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public interface TBeLIMSService extends OpenmrsService {
 	
-	/**
-	 * Returns an item by uuid. It can be called by any authenticated user. It is fetched in read
-	 * only transaction.
-	 * 
-	 * @param uuid
-	 * @return
-	 * @throws APIException
-	 */
-	@Authorized()
-	@Transactional(readOnly = true)
-	Item getItemByUuid(String uuid) throws APIException;
+	List getDataByHQL(String hql);
 	
-	/**
-	 * Saves an item. Sets the owner to superuser, if it is not set. It can be called by users with
-	 * this module's privilege. It is executed in a transaction.
-	 * 
-	 * @param item
-	 * @return
-	 * @throws APIException
-	 */
-	@Authorized(TBeLIMSConfig.MODULE_PRIVILEGE)
-	@Transactional
-	Item saveItem(Item item) throws APIException;
+	List getDataBySQL(String sql);
+	
+	List getDataByHQLMapResult(String hql);
+	
+	List getDataBySQLMapResult(String sql);
+	
+	List getDataByHQL(String hql, int startRow, int endRow);
+	
+	List getDataByHQLMapResult(String hql, int startRow, int endRow);
 }

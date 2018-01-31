@@ -13,4 +13,8 @@ public interface OrderDataService {
 	List<Order> findOrders(String patient, String location, List<String> orderTypes, PersonAddress address, Date dateFrom,
 	        Date dateTo, PaginationHandler pagination);
 	
+	Order getOrderByUuid(String uuid);
+	
+	Order getOrderByOrderNumber(String uniqueId);
+	
 }

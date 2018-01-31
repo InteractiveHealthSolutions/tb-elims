@@ -179,7 +179,17 @@ userApp.controller('UserRegistrationController', ['$scope', '$rootScope', '$filt
 		if(!isValid){
 			return;
 		}
+		
+		if(!$scope.location.lab && $scope.user.roles.length > 0 && $scope.user.roles[0].display.toLowerCase().indexOf('lab tech') !== -1){
+			alert('Lab technician MUST be mapped on a Lab');
+			return;
+		}
+		
 		console.log('Submitting new User');
+		
+		/// reset selected role to remove all other fields except uuid
+		selectedRole = {uuid: $scope.user.roles[0].uuid};
+		$scope.user.roles[0] = selectedRole;
 		
 		// binding user location to the lowest level specified
 		userLocation = $scope.location.lab || $scope.location.address3 || $scope.location.cityVillage 
@@ -251,8 +261,9 @@ userApp.controller('UserEditController', ['$scope', '$rootScope', '$filter', '$s
 		$scope.user.person.preferredName.uuid = editableUser.person.preferredName.uuid;
 		$scope.user.person.preferredName.givenName = editableUser.person.preferredName.givenName;
 		$scope.user.person.preferredName.familyName = editableUser.person.preferredName.familyName;
+
 		$scope.user.roles[0] = {};
-		$scope.user.roles[0].uuid = editableUser.roles[0].uuid;
+		$scope.user.roles[0] = editableUser.roles[0];
 
 		attrL = editableUser.person.attributes;
 		if (attrL) {
@@ -302,7 +313,17 @@ userApp.controller('UserEditController', ['$scope', '$rootScope', '$filter', '$s
 		if(!isValid){
 			return;
 		}
-		console.log('Submitting new User');
+		
+		if(!$scope.location.lab && $scope.user.roles.length > 0 && $scope.user.roles[0].display.toLowerCase().indexOf('lab tech') !== -1){
+			alert('Lab technician MUST be mapped on a Lab');
+			return;
+		}
+		
+		console.log('Submitting edited User');
+		
+		/// reset selected role to remove all other fields except uuid
+		selectedRole = {uuid: $scope.user.roles[0].uuid};
+		$scope.user.roles[0] = selectedRole;
 		
 		userLocation = $scope.location.lab || $scope.location.address3 || $scope.location.cityVillage 
 					|| $scope.location.countyDistrict || $scope.location.stateProvince;

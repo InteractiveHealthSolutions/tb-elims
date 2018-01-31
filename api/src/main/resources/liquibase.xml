@@ -111,6 +111,184 @@
 		<sql>UPDATE global_property SET property_value='99999' WHERE property='webservices.rest.maxResultsAbsolute';</sql>
     </changeSet>
     
+    <changeSet id="tbelims-201801161320" author="maimoonak">
+		<comment>Adding device table</comment>
+		<sql>
+	CREATE TABLE `tbelims_device` (
+	  `device_id` int(11) NOT NULL AUTO_INCREMENT,
+	  `android_id` varchar(45) NOT NULL,
+	  `mac_id` varchar(45) DEFAULT NULL,
+	  `serial_id` varchar(45) DEFAULT NULL,
+	  `last_count` int(11) DEFAULT NULL,
+	  `last_sync_date` datetime DEFAULT NULL,
+	  PRIMARY KEY (`device_id`)
+	) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+		</sql>
+    </changeSet>
+    
+    <changeSet id="tbelims-201801161359" author="maimoonak">
+	<comment>Alter device table</comment>
+		<sql>
+ALTER TABLE tbelims_device 
+ADD COLUMN `name` varchar(255),
+ADD COLUMN `description` varchar(1000),
+ADD COLUMN `creator` int(11) NOT NULL default '0',
+ADD COLUMN `date_created` datetime  default null,
+ADD COLUMN `changed_by` int(11) default NULL,
+ADD COLUMN `date_changed` datetime default NULL,
+ADD COLUMN `retired` tinyint(1) NOT NULL default '0',
+ADD COLUMN `retired_by` int(11) default NULL,
+ADD COLUMN `date_retired` datetime default NULL,
+ADD COLUMN `retire_reason` varchar(255) default NULL,
+ADD COLUMN `uuid` char(38) NOT NULL,
+ADD COLUMN `location_id` int(11) default null;
+		</sql>
+    </changeSet>
+    
+    <changeSet id="tbelims-201711071510" author="maimoonak">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">select count(*) from privilege where privilege like 'eLIMS%'</sqlCheck>
+		</preConditions>
+		<comment>Adding eLIMS privileges</comment>
+		<sql>
+INSERT INTO `privilege` VALUES 
+('eLIMS - Add Patient','Allows to register patient','d94626ac-1074-479e-9127-6aed1c783e75'),('eLIMS - Add Role','Allows to add role','39647c3d-7b93-493a-9212-d2f190f3dd7f'),('eLIMS - Add Test Info','Allows to add test order data','f37f3889-b9a0-4f03-99c6-33ef3be2b12d'),('eLIMS - Add Test Result','Allows to add test result data','5cdf8dec-3e0f-47a3-b689-d399ee108fd3'),('eLIMS - Add User','Allows to register user','64d89502-a221-4580-b69a-734f35933428'),('eLIMS - Delete Patient Profile','Allows to delete patient data','552f2456-84d9-44c6-b8bf-e8606f3274e7'),('eLIMS - Delete Role','Allows to delete role','3ebac9ed-f23d-47ce-bd21-9dc78e00454c'),('eLIMS - Delete Test Info','Allows to delete test order data','2bca3875-e476-4de2-bb1b-e7c7018a550a'),('eLIMS - Delete Test Result','Allows to delete test result data','141551b3-9067-43c0-95d7-726d3474581a'),('eLIMS - Delete User Profile','Allows to delete user data','f0b1d9a8-e59f-4948-a07f-e1713d8c3c7b'),('eLIMS - Edit Patient Profile','Allows to edit patient data','84a7b032-ae45-4b73-b38f-40905deb22c7'),('eLIMS - Edit Test Info','Allows to edit test order data','6e27c337-0408-40b5-ae24-71d229e4b93c'),('eLIMS - Edit Test Result','Allows to edit test result data','834dd637-353c-44b3-b763-5019056dd8d8'),('eLIMS - Edit User Profile','Allows to edit user data','09a41042-73d8-4d6a-a5ec-61ed2c837956'),('eLIMS - View Patient Profile','Allows to search/view patient details','254740ba-11c6-488d-ac30-2ecfa0f7ec5f'),('eLIMS - View User Profile','Allows to search/view user details','af269042-1d83-45ec-970e-248230dbfd26');
+		</sql>
+    </changeSet>
+    
+    <changeSet id="tbelims-201801250925" author="maimoonak">
+	<comment>Adding roles Privilege Level: REST GET METADATA/ PATIENTDATA/ ENCOUNTERDATA/ ADDDATA/ EDITDATA / DELETEDATA</comment>
+		<sql>	
+INSERT INTO `openmrs`.`role` (`role`, `description`, `uuid`) VALUES ('Privilege Level: REST GET METADATA', 'Privileges for REST API and app to view metadata', 'f7fa221a-fe55-498d-ad00-377af5555555');
+INSERT INTO `openmrs`.`role` (`role`, `description`, `uuid`) VALUES ('Privilege Level: REST GET PATIENTDATA', 'Privileges for REST API and app to view patient related data', 'f7fa221a-fe55-498d-ad00-377af6666666');
+INSERT INTO `openmrs`.`role` (`role`, `description`, `uuid`) VALUES ('Privilege Level: REST GET ENCOUNTERDATA', 'Privileges for REST API and app to view patient encounter related data', 'f7fa221a-fe55-498d-ad00-377af7777777');
+
+INSERT INTO `openmrs`.`role` (`role`, `description`, `uuid`) VALUES ('Privilege Level: REST EDIT DATA', 'Privileges for REST API and app to edit data', 'f7fa221a-fe55-498d-ad00-377af8888888');
+INSERT INTO `openmrs`.`role` (`role`, `description`, `uuid`) VALUES ('Privilege Level: REST ADD DATA', 'Privileges for REST API and app to add data', 'f7fa221a-fe55-498d-ad00-377af9999999');
+INSERT INTO `openmrs`.`role` (`role`, `description`, `uuid`) VALUES ('Privilege Level: REST DELETE DATA', 'Privileges for REST API and app to delete data', 'f7fa221a-fe55-498d-ad00-377af4444444');
+
+
+INSERT INTO `role_privilege` (`role`, `privilege`) VALUES 
+('Privilege Level: REST GET METADATA', 'Get Visit Types'),
+('Privilege Level: REST GET METADATA', 'Get Visit Attribute Types'),
+('Privilege Level: REST GET METADATA', 'Get Roles'),
+('Privilege Level: REST GET METADATA', 'Get Relationship Types'),
+('Privilege Level: REST GET METADATA', 'Get Programs'),
+('Privilege Level: REST GET METADATA', 'Get Problems'),
+('Privilege Level: REST GET METADATA', 'Get Privileges'),
+('Privilege Level: REST GET METADATA', 'Get Person Attribute Types'),
+('Privilege Level: REST GET METADATA', 'Get Order Types'),
+('Privilege Level: REST GET METADATA', 'Get Order Sets'),
+('Privilege Level: REST GET METADATA', 'Get Order Frequencies'),
+('Privilege Level: REST GET METADATA', 'Get Notes'),
+('Privilege Level: REST GET METADATA', 'Get Locations'),
+('Privilege Level: REST GET METADATA', 'Get Location Attribute Types'),
+('Privilege Level: REST GET METADATA', 'Get Identifier Types'),
+('Privilege Level: REST GET METADATA', 'Get HL7 Source'),
+('Privilege Level: REST GET METADATA', 'Get HL7 Inbound Queue'),
+('Privilege Level: REST GET METADATA', 'Get HL7 Inbound Exception'),
+('Privilege Level: REST GET METADATA', 'Get HL7 Inbound Archive'),
+('Privilege Level: REST GET METADATA', 'Get Global Properties'),
+('Privilege Level: REST GET METADATA', 'Get Forms'),
+('Privilege Level: REST GET METADATA', 'Get Field Types'),
+('Privilege Level: REST GET METADATA', 'Get Encounter Types'),
+('Privilege Level: REST GET METADATA', 'Get Encounter Roles'),
+('Privilege Level: REST GET METADATA', 'Get Database Changes'),
+('Privilege Level: REST GET METADATA', 'Get Concepts'),
+('Privilege Level: REST GET METADATA', 'Get Concept Sources'),
+('Privilege Level: REST GET METADATA', 'Get Concept Reference Terms'),
+('Privilege Level: REST GET METADATA', 'Get Concept Proposals'),
+('Privilege Level: REST GET METADATA', 'Get Concept Map Types'),
+('Privilege Level: REST GET METADATA', 'Get Concept Datatypes'),
+('Privilege Level: REST GET METADATA', 'Get Concept Classes'),
+('Privilege Level: REST GET METADATA', 'Get Concept Attribute Types'),
+('Privilege Level: REST GET METADATA', 'Get Care Settings'),
+('Privilege Level: REST GET METADATA', 'Get Allergies'),
+('Privilege Level: REST GET METADATA', 'Get Providers'),
+('Privilege Level: REST GET METADATA', 'Get Users');
+
+INSERT INTO `role_privilege` (`role`, `privilege`) VALUES 
+('Privilege Level: REST GET PATIENTDATA', 'Get People'),
+('Privilege Level: REST GET PATIENTDATA', 'Get Patients'),
+('Privilege Level: REST GET PATIENTDATA', 'Get Patient Programs'),
+('Privilege Level: REST GET PATIENTDATA', 'Get Patient Identifiers'),
+('Privilege Level: REST GET PATIENTDATA', 'Get Patient Cohorts'),
+('Privilege Level: REST GET PATIENTDATA', 'Get Relationships');
+
+INSERT INTO `role_privilege` (`role`, `privilege`) VALUES 
+('Privilege Level: REST GET ENCOUNTERDATA', 'Get Encounters'),
+('Privilege Level: REST GET ENCOUNTERDATA', 'Get Observations'),
+('Privilege Level: REST GET ENCOUNTERDATA', 'Get Orders'),
+('Privilege Level: REST GET ENCOUNTERDATA', 'Get Visits');
+
+INSERT INTO `role_privilege` (`role`, `privilege`) VALUES 
+('Privilege Level: REST ADD DATA', 'Add Patients'),
+('Privilege Level: REST ADD DATA', 'Add Patient Identifiers'),
+('Privilege Level: REST ADD DATA', 'Add People'),
+('Privilege Level: REST ADD DATA', 'Add Relationships'),
+('Privilege Level: REST ADD DATA', 'Add Encounters'),
+('Privilege Level: REST ADD DATA', 'Add Observations'),
+('Privilege Level: REST ADD DATA', 'Add Visits'),
+('Privilege Level: REST ADD DATA', 'Add Orders'),
+('Privilege Level: REST ADD DATA', 'Add Users');
+
+INSERT INTO `role_privilege` (`role`, `privilege`) VALUES 
+('Privilege Level: REST DELETE DATA', 'Delete Encounters'),
+('Privilege Level: REST DELETE DATA', 'Delete Relationships'),
+('Privilege Level: REST DELETE DATA', 'Delete People'),
+('Privilege Level: REST DELETE DATA', 'Delete Patients'),
+('Privilege Level: REST DELETE DATA', 'Delete Patient Programs'),
+('Privilege Level: REST DELETE DATA', 'Delete Patient Identifiers'),
+('Privilege Level: REST DELETE DATA', 'Delete Orders'),
+('Privilege Level: REST DELETE DATA', 'Delete Observations'),
+('Privilege Level: REST DELETE DATA', 'Delete Visits'),
+('Privilege Level: REST DELETE DATA', 'Delete Users');
+
+INSERT INTO `role_privilege` (`role`, `privilege`) VALUES 
+('Privilege Level: REST EIDT DATA', 'Edit Member'),
+('Privilege Level: REST EIDT DATA', 'Edit Encounters'),
+('Privilege Level: REST EIDT DATA', 'Edit People'),
+('Privilege Level: REST EIDT DATA', 'Edit Patients'),
+('Privilege Level: REST EIDT DATA', 'Edit Patient Programs'),
+('Privilege Level: REST EIDT DATA', 'Edit Patient Identifiers'),
+('Privilege Level: REST EIDT DATA', 'Edit Orders'),
+('Privilege Level: REST EIDT DATA', 'Edit Observations'),
+('Privilege Level: REST EIDT DATA', 'Edit Relationships'),
+('Privilege Level: REST EIDT DATA', 'Edit Visits'),
+('Privilege Level: REST EIDT DATA', 'Edit Users'),
+('Privilege Level: REST EIDT DATA', 'Edit User Passwords');
+		</sql>
+    </changeSet>
+    
+    <changeSet id="tbelims-201801251252" author="maimoonak">
+	<comment>Insert default roles (Lab tech, Receptionist, Web admin)</comment>
+		<sql>
+INSERT INTO `role` (`role`, `description`, `uuid`) VALUES ('Lab technician', 'eLIMS', '8d94f852-c2cc-11de-8d13-0010c6deeeee');
+INSERT INTO `role` (`role`, `description`, `uuid`) VALUES ('Receptionist', 'eLIMS', '8d94f852-c2cc-11de-8d13-0010c6dddddd');
+INSERT INTO `role` (`role`, `description`, `uuid`) VALUES ('Web Admin', 'eLIMS', '8d94f852-c2cc-11de-8d13-0010c6daaaaa');
+
+INSERT INTO `role_role` (`parent_role`, `child_role`) VALUES ('Privilege Level: REST GET METADATA', 'Receptionist');
+INSERT INTO `role_role` (`parent_role`, `child_role`) VALUES ('Privilege Level: REST GET METADATA', 'Web Admin');
+INSERT INTO `role_role` (`parent_role`, `child_role`) VALUES ('Privilege Level: REST GET METADATA', 'Lab technician');
+
+INSERT INTO `role_role` (`parent_role`, `child_role`) VALUES ('Privilege Level: REST GET PATIENTDATA', 'Receptionist');
+INSERT INTO `role_role` (`parent_role`, `child_role`) VALUES ('Privilege Level: REST GET PATIENTDATA', 'Web Admin');
+INSERT INTO `role_role` (`parent_role`, `child_role`) VALUES ('Privilege Level: REST GET PATIENTDATA', 'Lab technician');
+
+INSERT INTO `role_role` (`parent_role`, `child_role`) VALUES ('Privilege Level: REST GET ENCOUNTERDATA', 'Receptionist');
+INSERT INTO `role_role` (`parent_role`, `child_role`) VALUES ('Privilege Level: REST GET ENCOUNTERDATA', 'Web Admin');
+INSERT INTO `role_role` (`parent_role`, `child_role`) VALUES ('Privilege Level: REST GET ENCOUNTERDATA', 'Lab technician');
+
+INSERT INTO `role_role` (`parent_role`, `child_role`) VALUES ('System Developer', 'Web Admin');
+		</sql>
+    </changeSet>
+    
+    <changeSet id="tbelims-201801260957" author="maimoonak">
+	<comment>Insert eLIMS patient identifier</comment>
+		<sql>
+INSERT INTO `patient_identifier_type` (`patient_identifier_type_id`, `name`, `description`, `creator`, `date_created`, `required`, `retired`, `uuid`) VALUES ('3', 'eLIMS Identifier', 'DONOT MODIFY: eLIMS identifier type for patient identification', '1', '2018-01-26', '0', '0', 'f4d56dfc-3629-4c8c-9587-bcbb7ee78d50');
+		</sql>
+    </changeSet>
     <!--
     	See http://wiki.openmrs.org/display/docs/Module+liquibase+File for 
     	documentation on this file.

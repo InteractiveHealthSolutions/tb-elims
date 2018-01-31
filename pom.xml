@@ -114,6 +114,19 @@
 				<version>${appframeworkVersion}</version>
 				<scope>provided</scope>
 			</dependency>
+			
+			<dependency>
+			    <groupId>org.openmrs.module</groupId>
+			    <artifactId>legacyui-omod</artifactId>
+			    <version>${legacyuiVersion}</version>
+			    <scope>provided</scope>
+			</dependency>
+			<dependency>
+			    <groupId>org.openmrs.module</groupId>
+			    <artifactId>legacyui-api</artifactId>
+			    <version>${legacyuiVersion}</version>
+			    <scope>provided</scope>
+			</dependency>
 
 			<!-- REST dependencies -->
 			<dependency>
@@ -177,12 +190,14 @@
 	</pluginRepositories>
 
 	<properties>
-		<openMRSVersion>1.11.7</openMRSVersion>
+		<openMRSVersion>2.0.5</openMRSVersion>
+	    <openmrsPlatformVersion>2.0.5</openmrsPlatformVersion>
 		<uicommonsVersion>2.4.0-SNAPSHOT</uicommonsVersion>
         <!-- <emrapiVersion>1.21.0</emrapiVersion> -->
         <appuiVersion>1.8.0</appuiVersion>
         <uiframeworkVersion>3.6</uiframeworkVersion>
         <appframeworkVersion>2.8</appframeworkVersion>
+        <legacyuiVersion>1.2.3</legacyuiVersion>
 		<wsrestVersion>2.17</wsrestVersion>
 	</properties>
 

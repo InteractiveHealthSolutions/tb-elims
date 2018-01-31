@@ -1,12 +1,163 @@
 <style>
 /* */
 </style>
-<h1 class="heading">{{ msgs["tbelims.report-list.label"] }} </h1>
+<h1 class="heading" translate >tbelims.report-list.label</h1>
 
 <div class="form" ng-controller="LocationController">
 
 <table class="noborder">
-
+<tr>
+<td>
+	<select ng-model="searchFilter.stateProvince">
+		<option value="" translate > tbelims.stateProvince.label</option>
+		<option ng-repeat="loc in divisions" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+	</select>
+</td>
+<td>
+	<select ng-model="searchFilter.countyDistrict" ng-change="fetchScopeLocations('upazilla', 'upazillas', searchFilter.countyDistrict, 'loadingData');">
+		<option value="" translate > tbelims.countyDistrict.label</option>
+		<option ng-repeat="loc in districts | filter: { parentLocation: { name: searchFilter.stateProvince} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+	</select>
+</td>
+<td>
+	<select ng-model="searchFilter.cityVillage" ng-change="fetchScopeLocations('union', 'unions', searchFilter.cityVillage, 'loadingData');">
+		<option value="" translate > tbelims.cityVillage.label</option>
+		<option ng-repeat="loc in upazillas | filter: { parentLocation: { name: searchFilter.countyDistrict} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+	</select>
+</td>
+<td>
+	<select ng-model="searchFilter.address3" ng-change="fetchScopeLocations('lab', 'labs', searchFilter.address3, 'loadingData');">
+		<option value="" translate > tbelims.address3.label</option>
+		<option ng-repeat="loc in unions | filter: { parentLocation: { name: searchFilter.cityVillage} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+	</select>
+	<i class="icon-refresh small" ng-show="loadingData||!divisions||!districts"></i>
+</td>
+</tr>
+<tr>
+<td>
+	<select ng-model="searchFilter.lab">
+		<option value="" translate > tbelims.lab.label</option>
+		<option ng-repeat="loc in labs | filter: { parentLocation: { name: searchFilter.address3} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+	</select>
+</td>
+<td>
+	<input type="date" ng-model="searchFilter.dateFrom" max="{{today | date:'yyyy-MM-dd'}}"/>
+</td>
+<td>
+	<input type="date" ng-model="searchFilter.dateTo" max="{{today | date:'yyyy-MM-dd'}}"/>
+</td>
+<td colspan="2">
+	<button type="button" ng-click="loadreports()" class="btn btn-secondary" translate >tbelims.submit</button>
+</td>
+</tr>
 </table>
 
+<div>Diagnosis examinations (Case findings)</div>
+<table>
+	<thead>
+		<tr>
+			<th>Presumptive TB cases tested (No. of people tested)</th>
+			<th>AFB positive person (No. of positive person)</th>
+			<th>Smears tested</th>
+			<th>1+</th>
+			<th>2+</th>
+			<th>3+</th>
+			<th>Total positive</th>
+			<th>Scanty</th>
+			<th>Only one sample tested</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="cf in case_findings">
+			<td>{{ cf.presumptives }}</td>
+			<td>{{ cf.positives }}</td>
+			<td>{{ cf.smeartests }}</td>
+			<td>{{ cf.smear1p }}</td>
+			<td>{{ cf.smear2p }}</td>
+			<td>{{ cf.smear3p }}</td>
+			<td>{{ cf.smearpositive }}</td>
+			<td>{{ cf.smearscanty }}</td>
+			<td>{{ cf.only1test }}</td>
+		</tr>
+	</tbody>
+</table>
+
+<br>
+<div>Follow-up examinations</div>
+<table>
+	<thead>
+		<tr>
+			<th>Smears tested</th>
+			<th>1+</th>
+			<th>2+</th>
+			<th>3+</th>
+			<th>Total positive</th>
+			<th>Scanty</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="cf in followups">
+			<td>{{ cf.smeartests }}</td>
+			<td>{{ cf.smear1p }}</td>
+			<td>{{ cf.smear2p }}</td>
+			<td>{{ cf.smear3p }}</td>
+			<td>{{ cf.smearpositive }}</td>
+			<td>{{ cf.smearscanty }}</td>
+		</tr>
+	</tbody>
+</table>
+
+
+<br>
+<div>Diagnosis by Xpert MTB/RIF</div>
+<table>
+	<thead>
+		<tr>
+			<th>Presumptive TB cases tested (No. of people tested)</th>
+			<th>RIF tests</th>
+			<th>PR = MTB detected, RIF resistance detected</th>
+			<th>T = MTB detected, RIF resistance not detected</th>
+			<th>RIF indeterminant</th>
+			<th>N = MTB not detected</th>
+			<th>I = invalid/ no result/ error</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="cf in xpert_case_findings">
+			<td>{{ cf.presumptives }}</td>
+			<td>{{ cf.riftests }}</td>
+			<td>{{ cf.rifdetected }}</td>
+			<td>{{ cf.rifnotdetected }}</td>
+			<td>{{ cf.rifindeterminate }}</td>
+			<td>{{ cf.mtbnotdetected }}</td>
+			<td>{{ cf.invalid }}</td>
+		</tr>
+	</tbody>
+</table>
+
+
+<br>
+<div>Overall report (Total numbers)</div>
+<table>
+	<thead>
+		<tr>
+			<th>Smears tested</th>
+			<th>Positive</th>
+			<th>Scanty</th>
+			<th>Negative</th>
+			<th>Positive rate among Presumptive TB case in %</th>
+			<th>Positive rate among Follow-ups in %</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="cf in totals">
+			<td>{{ cf.smeartests }}</td>
+			<td>{{ cf.smearpositive }}</td>
+			<td>{{ cf.smearscanty }}</td>
+			<td>{{ cf.smearnegative }}</td>
+			<td>{{ 100 * cf.smearpositivediagnosis / cf.smeartestsdiagnosis | number:1 }} %</td>
+			<td>{{ 100 * (cf.smearpositivefollowup+cf.smearscantyfollowup) / cf.smeartestsfollowup | number:1 }} %</td>
+		</tr>
+	</tbody>
+</table>
 </div>

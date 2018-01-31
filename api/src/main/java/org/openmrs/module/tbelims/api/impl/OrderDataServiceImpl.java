@@ -38,4 +38,14 @@ public class OrderDataServiceImpl extends BaseOpenmrsService implements OrderDat
 		return dao.updateOrder(order);
 	}
 	
+	@Override
+	public Order getOrderByUuid(String uuid) {
+		return dao.getOrderByUuid(uuid);
+	}
+	
+	@Override
+	public Order getOrderByOrderNumber(String uniqueId) {
+		return dao.getOrderByOrderNumber(uniqueId);
+	}
+	
 }
