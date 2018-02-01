@@ -69,7 +69,8 @@ roleApp.controller('RoleListController', ['$scope', '$filter', '$state', '$uibMo
 		    	console.debug(role);
 			    $scope.role = role;
 			    $scope.submitForm = function() {
-			    	role['inheritedRoles']=["ab2160f6-0941-430c-9752-6714353fbd3c"];
+			    	// each role should have Privilege Level: REST GET METADATA by default
+			    	role['inheritedRoles']=["f7fa221a-fe55-498d-ad00-377af5555555"];
 			        console.debug('i m ok');
 			        RoleService.saveRole(role).then(function(res) {
 						console.debug('Role Submission result');

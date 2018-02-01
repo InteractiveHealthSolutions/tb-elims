@@ -222,50 +222,87 @@ INSERT INTO `role_privilege` (`role`, `privilege`) VALUES
 ('Privilege Level: REST GET ENCOUNTERDATA', 'Get Visits');
 
 INSERT INTO `role_privilege` (`role`, `privilege`) VALUES 
-('Privilege Level: REST ADD DATA', 'Add Patients'),
-('Privilege Level: REST ADD DATA', 'Add Patient Identifiers'),
-('Privilege Level: REST ADD DATA', 'Add People'),
-('Privilege Level: REST ADD DATA', 'Add Relationships'),
-('Privilege Level: REST ADD DATA', 'Add Encounters'),
-('Privilege Level: REST ADD DATA', 'Add Observations'),
-('Privilege Level: REST ADD DATA', 'Add Visits'),
-('Privilege Level: REST ADD DATA', 'Add Orders'),
-('Privilege Level: REST ADD DATA', 'Add Users');
+('Privilege Level: REST MANAGE DATA', 'Add Patients'),
+('Privilege Level: REST MANAGE DATA', 'Add Patient Identifiers'),
+('Privilege Level: REST MANAGE DATA', 'Add People'),
+('Privilege Level: REST MANAGE DATA', 'Add Relationships'),
+('Privilege Level: REST MANAGE DATA', 'Add Encounters'),
+('Privilege Level: REST MANAGE DATA', 'Add Observations'),
+('Privilege Level: REST MANAGE DATA', 'Add Visits'),
+('Privilege Level: REST MANAGE DATA', 'Add Orders'),
+('Privilege Level: REST MANAGE DATA', 'Delete Encounters'),
+('Privilege Level: REST MANAGE DATA', 'Delete Relationships'),
+('Privilege Level: REST MANAGE DATA', 'Delete People'),
+('Privilege Level: REST MANAGE DATA', 'Delete Patients'),
+('Privilege Level: REST MANAGE DATA', 'Delete Patient Programs'),
+('Privilege Level: REST MANAGE DATA', 'Delete Patient Identifiers'),
+('Privilege Level: REST MANAGE DATA', 'Delete Orders'),
+('Privilege Level: REST MANAGE DATA', 'Delete Observations'),
+('Privilege Level: REST MANAGE DATA', 'Delete Visits'),
+('Privilege Level: REST MANAGE DATA', 'Edit Member'),
+('Privilege Level: REST MANAGE DATA', 'Edit Encounters'),
+('Privilege Level: REST MANAGE DATA', 'Edit People'),
+('Privilege Level: REST MANAGE DATA', 'Edit Patients'),
+('Privilege Level: REST MANAGE DATA', 'Edit Patient Programs'),
+('Privilege Level: REST MANAGE DATA', 'Edit Patient Identifiers'),
+('Privilege Level: REST MANAGE DATA', 'Edit Orders'),
+('Privilege Level: REST MANAGE DATA', 'Edit Observations'),
+('Privilege Level: REST MANAGE DATA', 'Edit Relationships'),
+('Privilege Level: REST MANAGE DATA', 'Edit Visits');
+
 
 INSERT INTO `role_privilege` (`role`, `privilege`) VALUES 
-('Privilege Level: REST DELETE DATA', 'Delete Encounters'),
-('Privilege Level: REST DELETE DATA', 'Delete Relationships'),
-('Privilege Level: REST DELETE DATA', 'Delete People'),
-('Privilege Level: REST DELETE DATA', 'Delete Patients'),
-('Privilege Level: REST DELETE DATA', 'Delete Patient Programs'),
-('Privilege Level: REST DELETE DATA', 'Delete Patient Identifiers'),
-('Privilege Level: REST DELETE DATA', 'Delete Orders'),
-('Privilege Level: REST DELETE DATA', 'Delete Observations'),
-('Privilege Level: REST DELETE DATA', 'Delete Visits'),
-('Privilege Level: REST DELETE DATA', 'Delete Users');
-
-INSERT INTO `role_privilege` (`role`, `privilege`) VALUES 
-('Privilege Level: REST EIDT DATA', 'Edit Member'),
-('Privilege Level: REST EIDT DATA', 'Edit Encounters'),
-('Privilege Level: REST EIDT DATA', 'Edit People'),
-('Privilege Level: REST EIDT DATA', 'Edit Patients'),
-('Privilege Level: REST EIDT DATA', 'Edit Patient Programs'),
-('Privilege Level: REST EIDT DATA', 'Edit Patient Identifiers'),
-('Privilege Level: REST EIDT DATA', 'Edit Orders'),
-('Privilege Level: REST EIDT DATA', 'Edit Observations'),
-('Privilege Level: REST EIDT DATA', 'Edit Relationships'),
-('Privilege Level: REST EIDT DATA', 'Edit Visits'),
-('Privilege Level: REST EIDT DATA', 'Edit Users'),
-('Privilege Level: REST EIDT DATA', 'Edit User Passwords');
+('Privilege Level: REST MANAGE METADATA', 'Add Users'),
+('Privilege Level: REST MANAGE METADATA', 'Manage Locations'),
+('Privilege Level: REST MANAGE METADATA', 'Manage Location Tags'),
+('Privilege Level: REST MANAGE METADATA', 'Manage Location Attribute Types'),
+('Privilege Level: REST MANAGE METADATA', 'Manage Roles'), 
+('Privilege Level: REST MANAGE METADATA', 'Delete Users,
+('Privilege Level: REST MANAGE METADATA', 'Edit Users'),
+('Privilege Level: REST MANAGE METADATA', 'Edit User Passwords');
 		</sql>
     </changeSet>
     
     <changeSet id="tbelims-201801251252" author="maimoonak">
-	<comment>Insert default roles (Lab tech, Receptionist, Web admin)</comment>
+	<comment>Insert and configure default roles (Lab tech, Receptionist, Web admin)</comment>
 		<sql>
 INSERT INTO `role` (`role`, `description`, `uuid`) VALUES ('Lab technician', 'eLIMS', '8d94f852-c2cc-11de-8d13-0010c6deeeee');
 INSERT INTO `role` (`role`, `description`, `uuid`) VALUES ('Receptionist', 'eLIMS', '8d94f852-c2cc-11de-8d13-0010c6dddddd');
 INSERT INTO `role` (`role`, `description`, `uuid`) VALUES ('Web Admin', 'eLIMS', '8d94f852-c2cc-11de-8d13-0010c6daaaaa');
+
+INSERT INTO `role_privilege` (`role`, `privilege`) VALUES 
+('Receptionist', 'eLIMS - Add Patient'),
+('Receptionist', 'eLIMS - View Patient Profile'),
+('Receptionist', 'eLIMS - Edit Patient Profile'),
+('Receptionist', 'eLIMS - Delete Patient Profile'),
+('Receptionist', 'eLIMS - Add Test Info'),
+('Receptionist', 'eLIMS - Delete Test Info'),
+('Receptionist', 'eLIMS - Edit Test Info'),
+
+('Lab technician', 'eLIMS - View Patient Profile'),
+('Lab technician', 'eLIMS - Edit Patient Profile'),
+('Lab technician', 'eLIMS - Add Test Result'),
+('Lab technician', 'eLIMS - Edit Test Result'),
+('Lab technician', 'eLIMS - Delete Test Result'),
+
+('Web Admin', 'eLIMS - Add Patient'),
+('Web Admin', 'eLIMS - View Patient Profile'),
+('Web Admin', 'eLIMS - Edit Patient Profile'),
+('Web Admin', 'eLIMS - Delete Patient Profile'),
+('Web Admin', 'eLIMS - Add Test Info'),
+('Web Admin', 'eLIMS - Delete Test Info'),
+('Web Admin', 'eLIMS - Edit Test Info'),
+('Web Admin', 'eLIMS - View Patient Profile'),
+('Web Admin', 'eLIMS - Edit Patient Profile'),
+('Web Admin', 'eLIMS - Add Test Result'),
+('Web Admin', 'eLIMS - Edit Test Result'),
+('Web Admin', 'eLIMS - Delete Test Result'),
+('Web Admin', 'eLIMS - Edit User Profile'),
+('Web Admin', 'eLIMS - View User Profile'),
+('Web Admin', 'eLIMS - Delete User Profile'),
+('Web Admin', 'eLIMS - Delete Role'),
+('Web Admin', 'eLIMS - Add Role'),
+('Web Admin', 'eLIMS - Add User');
 
 INSERT INTO `role_role` (`parent_role`, `child_role`) VALUES ('Privilege Level: REST GET METADATA', 'Receptionist');
 INSERT INTO `role_role` (`parent_role`, `child_role`) VALUES ('Privilege Level: REST GET METADATA', 'Web Admin');
@@ -279,7 +316,11 @@ INSERT INTO `role_role` (`parent_role`, `child_role`) VALUES ('Privilege Level: 
 INSERT INTO `role_role` (`parent_role`, `child_role`) VALUES ('Privilege Level: REST GET ENCOUNTERDATA', 'Web Admin');
 INSERT INTO `role_role` (`parent_role`, `child_role`) VALUES ('Privilege Level: REST GET ENCOUNTERDATA', 'Lab technician');
 
-INSERT INTO `role_role` (`parent_role`, `child_role`) VALUES ('System Developer', 'Web Admin');
+INSERT INTO `role_role` (`parent_role`, `child_role`) VALUES ('Privilege Level: REST MANAGE DATA', 'Receptionist');
+INSERT INTO `role_role` (`parent_role`, `child_role`) VALUES ('Privilege Level: REST MANAGE DATA', 'Web Admin');
+INSERT INTO `role_role` (`parent_role`, `child_role`) VALUES ('Privilege Level: REST MANAGE DATA', 'Lab technician');
+
+INSERT INTO `role_role` (`parent_role`, `child_role`) VALUES ('Privilege Level: REST MANAGE METADATA', 'Web Admin');
 		</sql>
     </changeSet>
     
