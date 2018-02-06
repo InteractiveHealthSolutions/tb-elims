@@ -11,14 +11,13 @@ package org.openmrs.module.tbelims.api.dao;
 
 import java.util.List;
 
-import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 import org.openmrs.api.db.hibernate.DbSession;
 import org.openmrs.api.db.hibernate.DbSessionFactory;
-import org.openmrs.module.tbelims.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+@SuppressWarnings("rawtypes")
 @Repository("tbelims.TBeLIMSDao")
 public class TBeLIMSDao {
 	

@@ -17,6 +17,11 @@ import org.openmrs.Location;
 @Table(name = "tbelims_device")
 public class Device extends BaseOpenmrsMetadata {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue
 	@Column(name = "device_id")

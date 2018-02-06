@@ -1,9 +1,6 @@
 package org.openmrs.module.tbelims.api.dao;
 
 import java.lang.reflect.Field;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,20 +8,17 @@ import java.util.List;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.jdbc.ReturningWork;
-import org.hibernate.jdbc.Work;
 import org.joda.time.DateTime;
 import org.openmrs.Order;
 import org.openmrs.PersonAddress;
-import org.openmrs.api.context.Context;
 import org.openmrs.api.db.hibernate.DbSession;
 import org.openmrs.api.db.hibernate.DbSessionFactory;
 import org.openmrs.module.tbelims.api.PaginationHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository("tbelims.OrderListDao")
 public class OrderListDao {
@@ -36,11 +30,14 @@ public class OrderListDao {
 		return sessionFactory.getCurrentSession();
 	}
 	
+	@Transactional
 	public Order updateOrder(final Order order) {
 		DbSession ses = getSession();
-		/*ses.saveOrUpdate(order);
-		tx.commit();
-		ses.flush();*/
+		ses.saveOrUpdate(order);
+		return order;
+		
+		/*tx.commit();
+		ses.flush();
 		return ses.doReturningWork(new ReturningWork<Order>() {
 			
 			@Override
@@ -59,7 +56,7 @@ public class OrderListDao {
 				}
 				return order;
 			}
-		});
+		});*/
 	}
 	
 	public Order getOrderByUuid(String uuid) {

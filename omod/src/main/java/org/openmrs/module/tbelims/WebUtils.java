@@ -4,8 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.openmrs.module.webservices.rest.web.RequestContext;
 
 import com.mysql.jdbc.StringUtils;

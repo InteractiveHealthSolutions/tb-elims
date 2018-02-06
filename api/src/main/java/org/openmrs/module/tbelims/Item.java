@@ -14,12 +14,10 @@ import org.openmrs.User;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 /**
  * Please note that a corresponding table schema must be created in liquibase.xml.
@@ -28,6 +26,11 @@ import javax.persistence.Table;
 //@Entity(name = "tbelims.Item")
 //@Table(name = "tbelims_item")
 public class Item extends BaseOpenmrsData {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue

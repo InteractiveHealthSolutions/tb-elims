@@ -145,7 +145,7 @@ ADD COLUMN `location_id` int(11) default null;
 		</sql>
     </changeSet>
     
-    <changeSet id="tbelims-201711071510" author="maimoonak">
+    <changeSet id="tbelims-201801250911" author="maimoonak">
 		<preConditions onFail="MARK_RAN">
 			<sqlCheck expectedResult="0">select count(*) from privilege where privilege like 'eLIMS%'</sqlCheck>
 		</preConditions>
@@ -157,15 +157,14 @@ INSERT INTO `privilege` VALUES
     </changeSet>
     
     <changeSet id="tbelims-201801250925" author="maimoonak">
-	<comment>Adding roles Privilege Level: REST GET METADATA/ PATIENTDATA/ ENCOUNTERDATA/ ADDDATA/ EDITDATA / DELETEDATA</comment>
+	<comment>Adding roles Privilege Level: REST GET METADATA/ PATIENTDATA/ ENCOUNTERDATA/ MANAGEDATA/ MANAMETAGEDATA</comment>
 		<sql>	
 INSERT INTO `openmrs`.`role` (`role`, `description`, `uuid`) VALUES ('Privilege Level: REST GET METADATA', 'Privileges for REST API and app to view metadata', 'f7fa221a-fe55-498d-ad00-377af5555555');
 INSERT INTO `openmrs`.`role` (`role`, `description`, `uuid`) VALUES ('Privilege Level: REST GET PATIENTDATA', 'Privileges for REST API and app to view patient related data', 'f7fa221a-fe55-498d-ad00-377af6666666');
 INSERT INTO `openmrs`.`role` (`role`, `description`, `uuid`) VALUES ('Privilege Level: REST GET ENCOUNTERDATA', 'Privileges for REST API and app to view patient encounter related data', 'f7fa221a-fe55-498d-ad00-377af7777777');
 
-INSERT INTO `openmrs`.`role` (`role`, `description`, `uuid`) VALUES ('Privilege Level: REST EDIT DATA', 'Privileges for REST API and app to edit data', 'f7fa221a-fe55-498d-ad00-377af8888888');
-INSERT INTO `openmrs`.`role` (`role`, `description`, `uuid`) VALUES ('Privilege Level: REST ADD DATA', 'Privileges for REST API and app to add data', 'f7fa221a-fe55-498d-ad00-377af9999999');
-INSERT INTO `openmrs`.`role` (`role`, `description`, `uuid`) VALUES ('Privilege Level: REST DELETE DATA', 'Privileges for REST API and app to delete data', 'f7fa221a-fe55-498d-ad00-377af4444444');
+INSERT INTO `openmrs`.`role` (`role`, `description`, `uuid`) VALUES ('Privilege Level: REST MANAGE DATA', 'Privileges for REST API and app to manage data', 'f7fa221a-fe55-498d-ad00-377af8888888');
+INSERT INTO `openmrs`.`role` (`role`, `description`, `uuid`) VALUES ('Privilege Level: REST MANAGE METADATA', 'Privileges for REST API and app to manage metadata', 'f7fa221a-fe55-498d-ad00-377af9999999');
 
 
 INSERT INTO `role_privilege` (`role`, `privilege`) VALUES 
@@ -239,7 +238,6 @@ INSERT INTO `role_privilege` (`role`, `privilege`) VALUES
 ('Privilege Level: REST MANAGE DATA', 'Delete Orders'),
 ('Privilege Level: REST MANAGE DATA', 'Delete Observations'),
 ('Privilege Level: REST MANAGE DATA', 'Delete Visits'),
-('Privilege Level: REST MANAGE DATA', 'Edit Member'),
 ('Privilege Level: REST MANAGE DATA', 'Edit Encounters'),
 ('Privilege Level: REST MANAGE DATA', 'Edit People'),
 ('Privilege Level: REST MANAGE DATA', 'Edit Patients'),
@@ -257,7 +255,7 @@ INSERT INTO `role_privilege` (`role`, `privilege`) VALUES
 ('Privilege Level: REST MANAGE METADATA', 'Manage Location Tags'),
 ('Privilege Level: REST MANAGE METADATA', 'Manage Location Attribute Types'),
 ('Privilege Level: REST MANAGE METADATA', 'Manage Roles'), 
-('Privilege Level: REST MANAGE METADATA', 'Delete Users,
+('Privilege Level: REST MANAGE METADATA', 'Delete Users'),
 ('Privilege Level: REST MANAGE METADATA', 'Edit Users'),
 ('Privilege Level: REST MANAGE METADATA', 'Edit User Passwords');
 		</sql>
@@ -292,8 +290,6 @@ INSERT INTO `role_privilege` (`role`, `privilege`) VALUES
 ('Web Admin', 'eLIMS - Add Test Info'),
 ('Web Admin', 'eLIMS - Delete Test Info'),
 ('Web Admin', 'eLIMS - Edit Test Info'),
-('Web Admin', 'eLIMS - View Patient Profile'),
-('Web Admin', 'eLIMS - Edit Patient Profile'),
 ('Web Admin', 'eLIMS - Add Test Result'),
 ('Web Admin', 'eLIMS - Edit Test Result'),
 ('Web Admin', 'eLIMS - Delete Test Result'),

@@ -1,4 +1,4 @@
-package org.openmrs.module.tbelims.web.controller;
+/*package org.openmrs.module.tbelims.web.controller;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,7 +14,7 @@ public class TBeLIMSStartup implements ApplicationListener<ContextRefreshedEvent
 	@Override
 	public void onApplicationEvent(final ContextRefreshedEvent event) {
 		log.info("Starting TBeLIMSStartupListener");
-		/*try {
+		try {
 			File wbifDir = event.getApplicationContext().getResource("/WEB-INF").getFile();
 			File serWDir = event.getApplicationContext().getResource(Constants.SERVICE_WORKER_PATH).getFile();
 			
@@ -27,6 +27,7 @@ public class TBeLIMSStartup implements ApplicationListener<ContextRefreshedEvent
 		catch (IOException e) {
 			e.printStackTrace();
 			log.error("Error while moving ServiceWorker to root. TB eLIMS may not work properly.", e);
-		}*/
+		}
 	}
 }
+*/

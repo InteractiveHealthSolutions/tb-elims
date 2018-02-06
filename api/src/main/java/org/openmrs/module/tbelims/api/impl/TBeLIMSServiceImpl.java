@@ -15,6 +15,7 @@ import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.tbelims.api.TBeLIMSService;
 import org.openmrs.module.tbelims.api.dao.TBeLIMSDao;
 
+@SuppressWarnings("rawtypes")
 public class TBeLIMSServiceImpl extends BaseOpenmrsService implements TBeLIMSService {
 	
 	TBeLIMSDao dao;

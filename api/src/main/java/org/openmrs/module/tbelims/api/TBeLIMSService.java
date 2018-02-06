@@ -17,6 +17,7 @@ import org.openmrs.api.OpenmrsService;
  * The main service of this module, which is exposed for other modules. See
  * moduleApplicationContext.xml on how it is wired up.
  */
+@SuppressWarnings("rawtypes")
 public interface TBeLIMSService extends OpenmrsService {
 	
 	List getDataByHQL(String hql);

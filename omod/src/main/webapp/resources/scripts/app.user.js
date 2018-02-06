@@ -113,15 +113,7 @@ userApp.controller('UserListController', ['$scope', '$filter', '$state', 'uiGrid
 					console.debug('users');
 					console.debug(response);
 					if (response) {
-						usrArr = [];
-						for (var i = 0; i < response.results.length; i++) {
-							var arrElem = response.results[i];
-							if(/^(admin|daemon)$/i.test(arrElem.username) == false){
-								usrArr.push(arrElem);
-							}
-						}
-						
-						$scope.usersList.data = usrArr;
+						$scope.usersList.data = response.results;
 						$scope.usersList.totalItems = response.totalCount;
 
 						$scope.loadingList=false;

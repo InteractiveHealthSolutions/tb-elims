@@ -17,16 +17,12 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.LocationService;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.context.ContextAuthenticationException;
-import org.openmrs.module.ModuleUtil;
 import org.openmrs.module.appframework.service.AppFrameworkService;
-import org.openmrs.module.appui.AppUiConstants;
-import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.tbelims.Constants;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.page.PageModel;
 import org.openmrs.ui.framework.page.PageRequest;
-import org.openmrs.util.OpenmrsClassLoader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
@@ -124,8 +120,7 @@ public class AppPageController {
 	public String post(@RequestParam(value = "username", required = false) String username,
 	        @RequestParam(value = "password", required = false) String password,
 	        @RequestParam(value = "sessionLocation", required = false) Integer sessionLocationId,
-	        @SpringBean("locationService") LocationService locationService, UiUtils ui, PageRequest pageRequest,
-	        UiSessionContext sessionContext) {
+	        @SpringBean("locationService") LocationService locationService, UiUtils ui, PageRequest pageRequest) {
 		
 		String redirectUrl = pageRequest.getRequest().getParameter(REQUEST_PARAMETER_NAME_REDIRECT_URL);
 		redirectUrl = getRelativeUrl(redirectUrl, pageRequest);

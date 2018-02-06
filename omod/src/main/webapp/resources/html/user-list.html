@@ -48,9 +48,9 @@
 </div>
 
 <script type="text/ng-template" id="view-profile-button.html">
-	<div><button class="btn btn-info btn-sm btn-block" ng-click="grid.appScope.openProfile(row.entity)">Profile</button><div>
+	<div><button class="btn btn-info btn-sm btn-block" ng-hide="row.entity.retired||row.entity.display=='admin'||row.entity.display=='daemon'" ng-click="grid.appScope.openProfile(row.entity)">Profile</button><div>
 </script>
 <script type="text/ng-template" id="edit-profile-button.html">
-	<div><button class="btn btn-warning btn-sm btn-block" ng-hide="row.entity.retired" ng-click="grid.appScope.editProfile(row.entity)">Edit</button><div>
+	<div><button class="btn btn-warning btn-sm btn-block" ng-hide="row.entity.retired||row.entity.display=='admin'||row.entity.display=='daemon'" ng-click="grid.appScope.editProfile(row.entity)">Edit</button><div>
 	<div><button class="btn btn-danger btn-sm btn-block" ng-show="row.entity.retired">Deleted</button><div>
 </script>
