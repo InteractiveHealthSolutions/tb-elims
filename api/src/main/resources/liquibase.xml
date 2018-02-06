@@ -73,6 +73,16 @@
 		    		('Test Result', 'Add a Test Result for a Test Order. DONOT MODIFY: Used by TBeLIMS', '1', CURDATE(), '0', UUID());
 		</sql>
     </changeSet>
+    <changeSet id="tbelims-201710231825" author="maimoonak">
+		<comment>Adding encounter type (CXR, Microscopy, Microscopy EQA, Xpert MTB/RIF)</comment>
+		<sql>
+		    INSERT INTO `encounter_type` (`name`, `description`, `creator`, `date_created`, `retired`, `uuid`) 
+		    VALUES  ('CXR', 'CXR Order Encounter. DONOT MODIFY: Used by TBeLIMS', '1', CURDATE(), '0', UUID()),
+		    		('Microscopy', 'Microscopy Test Order Info. DONOT MODIFY: Used by TBeLIMS', '1', CURDATE(), '0', UUID()),
+		    		('Microscopy (EQA)', 'Add a Test Order Info. DONOT MODIFY: Used by TBeLIMS', '1', CURDATE(), '0', UUID()),
+		    		('Xpert MTB/ RIF', 'Add a Test Result for a Test Order. DONOT MODIFY: Used by TBeLIMS', '1', CURDATE(), '0', UUID());
+		</sql>
+    </changeSet>
     <changeSet id="tbelims-201710231933" author="maimoonak">
 		<comment>Adding order type (microscopy, cxr, rif)</comment>
 		<sql>
