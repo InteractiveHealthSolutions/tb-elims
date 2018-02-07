@@ -4,10 +4,29 @@ locationFilterApp.filter('attributeValue', function() {
 	return function(attributeList, attribute) {
 		for (var i = 0; i < attributeList.length; i++) {
 			var item = attributeList[i];
-			attributeName = item.name||item.attributeType.display;
-			if (attributeName && attribute.toLowerCase() === attributeName.toLowerCase()) {
-				return item.value;
-			}
+			
+		
+					if (item.hasOwnProperty('display')) {
+							var attributeName = item.display;
+
+					
+							if (attributeName.includes(attribute)) {
+								return attributeName;
+							}
+
+						}
+					
+			else
+				{
+				
+				attributeName = item.name||item.attributeType.display;
+					if (attributeName && attribute.toLowerCase() === attributeName.toLowerCase()) {
+						return item.value;
+					}
+					
+				}		
+						
+				
 		}
 		return 'n/a';
 	};
@@ -74,3 +93,6 @@ locationFilterApp.filter('attributeValue', function() {
 		return display;
 	};
 });
+
+
+

@@ -1,3 +1,8 @@
+<div style="  width:100% ;" >  
+
+<div  style="clear:both ; width:100% ; display:block; "> 
+
+
 <table class="noborder-ex" ng-modal="dataMap" style="padding: 10pt; width: 80%; float: left;">
 
 	<tr><td colspan="3"><h1 class="heading" translate >tbelims.patient-profile.label</h1></td>
@@ -42,3 +47,223 @@
 		<td>{{ dataMap.encounters | getObsValue :'7fe877f2-aa02-4c4a-8145-db048eadfdce':'Patient Registration' }}</td>
 	</tr>
 </table>
+
+</div>
+
+
+
+
+<div id="microscopy"  class="tabcontent" ng-repeat=" encounter in  dataMap.encounters | filter :  { encounterType : {name : 'Microscopy' } } "   style="clear:both ; width:100% ; display:block ; border-style: solid;  padding:5% "  >
+
+  
+
+<div    >  
+
+<h1> Microscopy</h1>
+
+<div>  
+ <h2 style="text-align: center;">  Test Info  </h2> 
+ 
+  </div>
+
+
+<table style=" width:100% ; ">
+
+<tr>  <td> Reason For Testing   </td> <td> {{  encounter.obs | obsValue  : '164126AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'   }} </td>		 <td> Date of Collection   </td> <td> {{ encounter.obs | obsValue :'159951AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }} </td> </tr>
+<tr>  <td> Disease Classification   </td> <td>  {{ encounter.obs | obsValue :'161356AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }} </td></tr>
+<tr>  <td> Nature of Specimen   </td> <td>  {{ encounter.obs | obsValue :'4884c8fc-0c70-45ab-b066-8e93a2967cb2'}} </td>		 <td> Specimen Identification no.   </td> <td>  {{ encounter.obs  | obsValue :'8acee18e-97c3-4419-844a-f186690102d6' }}</td> </tr>
+<tr>  <td> OPD reg no   </td> <td> {{ encounter.obs | obsValue :'ee4e682f-922a-4f6a-b919-16dad8727e26'}}  </td></tr>
+<tr>  <td> Name of Person Requesting Examination   </td> <td> {{encounter.obs| obsValue :'161103AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}  </td></tr>
+<tr>  <td> Designation of Person Requesting Examination    </td> <td> {{ encounter.obs | obsValue :'f65e70da-16d5-4011-ba04-b4a38a78408d' }}  </td></tr>
+<tr>  <td> Contact no. of Person Requesting Examination    </td> <td> {{encounter.obs | obsValue :'159635AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}  </td></tr>
+<tr>  <td> Organization type of Person Requesting Examination   </td> <td> {{ encounter.obs | obsValue :'1768AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}  </td></tr>
+<tr>  <td> Organization Name of Person Requesting Examination   </td> <td> {{ encounter.obs | obsValue :'162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}  </td></tr>
+<tr>  <td> Sputume Collected by   </td> <td> {{ encounter.obs | obsValue :'162577AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}  </td></tr>
+<tr>  <td> Name   </td> <td> {{ encounter.obs | obsValue :'e8f8c0c0-12bf-4b47-bfb9-7f32aecc9d13' }}  </td></tr>
+
+
+</table>
+
+
+
+</div>
+
+
+<div  id="microscopyTestResult"  	ng-repeat=" x in  dataMap.encounters | filter :  { uuid :  encounter.orders[0].accessionNumber    } "   style="clear:both ; width:100% ; display:block ; " >
+<div>  
+ <h2 style="text-align: center;">  Test Result  </h2> 
+ 
+  </div>
+
+
+<table style=" width:100% ; ">
+
+<tr>  <td> Lab Test Registration No.   </td> <td>  {{ x.obs | obsValue :'8acee18e-97c3-4419-844a-f186690102d6' }}      </td>		 <td> Date   </td> <td>  {{x.obs | obsValue :'162079AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'}}    </td> </tr>
+<tr>  <td> Visual Appearance of the specimen   </td> <td>  {{ x.obs | obsValue :'159969AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}  </td></tr>
+ 
+<tr>  <td > <h4>  Microsocopy Test Result   </h4>  </td>  </tr>
+
+<tr> <td> <table style=" border-style: solid;">  
+<tr>  <td>    Specimen No  </td>   <td> {{  x.obs | obsValue :'162086AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}   </td>   </tr>                      
+
+<tr>  <td>    Microscopy Test Type  </td>  <td> {{  x.obs | obsValue :'159961AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}   </td>   </tr>
+
+<tr>  <td>    Scanity Number   </td> <td> {{  x.obs | obsValue :'aa7f3dea-78fa-4fbb-b3a9-58ddf8ada517' }}   </td>      </tr>
+ 
+<tr>  <td>   Result  </td> <td> {{  x.obs | obsValue :'159982AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}  </tr>   
+
+
+</table>
+
+</td> </tr>
+
+<tr>  <td> Examined By   </td> <td>  {{  x.obs | obsValue :'d791b440-7c71-4fce-a650-b3d443277d93' }}  </td></tr>
+<tr>  <td>  Name of the Medical Tech Lab    </td> <td> {{  x.obs | obsValue :'164831AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}  </td></tr>
+<tr>  <td>  Name of the Laboratory    </td> <td> {{  x.obs | obsValue:'164422AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}   </td></tr>
+<tr>  <td>  Address of the laboratory  </td> <td> {{ x.location.address3}} {{ x.location.countyDistrict}}   </td></tr>
+<tr>  <td>  Address Id of the laboratory  </td> <td> {{ x.location.attributes | attributeValue :  'Identifier'  }}  </td></tr>
+<tr>  <td>  Organization    </td> <td> {{ x.obs | obsValue :'160543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}   </td></tr>
+<tr>  <td> Remarks   </td> <td> {{ x.obs | obsValue :'161011AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'}}   </td></tr>
+
+
+</table>
+
+
+
+
+</div>
+
+
+
+ </div>
+
+<div id="CXR" class="tabcontent" ng-repeat=" encounter in  dataMap.encounters | filter :  { encounterType : {name : 'CXR' } } "  style="clear:both ; width:100% ; display:block ; border-style: groove; overflow:scroll  ; padding:5% ">
+
+<div >  
+
+<h1> CXR </h1>
+
+ <h1 style="text-align: center;">  Test Info </h1> 
+  
+  </div>
+
+
+<table style=" width:100% ; ">
+
+<tr>  <td> OPD reg no   </td> <td>  {{ encounter.obs | obsValue :'ee4e682f-922a-4f6a-b919-16dad8727e26' }}  </td> <td> Date of Collection   </td> <td>  {{encounter.obs | obsValue :'159951AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}  </td> </tr>
+<tr>  <td> Name of Person Requesting Examination   </td> <td>  {{  encounter.obs | obsValue :'161103AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}  </td></tr>
+<tr>  <td> Designation of Person Requesting Examination    </td> <td> {{  encounter.obs | obsValue :'f65e70da-16d5-4011-ba04-b4a38a78408d' }}  </td></tr>
+<tr>  <td> Contact no. of Person Requesting Examination    </td> <td> {{  encounter.obs | obsValue :'159635AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}  </td></tr>
+<tr>  <td> Organization type of Person Requesting Examination   </td> <td> {{ encounter.obs | obsValue :'1768AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}  </td></tr>
+<tr>  <td> Organization Name of Person Requesting Examination   </td> <td> {{  encounter.obs | obsValue :'162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}  </td></tr>
+
+
+</table>
+
+
+
+
+<div  id="CXRTestResult" ng-repeat=" x in  dataMap.encounters | filter :  { uuid :  encounter.orders[0].accessionNumber    } "  style="clear:both ; width:100% ; display:block ; " >
+<div>  
+ <h2 style="text-align: center;">  Test Result </h2> 
+ 
+  </div>
+
+
+<table style=" width:100% ; ">
+
+<tr>  <td> Lab Test Registration No.   </td> <td> {{ x.obs | obsValue :'162086AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'}}  </td>		 <td> Date   </td> <td> {{  x.obs | obsValue :'162079AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}     </td> </tr>
+<tr> <td> CXR Test Result </td> </tr>
+<tr> <td> <table style="border-style:solid ;"> 
+ <tr >  <td> CXR Result   </td> <td>   {{ x.obs | obsValue :'12AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'}}   </td>   </tr>  
+ </table>  </td> </tr>
+
+<tr>  <td> Examined By   </td> <td>  {{x.obs | obsValue :'d791b440-7c71-4fce-a650-b3d443277d93' }}  </td></tr>
+<tr>  <td>  Name of the Medical Tech Lab    </td> <td> {{ x.obs | obsValue :'164831AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'}}  </td></tr>
+<tr>  <td>  Name of the Laboratory    </td> <td> {{ encounter.obs | obsValue :'164422AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}   </td></tr>
+<tr>  <td>  Address of the laboratory  </td> <td>{{ x.location.address3}} {{ x.location.countyDistrict}}    </td></tr>
+<tr>  <td>  Address Id of the laboratory  </td> <td> {{ x.location.attributes | attributeValue :  'Identifier'  }}  </td></tr>
+<tr>  <td>  Organization    </td> <td> {{ x.obs | obsValue :'160543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}   </td></tr>
+<tr>  <td> Remarks   </td> <td> {{x.obs | obsValue :'161011AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'}}   </td></tr>
+
+
+</table>
+
+
+
+
+</div>
+
+
+</div>
+
+<div id="xpertmtbrif"  class="tabcontent" ng-repeat=" encounter in  dataMap.encounters | filter :  { encounterType : {name : 'Xpert MTB/ RIF' } } "  style="clear:both ; width:100% ; display:block ; border-style: groove; overflow:scroll  ; padding:5% ">
+
+<h1> Xpert MTB/RIF</h1>
+
+<div>  
+ <h2 style="text-align: center;">  Test Info  </h2> 
+  
+  </div>
+
+
+<table style=" width:100% ; ">
+
+
+<tr>  <td> Reason For Testing   </td> <td> {{encounter.obs | obsValue :'164126AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }} </td>		 <td> Date of Collection   </td> <td> {{ encounter.obs | obsValue:'159951AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }} </td> </tr>
+<tr>  <td> Disease Classification   </td> <td>  {{ encounter.obs | obsValue :'161356AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }} </td></tr>
+<tr>  <td> Nature of Specimen   </td> <td>  {{encounter.obs | obsValue :'4884c8fc-0c70-45ab-b066-8e93a2967cb2' }} </td>		 <td> Specimen Identification no.   </td> <td>  {{encounter.obs | obsValue :'8acee18e-97c3-4419-844a-f186690102d6' }}</td> </tr>
+<tr>  <td> OPD reg no   </td> <td> {{ encounter.obs | obsValue :'ee4e682f-922a-4f6a-b919-16dad8727e26' }}  </td></tr>
+<tr>  <td> Name of Person Requesting Examination   </td> <td> {{ encounter.obs | obsValue :'161103AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}  </td></tr>
+<tr>  <td> Designation of Person Requesting Examination    </td> <td> {{ encounter.obs | obsValue :'f65e70da-16d5-4011-ba04-b4a38a78408d' }}  </td></tr>
+<tr>  <td> Contact no. of Person Requesting Examination    </td> <td> {{ encounter.obs | obsValue :'159635AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}  </td></tr>
+<tr>  <td> Organization type of Person Requesting Examination   </td> <td> {{ encounter.obs | obsValue :'1768AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}  </td></tr>
+<tr>  <td> Organization Name of Person Requesting Examination   </td> <td> {{ encounter.obs | obsValue :'162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}  </td></tr>
+<tr>  <td> Sputume Collected by   </td> <td> {{ encounter.obs | obsValue :'162577AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}  </td></tr>
+<tr>  <td> Name   </td> <td> {{ encounter.obs | obsValue :'e8f8c0c0-12bf-4b47-bfb9-7f32aecc9d13' }}  </td></tr>
+
+
+</table>
+
+
+
+
+<div  id="XpertMTBRIFTestResult" ng-repeat=" x in  dataMap.encounters | filter :  { uuid :  encounter.orders[0].accessionNumber    } " style="clear:both ; width:100% ; display:block ; " >
+<div>  
+ <h2 style="text-align: center;">  Test Result  </h2> 
+ 
+  </div>
+
+
+<table style=" width:100% ; ">
+
+<tr>  <td> Lab Test Registration No.   </td> <td> {{ x.obs | obsValue :'8acee18e-97c3-4419-844a-f186690102d6' }}  </td>		 <td> Date   </td> <td>  {{ x.obs | obsValue :'162079AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}    </td> </tr>
+<tr>  <td> Visual Appearance of the specimen   </td> <td>   {{x.obs | obsValue :'159969AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}  </td></tr>
+<tr>  <td> <h4> Xpert MTB/RIF Test Result  </h4> </td> </tr>
+
+<tr><td> <table style="border-style:solid;"> 
+<tr>  <td>  MTB/RIF  Result  </td> <td>  {{ x.obs | obsValue :'162202AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}  </td></tr>
+</table></td>  </tr>
+
+<tr>  <td> Examined By   </td> <td>  {{ x.obs | obsValue :'d791b440-7c71-4fce-a650-b3d443277d93' }}  </td></tr>
+<tr>  <td>  Name of the Medical Tech Lab    </td> <td> {{ x.obs | obsValue :'164831AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}  </td></tr>
+<tr>  <td>  Name of the Laboratory    </td> <td> {{x.obs | obsValue :'164422AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}   </td></tr>
+<tr>  <td>  Address of the laboratory  </td> <td>{{ x.location.address3}} {{ x.location.countyDistrict}}    </td></tr>
+<tr>  <td>  Address Id of the laboratory  </td> <td> {{ x.location.attributes | attributeValue :  'Identifier'  }}  </td></tr>
+<tr>  <td>  Organization    </td> <td> {{x.obs | obsValue :'160543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}   </td></tr>
+<tr>  <td> Remarks   </td> <td> {{x.obs | obsValue :'161011AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }}   </td></tr>
+
+
+</table>
+
+
+
+
+</div>
+
+
+</div>
+
+
+
+ </div>
