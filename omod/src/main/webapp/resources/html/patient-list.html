@@ -13,20 +13,22 @@
 <td>
 	<select ng-model="searchFilter.countyDistrict" ng-change="fetchScopeLocations('upazilla', 'upazillas', searchFilter.countyDistrict, 'loadingData');">
 		<option value="" translate > tbelims.countyDistrict.label</option>
-		<option ng-if="searchFilter.stateProvince" ng-repeat="loc in districts | filter: { parentLocation: { name: searchFilter.stateProvince} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+		<option ng-repeat="loc in districts | filter: { parentLocation: { name: searchFilter.stateProvince} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 	</select>
 </td>
 <td>
 	<select ng-model="searchFilter.cityVillage" ng-change="fetchScopeLocations('union', 'unions', searchFilter.cityVillage, 'loadingData');">
 		<option value="" translate > tbelims.cityVillage.label</option>
-		<option ng-if="searchFilter.countyDistrict" ng-repeat="loc in upazillas | filter: { parentLocation: { name: searchFilter.countyDistrict} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+		<option ng-repeat="loc in upazillas | filter: { parentLocation: { name: searchFilter.countyDistrict} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 	</select>
 </td>
 <td>
 	<select ng-model="searchFilter.union">
 		<option value="" translate > tbelims.address3.label</option>
-		<option ng-if="searchFilter.union" ng-repeat="loc in unions | filter: { parentLocation: { name: searchFilter.cityVillage} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
+		<option ng-repeat="loc in unions | filter: { parentLocation: { name: searchFilter.cityVillage} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 	</select>
+</td>
+<td>
 	<i class="icon-refresh small" ng-show="loadingData||!divisions||!districts"></i>
 </td>
 <td>

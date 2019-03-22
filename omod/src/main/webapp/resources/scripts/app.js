@@ -45,7 +45,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
     });
 })
 .config(function ($translateProvider) {
-    $translateProvider.useUrlLoader('/openmrs/data/rest/tbelims/localization/messages.json');
+    $translateProvider.useUrlLoader('/openmrs/data/rest/wsrestext/localization/messages.json?module=tbelims');
     $translateProvider.useSanitizeValueStrategy('escape');
     $translateProvider.useStorage('UrlLanguageStorage');
     $translateProvider.preferredLanguage('en');
@@ -118,7 +118,20 @@ resetGridHeight = function(grid, $scope) {
     var headerHeight = grid.headerRowHeight; 
     var paginationPageSize = grid.paginationPageSize;
     var dataSize = grid.data.length;
-    var pageSize = (dataSize>paginationPageSize||dataSize<6)?paginationPageSize:dataSize;
+    var pageSize;
+    
+    if(dataSize == 0){
+    	pageSize = 5;
+    }
+    else if(dataSize>paginationPageSize){
+    	pageSize = paginationPageSize;
+    }
+    else if(dataSize<6){
+    	pageSize = dataSize*5;
+    }
+    else {
+    	pageSize = dataSize;
+    }
 
     $scope.gridHeight = (pageSize * rowHeight + headerHeight*3) + "px";
 

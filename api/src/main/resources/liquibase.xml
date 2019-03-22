@@ -87,9 +87,10 @@
 		<comment>Adding order type (microscopy, cxr, rif)</comment>
 		<sql>
 		    INSERT INTO `order_type` (`name`, `description`, `creator`, `date_created`, `retired`, `uuid`, `java_class_name`) 
-			VALUES 	('Microscopy Test Order', 'DONOT MODIFY: Added by TBeLIMS', '1', CURDATE(), '0', UUID(), 'org.openmrs.TestOrder'),
-					('CXR Test Order', 'DONOT MODIFY: Added by TBeLIMS', '1', CURDATE(), '0', UUID(), 'org.openmrs.TestOrder'),
-			        ('RIF Test Order', 'DONOT MODIFY: Added by TBeLIMS', '1', CURDATE(), '0', UUID(), 'org.openmrs.TestOrder');
+			VALUES 	('Microscopy', 'DONOT MODIFY: Added by TBeLIMS', '1', CURDATE(), '0', UUID(), 'org.openmrs.TestOrder'),
+					('CXR', 'DONOT MODIFY: Added by TBeLIMS', '1', CURDATE(), '0', UUID(), 'org.openmrs.TestOrder'),
+					('Xpert MTB/ RIF', 'DONOT MODIFY: Added by TBeLIMS', '1', CURDATE(), '0', UUID(), 'org.openmrs.TestOrder'),
+			        ('Microscopy (EQA)', 'DONOT MODIFY: Added by TBeLIMS', '1', CURDATE(), '0', UUID(), 'org.openmrs.TestOrder');
 		</sql>
     </changeSet>
     <changeSet id="tbelims-201711071438" author="maimoonak">
@@ -115,44 +116,6 @@
 		<comment>Adding person attribute type email</comment>
 		<sql>INSERT INTO `person_attribute_type` (`name`, `description`, `format`, `searchable`, `creator`, `date_created`, `retired`, `uuid`) 
 		    VALUES ('Email', 'Email of this person', 'java.lang.String', '0', '1', NOW(), '0', UUID());</sql>
-    </changeSet>
-    <changeSet id="tbelims-201711080100" author="maimoonak">
-		<comment>Updating rest webservice absolute limit for max results i.e. the property webservices.rest.maxResultsAbsolute</comment>
-		<sql>UPDATE global_property SET property_value='99999' WHERE property='webservices.rest.maxResultsAbsolute';</sql>
-    </changeSet>
-    
-    <changeSet id="tbelims-201801161320" author="maimoonak">
-		<comment>Adding device table</comment>
-		<sql>
-	CREATE TABLE `tbelims_device` (
-	  `device_id` int(11) NOT NULL AUTO_INCREMENT,
-	  `android_id` varchar(45) NOT NULL,
-	  `mac_id` varchar(45) DEFAULT NULL,
-	  `serial_id` varchar(45) DEFAULT NULL,
-	  `last_count` int(11) DEFAULT NULL,
-	  `last_sync_date` datetime DEFAULT NULL,
-	  PRIMARY KEY (`device_id`)
-	) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-		</sql>
-    </changeSet>
-    
-    <changeSet id="tbelims-201801161359" author="maimoonak">
-	<comment>Alter device table</comment>
-		<sql>
-ALTER TABLE tbelims_device 
-ADD COLUMN `name` varchar(255),
-ADD COLUMN `description` varchar(1000),
-ADD COLUMN `creator` int(11) NOT NULL default '0',
-ADD COLUMN `date_created` datetime  default null,
-ADD COLUMN `changed_by` int(11) default NULL,
-ADD COLUMN `date_changed` datetime default NULL,
-ADD COLUMN `retired` tinyint(1) NOT NULL default '0',
-ADD COLUMN `retired_by` int(11) default NULL,
-ADD COLUMN `date_retired` datetime default NULL,
-ADD COLUMN `retire_reason` varchar(255) default NULL,
-ADD COLUMN `uuid` char(38) NOT NULL,
-ADD COLUMN `location_id` int(11) default null;
-		</sql>
     </changeSet>
     
     <changeSet id="tbelims-201801250911" author="maimoonak">
@@ -333,7 +296,7 @@ INSERT INTO `role_role` (`parent_role`, `child_role`) VALUES ('Privilege Level: 
     <changeSet id="tbelims-201801260957" author="maimoonak">
 	<comment>Insert eLIMS patient identifier</comment>
 		<sql>
-INSERT INTO `patient_identifier_type` (`patient_identifier_type_id`, `name`, `description`, `creator`, `date_created`, `required`, `retired`, `uuid`) VALUES ('3', 'eLIMS Identifier', 'DONOT MODIFY: eLIMS identifier type for patient identification', '1', '2018-01-26', '0', '0', 'f4d56dfc-3629-4c8c-9587-bcbb7ee78d50');
+INSERT INTO `patient_identifier_type` (`name`, `description`, `creator`, `date_created`, `required`, `retired`, `uuid`) VALUES ('eLIMS Identifier', 'DONOT MODIFY: eLIMS identifier type for patient identification', '1', '2018-01-26', '0', '0', 'f4d56dfc-3629-4c8c-9587-bcbb7ee78d50');
 		</sql>
     </changeSet>
     <!--

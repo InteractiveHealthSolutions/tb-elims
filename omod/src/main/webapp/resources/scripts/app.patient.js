@@ -1,5 +1,5 @@
 var patientApp = angular.module('app.patient',['person.filter','encounter.filter','app.location','patientService','encounterService',
-			'ui.grid','ui.grid.pagination','ui.grid.autoResize', 'ui.tree']);
+			'ui.grid','ui.grid.pagination','ui.grid.autoResize', 'ui.tree' ,'location.filter']);
 
 patientApp.controller('PatientController', ['$scope', '$filter', '$state', 'uiGridConstants', 'LocationService',
     function($scope, $filter, $state, uiGridConstants, LocationService) {

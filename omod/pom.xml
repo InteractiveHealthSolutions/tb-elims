@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.openmrs.module</groupId>
 		<artifactId>tbelims</artifactId>
-		<version>1.0.1b</version>
+		<version>1.0.3b</version>
 	</parent>
 
 	<artifactId>tbelims-omod</artifactId>
@@ -48,14 +48,14 @@
             <groupId>org.openmrs.module</groupId>
             <artifactId>emrapi-api</artifactId>
         </dependency> -->
-        <dependency>
+        <!-- <dependency>
             <groupId>org.openmrs.module</groupId>
             <artifactId>appui-api</artifactId>
         </dependency>
         <dependency>
 			<groupId>org.openmrs.module</groupId>
 			<artifactId>appui-omod</artifactId>
-		</dependency>
+		</dependency> -->
 	    <dependency>
             <groupId>org.openmrs.module</groupId>
             <artifactId>uicommons-api</artifactId>
@@ -79,6 +79,15 @@
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
 			<artifactId>legacyui-omod</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>wsrestext-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>wsrestext-omod</artifactId>
 		</dependency>
 	</dependencies>
 

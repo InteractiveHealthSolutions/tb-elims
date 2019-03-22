@@ -2,7 +2,7 @@
     <div id="login-form">
         <form method="post" autocomplete="off">
 			<img alt="" src="/openmrs/ms/uiframework/resource/tbelims/images/logo.png" width="400px" height="400px">
-            <fieldset>
+            <fieldset id="login_container">
                 <legend>
                     <i class="icon-lock small"></i><span translate>tbelims.login.loginHeading</span>
                 </legend>
@@ -26,9 +26,29 @@
 					<button class="btn btn-success btn-lg btn-block" ng-click="login()"  translate>tbelims.login.button</button>
 					
 					<br><br>
-			        <a id="cantLogin" href="javascript:void(0)" class="pull-right">
+			        <a id="cantLogin" href="javascript:void(0)" 
+			        	onclick="jQuery('#forgot_pwd_container').show(); jQuery('login_container').hide(); " class="pull-right">
                     <i class="icon-question-sign small"></i> <span translate>tbelims.login.cannotLogin</span>
                     </a>
+				</section>
+            </fieldset>
+            <fieldset id="forgot_pwd_container">
+                <legend>
+                    <i class="icon-lock small"></i><span translate>tbelims.login.cannotLogin</span>
+                </legend>
+				<div id="validationErrorAlert" class="alert alert-danger ng-hide" ng-show="formErrors" role="alert">
+					<div>{{ formErrors }}</div>
+				</div>
+				<section>
+	                <div>
+	                    <input title='{{ "tbelims.login.username.placeholder" | translate }}' ng-model="fg_username" type="text" name="fg_username" autofocus="autofocus" required 
+							placeholder='{{ "tbelims.login.username.placeholder" | translate }}' />
+	                </div>
+                </section>
+				<section>
+					<button class="btn btn-success btn-lg btn-block" ng-click="forgotPassword()" translate>tbelims.submit</button>
+					<button class="btn btn-secondary btn-lg btn-block" 
+						onclick="jQuery('#forgot_pwd_container').hide(); jQuery('login_container').show(); " translate>tbelims.cancel</button>
 				</section>
             </fieldset>
 
@@ -36,17 +56,5 @@
 
         </form>
 
-    </div>
-</div>
-
-<div id="cannotLoginPopup" class="dialog" style="display: none">
-    <div class="dialog-header">
-        <i class="icon-info-sign"></i>
-        <h3>{{ msgs["tbelims.login.cannotLogin"] }}</h3>
-    </div>
-    <div class="dialog-content">
-        <p class="dialog-instructions">{{ msgs["tbelims.login.cannotLoginInstructions"] }}</p>
-
-        <button class="confirm">{{ msgs["tbelims.okay"] }}</button>
     </div>
 </div>

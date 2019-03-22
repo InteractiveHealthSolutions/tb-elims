@@ -4,6 +4,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.codec.binary.Base64;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.webservices.rest.web.RequestContext;
 
 import com.mysql.jdbc.StringUtils;
@@ -11,6 +15,24 @@ import com.mysql.jdbc.StringUtils;
 public class WebUtils {
 	
 	public static final SimpleDateFormat GLOBAL_JAVA_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+	
+	public static final SimpleDateFormat GLOBAL_JAVA_DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	
+	public static String[] decodeAuthentication(String encoded) {
+		final byte[] decodedBytes = Base64.decodeBase64(encoded.split(" ")[1].getBytes());
+		final String pair = new String(decodedBytes);
+		
+		final String[] userDetails = pair.split(":", 2);
+		
+		return userDetails;
+	}
+	
+	public static void verifyAuthentication(HttpServletRequest request) {
+		if (!Context.isAuthenticated()) {
+			String[] creds = decodeAuthentication(request.getHeader("Authorization"));
+			Context.authenticate(creds[0], creds[1]);
+		}
+	}
 	
 	public static String getStringFilter(String param, RequestContext req) {
 		return (StringUtils.isEmptyOrWhitespaceOnly(req.getParameter(param))) ? null : req.getParameter(param);

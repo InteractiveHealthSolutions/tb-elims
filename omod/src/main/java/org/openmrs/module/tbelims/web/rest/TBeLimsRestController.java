@@ -7,12 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/rest/" + RestConstants.VERSION_1 + "/" + Constants.TBELIMS_MODULE_ID)
+@RequestMapping("/rest/" + RestConstants.VERSION_2 + "/" + Constants.TBELIMS_MODULE_ID)
 public class TBeLimsRestController extends MainResourceController {
 	
 	@Override
 	public String getNamespace() {
-		return RestConstants.VERSION_1 + "/" + Constants.TBELIMS_MODULE_ID;
+		return RestConstants.VERSION_2 + "/" + Constants.TBELIMS_MODULE_ID;
 	}
 	
 }

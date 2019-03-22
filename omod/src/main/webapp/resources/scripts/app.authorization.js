@@ -1,7 +1,9 @@
-var authorizationApp = angular.module('app.authorization',['base64','session']);
+var authorizationApp = angular.module('app.authorization',['base64','session','userService']);
 
-authorizationApp.controller('AuthorizationController', ['$scope', '$base64', '$window', 'SessionInfo', 
-    function($scope, $base64, $window, SessionInfo) {
+authorizationApp.controller('AuthorizationController', ['$scope', '$filter', '$base64', '$window', 'SessionInfo', 'UserService',
+    function($scope, $filter, $base64, $window, SessionInfo, UserService) {
+	
+	var $translate = $filter('translate');
 	
 	$scope.login = function() {
 		$scope.formErrors = "";
@@ -22,6 +24,31 @@ authorizationApp.controller('AuthorizationController', ['$scope', '$base64', '$w
 			.catch(function(error) {
 				$scope.formErrors = "Error while authenticating "+error;
 			});
+		}
+	}
+	
+	$scope.forgotPassword = function() {
+		$scope.formErrors = "";
+		
+		if($scope.fg_username)
+		{
+			UserService.getUsers({username: $scope.fg_username}).then(function(response) {
+				console.debug('users');
+				console.debug(response);
+				if (response && response.results.length > 0) {
+					
+				}
+				else {
+					$scope.formErrors = $translate("tbelims.login.cannotLogin.error.usernameInvalid");
+				}
+			},
+			function(response) {
+				console.log(response);
+				$scope.formErrors = $translate("tbelims.login.cannotLoginInstructions");
+			});
+		}
+		else {
+			$scope.formErrors = $translate("tbelims.login.cannotLogin.error.usernameMissing");
 		}
 	}
 }])

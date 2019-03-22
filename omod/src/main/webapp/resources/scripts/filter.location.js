@@ -4,9 +4,14 @@ locationFilterApp.filter('attributeValue', function() {
 	return function(attributeList, attribute) {
 		for (var i = 0; i < attributeList.length; i++) {
 			var item = attributeList[i];
+			
 			attributeName = item.name||item.attributeType.display;
 			if (attributeName && attribute.toLowerCase() === attributeName.toLowerCase()) {
 				return item.value;
+			}
+			// incase display has name and value concatenated
+			else if (attributeName.indexOf('=') !== -1 && attributeName.toLowerCase().includes(attribute.toLowerCase())) {
+				return attributeName.replace(attributeName+':', '');
 			}
 		}
 		return 'n/a';

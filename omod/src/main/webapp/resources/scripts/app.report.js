@@ -1,7 +1,7 @@
 var reportApp = angular.module('app.report',['app.location','reportService']);
 
-reportApp.controller('ReportController', ['$scope','$uibModal','$filter', 'ReportService', 'LocationService',
-                function($scope, $uibModal, $filter, ReportService, LocationService) {
+reportApp.controller('ReportController', ['$scope','$uibModal','$filter', '$http', 'ReportService', 'LocationService',
+                function($scope, $uibModal, $filter, $http, ReportService, LocationService) {
 	
 	$scope.today = new Date();
 	$scope.previousYearDate = new Date();
@@ -51,6 +51,47 @@ reportApp.controller('ReportController', ['$scope','$uibModal','$filter', 'Repor
 			
 			$scope.loadingData = false;
 		});
+	}
+	
+	$scope.downloadreport = function(report) {
+		sf = {};
+		sf.locationId = $scope.searchFilter.lab || $scope.searchFilter.address3 || $scope.searchFilter.cityVillage 
+						|| $scope.searchFilter.countyDistrict || $scope.searchFilter.stateProvince;
+		
+		if($scope.searchFilter.dateFrom){
+			sf.from = $scope.searchFilter.dateFrom.toISOString().substring(0, 10);
+		}
+		if($scope.searchFilter.dateTo){
+			sf.to = $scope.searchFilter.dateTo.toISOString().substring(0, 10);
+		}
+		
+		$scope.loadingData = true;
+		
+		console.debug('sf');
+		console.debug(sf);
+		
+		if(!sf.locationId || !sf.from || !sf.to){
+			alert('Location and date filters MUST be specified to download data');
+			return;
+		}
+		
+		search_filter_string = 'locationId='+sf.locationId +'&from='+ sf.from +'&to='+ sf.to;
+		
+		$http({method: 'GET', url: '/openmrs/data/rest/tbelims/report/data.json?reportId='+report+'&'+search_filter_string}).
+		  success(function(data, status, headers, config) {
+			 console.debug(data);
+			 
+		     var anchor = angular.element('<a/>');
+		     anchor.attr({
+		         href: 'data:attachment/csv;charset=utf-8,' + encodeURI(data),
+		         target: '_blank',
+		         download: report+'_'+sf.locationId+'_'+sf.from+'_'+sf.to+'.csv'
+		     })[0].click();
+
+		  }).
+		  error(function(data, status, headers, config) {
+		    console.log(data);
+		  });
 	}
 	
 	$scope.loadreports();

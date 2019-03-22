@@ -26,5 +26,6 @@ LEFT JOIN location l2 ON l.parent_location=l2.location_id
 LEFT JOIN location l3 ON l2.parent_location=l3.location_id  
 LEFT JOIN location l4 ON l3.parent_location=l4.location_id  
 LEFT JOIN location l5 ON l4.parent_location=l5.location_id  
-WHERE e.voided = 0 AND IF(@dateFrom = '' OR @dateTo = '', TRUE, e.encounter_datetime BETWEEN @dateFrom AND @dateTo)   
+WHERE et.name IN('Patient Registration', 'Xpert MTB/ RIF') AND e.voided = 0 
+AND IF(@dateFrom = '' OR @dateTo = '', TRUE, e.encounter_datetime BETWEEN @dateFrom AND @dateTo)   
 AND IF(@locationId = '', TRUE, @locationId IN (l.name, l2.name, l3.name, l4.name, l5.name))

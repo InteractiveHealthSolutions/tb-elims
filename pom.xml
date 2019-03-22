@@ -10,7 +10,7 @@
 
 	<groupId>org.openmrs.module</groupId>
 	<artifactId>tbelims</artifactId>
-	<version>1.0.1b</version>
+	<version>1.0.3b</version>
 	<packaging>pom</packaging>
 	<name>TB eLIMS</name>
 	<description>E-Laboratory Information and Management System</description>
@@ -83,7 +83,7 @@
 	            <version>${emrapiVersion}</version>
 	            <scope>provided</scope>
 	        </dependency> -->
-	        <dependency>
+	        <!-- <dependency>
 	            <groupId>org.openmrs.module</groupId>
 	            <artifactId>appui-api</artifactId>
 	            <version>${appuiVersion}</version>
@@ -94,7 +94,7 @@
 				<artifactId>appui-omod</artifactId>
 				<version>${appuiVersion}</version>
 				<scope>provided</scope>
-			</dependency>
+			</dependency> -->
 		    <dependency>
 	            <groupId>org.openmrs.module</groupId>
 	            <artifactId>uicommons-api</artifactId>
@@ -161,6 +161,21 @@
 				<type>test-jar</type>
 				<scope>test</scope>
 			</dependency>
+			
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>wsrestext-api</artifactId>
+				<version>${wsrestextVersion}</version>
+				<type>jar</type>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>wsrestext-omod</artifactId>
+				<version>${wsrestextVersion}</version>
+				<type>jar</type>
+				<scope>provided</scope>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -199,6 +214,7 @@
         <appframeworkVersion>2.10.0</appframeworkVersion>
         <legacyuiVersion>1.3.1</legacyuiVersion>
 		<wsrestVersion>2.17</wsrestVersion>
+		<wsrestextVersion>1.0.1</wsrestextVersion>
 	</properties>
 
 	<build>

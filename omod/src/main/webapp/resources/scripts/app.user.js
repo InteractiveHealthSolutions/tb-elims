@@ -113,7 +113,16 @@ userApp.controller('UserListController', ['$scope', '$filter', '$state', 'uiGrid
 					console.debug('users');
 					console.debug(response);
 					if (response) {
-						$scope.usersList.data = response.results;
+						usrArr = [];
+						for (var i = 0; i < response.results.length; i++) {
+							var arrElem = response.results[i];
+							if(/^(admin|daemon)$/i.test(arrElem.username) == false
+									&& /^(admin|daemon)$/i.test(arrElem.systemId) == false){
+								usrArr.push(arrElem);
+							}
+						}
+						
+						$scope.usersList.data = usrArr;
 						$scope.usersList.totalItems = response.totalCount;
 
 						$scope.loadingList=false;

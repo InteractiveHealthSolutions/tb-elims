@@ -27,7 +27,7 @@
 
     <!-- Wraps TBeLIMSService methods in DB transactions and OpenMRS interceptors,
     which set audit info like dateCreated, changedBy, etc.-->
-    <bean id="tbelims.TBeLIMSService"
+    <!-- <bean id="tbelims.TBeLIMSService"
             class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
         <property name="transactionManager">
             <ref bean="transactionManager" />
@@ -43,166 +43,16 @@
         <property name="transactionAttributeSource">
             <ref bean="transactionAttributeSource" />
         </property>
-    </bean>
-    <bean id="tbelims.DeviceService"
-            class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
-        <property name="transactionManager">
-            <ref bean="transactionManager" />
-        </property>
-        <property name="target">
-            <bean class="org.openmrs.module.tbelims.api.impl.DeviceServiceImpl">
-                <property name="dao" ref="tbelims.DeviceDao" />
-            </bean>
-        </property>
-        <property name="preInterceptors">
-            <ref bean="serviceInterceptors" />
-        </property>
-        <property name="transactionAttributeSource">
-            <ref bean="transactionAttributeSource" />
-        </property>
-    </bean>
-    <bean id="tbelims.PatientDataService"
-            class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
-        <property name="transactionManager">
-            <ref bean="transactionManager" />
-        </property>
-        <property name="target">
-            <bean class="org.openmrs.module.tbelims.api.impl.PatientDataServiceImpl">
-                <property name="dao" ref="tbelims.PatientListDao" />
-            </bean>
-        </property>
-        <property name="preInterceptors">
-            <ref bean="serviceInterceptors" />
-        </property>
-        <property name="transactionAttributeSource">
-            <ref bean="transactionAttributeSource" />
-        </property>
-    </bean>
-    <bean id="tbelims.LocationDataService"
-            class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
-        <property name="transactionManager">
-            <ref bean="transactionManager" />
-        </property>
-        <property name="target">
-            <bean class="org.openmrs.module.tbelims.api.impl.LocationDataServiceImpl">
-                <property name="dao" ref="tbelims.LocationListDao" />
-            </bean>
-        </property>
-        <property name="preInterceptors">
-            <ref bean="serviceInterceptors" />
-        </property>
-        <property name="transactionAttributeSource">
-            <ref bean="transactionAttributeSource" />
-        </property>
-    </bean>
-    <bean id="tbelims.EncounterDataService"
-            class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
-        <property name="transactionManager">
-            <ref bean="transactionManager" />
-        </property>
-        <property name="target">
-            <bean class="org.openmrs.module.tbelims.api.impl.EncounterDataServiceImpl">
-                <property name="dao" ref="tbelims.EncounterListDao" />
-            </bean>
-        </property>
-        <property name="preInterceptors">
-            <ref bean="serviceInterceptors" />
-        </property>
-        <property name="transactionAttributeSource">
-            <ref bean="transactionAttributeSource" />
-        </property>
-    </bean>
-    <bean id="tbelims.OrderDataService"
-            class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
-        <property name="transactionManager">
-            <ref bean="transactionManager" />
-        </property>
-        <property name="target">
-            <bean class="org.openmrs.module.tbelims.api.impl.OrderDataServiceImpl">
-                <property name="dao" ref="tbelims.OrderListDao" />
-            </bean>
-        </property>
-        <property name="preInterceptors">
-            <ref bean="serviceInterceptors" />
-        </property>
-        <property name="transactionAttributeSource">
-            <ref bean="transactionAttributeSource" />
-        </property>
-    </bean>
-    <bean id="tbelims.UserDataService"
-            class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
-        <property name="transactionManager">
-            <ref bean="transactionManager" />
-        </property>
-        <property name="target">
-            <bean class="org.openmrs.module.tbelims.api.impl.UserDataServiceImpl">
-                <property name="dao" ref="tbelims.UserListDao" />
-            </bean>
-        </property>
-        <property name="preInterceptors">
-            <ref bean="serviceInterceptors" />
-        </property>
-        <property name="transactionAttributeSource">
-            <ref bean="transactionAttributeSource" />
-        </property>
-    </bean>
+    </bean> -->
 
     <!-- Adds TBeLIMSService to OpenMRS context so it can be accessed
     calling Context.getService(TBeLIMSService.class) -->
-    <bean parent="serviceContext">
+    <!-- <bean parent="serviceContext">
         <property name="moduleService">
             <list>
                 <value>org.openmrs.module.tbelims.api.TBeLIMSService</value>
                 <ref bean="tbelims.TBeLIMSService" />
             </list>
         </property>
-    </bean>
-    <bean parent="serviceContext">
-        <property name="moduleService">
-            <list>
-                <value>org.openmrs.module.tbelims.api.DeviceService</value>
-                <ref bean="tbelims.DeviceService" />
-            </list>
-        </property>
-    </bean>
-    <bean parent="serviceContext">
-        <property name="moduleService">
-            <list>
-                <value>org.openmrs.module.tbelims.api.PatientDataService</value>
-                <ref bean="tbelims.PatientDataService" />
-            </list>
-        </property>
-    </bean>
-    <bean parent="serviceContext">
-        <property name="moduleService">
-            <list>
-                <value>org.openmrs.module.tbelims.api.LocationDataService</value>
-                <ref bean="tbelims.LocationDataService" />
-            </list>
-        </property>
-    </bean>
-    <bean parent="serviceContext">
-        <property name="moduleService">
-            <list>
-                <value>org.openmrs.module.tbelims.api.EncounterDataService</value>
-                <ref bean="tbelims.EncounterDataService" />
-            </list>
-        </property>
-    </bean>
-    <bean parent="serviceContext">
-        <property name="moduleService">
-            <list>
-                <value>org.openmrs.module.tbelims.api.OrderDataService</value>
-                <ref bean="tbelims.OrderDataService" />
-            </list>
-        </property>
-    </bean>
-    <bean parent="serviceContext">
-        <property name="moduleService">
-            <list>
-                <value>org.openmrs.module.tbelims.api.UserDataService</value>
-                <ref bean="tbelims.UserDataService" />
-            </list>
-        </property>
-    </bean>
+    </bean> -->
 </beans>

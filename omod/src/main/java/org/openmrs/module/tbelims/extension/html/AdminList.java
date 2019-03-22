@@ -7,6 +7,7 @@
  * Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
  * graphic logo is a trademark of OpenMRS Inc.
  */
+
 package org.openmrs.module.tbelims.extension.html;
 
 import java.util.HashMap;
@@ -20,11 +21,13 @@ import org.openmrs.module.web.extension.AdministrationSectionExt;
  * "tbelims.title" heading. This extension is enabled by defining (uncommenting) it in the
  * config.xml file.
  */
+
 public class AdminList extends AdministrationSectionExt {
 	
 	/**
 	 * @see org.openmrs.module.web.extension.AdministrationSectionExt#getMediaType()
 	 */
+	
 	public Extension.MEDIA_TYPE getMediaType() {
 		return Extension.MEDIA_TYPE.html;
 	}
@@ -32,6 +35,7 @@ public class AdminList extends AdministrationSectionExt {
 	/**
 	 * @see org.openmrs.module.web.extension.AdministrationSectionExt#getTitle()
 	 */
+	
 	public String getTitle() {
 		return "tbelims.title";
 	}
@@ -39,6 +43,7 @@ public class AdminList extends AdministrationSectionExt {
 	/**
 	 * @see org.openmrs.module.web.extension.AdministrationSectionExt#getLinks()
 	 */
+	
 	public Map<String, String> getLinks() {
 		
 		Map<String, String> map = new HashMap<String, String>();

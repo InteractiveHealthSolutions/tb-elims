@@ -30,8 +30,8 @@
 		<option value="" translate > tbelims.address3.label</option>
 		<option ng-repeat="loc in unions | filter: { parentLocation: { name: searchFilter.cityVillage} }" value="{{ loc.name }}">{{ loc.address6 || loc.name }}</option>
 	</select>
-	<i class="icon-refresh small" ng-show="loadingData||!divisions||!districts"></i>
 </td>
+<td><i class="icon-refresh small" ng-show="loadingData||!divisions||!districts"></i></td>
 </tr>
 <tr>
 <td>
@@ -46,18 +46,39 @@
 <td>
 	<input type="date" ng-model="searchFilter.dateTo" max="{{today | date:'yyyy-MM-dd'}}"/>
 </td>
-<td colspan="2">
+<td>
 	<button type="button" ng-click="loadreports()" class="btn btn-secondary" translate >tbelims.submit</button>
 </td>
+<td></td>
 </tr>
 </table>
 
-<div>Diagnosis examinations (Case findings)</div>
-<table>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header" style="width: 100%">
+Download | 
+      <a class="btn btn-sm align-middle btn-outline-secondary" href="" onclick="tablesToExcel(['lab_findings_on_tb'], ['Summary'])">XLSX</a>
+      <a class="btn btn-sm align-middle btn-outline-secondary" href="" onclick="convertToPDF('lab_findings_on_tb')">PDF</a>
+
+<div style="float: right; display: inline-block;"> CSVs | 
+<a class="btn btn-sm align-middle btn-outline-secondary" href="" ng-click="downloadreport('presumptives');">Presumptives</a>
+<a class="btn btn-sm align-middle btn-outline-secondary" href="" ng-click="downloadreport('positives');">Positives</a>
+<a class="btn btn-sm align-middle btn-outline-secondary" href="" ng-click="downloadreport('only_one_test');">Only 1 Test</a>
+<a class="btn btn-sm align-middle btn-outline-secondary" href="" ng-click="downloadreport('tests_smear');">Tests Smears</a>
+<a class="btn btn-sm align-middle btn-outline-secondary" href="" ng-click="downloadreport('tests_cxr');">Tests CXR</a>
+<a class="btn btn-sm align-middle btn-outline-secondary" href="" ng-click="downloadreport('tests_xpert');">Tests Xpert</a>
+</div>
+    </div>
+  </div>
+</nav>
+
+<div id="lab_findings_on_tb">
+<h3>Diagnosis examinations (Case findings)</h3>
+<table class="table-bordered">
 	<thead>
 		<tr>
-			<th>Presumptive TB cases tested (No. of people tested)</th>
-			<th>AFB positive person (No. of positive person)</th>
+			<th>Presumptive TB cases tested<br>(No. of people tested)</th>
+			<th>AFB positive person<br>(No. of positive person)</th>
 			<th>Smears tested</th>
 			<th>1+</th>
 			<th>2+</th>
@@ -82,9 +103,9 @@
 	</tbody>
 </table>
 
-<br>
-<div>Follow-up examinations</div>
-<table>
+<br><br>
+<h3>Follow-up examinations</h3>
+<table class="table-bordered">
 	<thead>
 		<tr>
 			<th>Smears tested</th>
@@ -108,18 +129,18 @@
 </table>
 
 
-<br>
-<div>Diagnosis by Xpert MTB/RIF</div>
-<table>
+<br><br>
+<h3>Diagnosis by Xpert MTB/RIF</h3>
+<table class="table-bordered">
 	<thead>
 		<tr>
-			<th>Presumptive TB cases tested (No. of people tested)</th>
+			<th><div>Presumptive TB cases tested<br>(No. of people tested)</div></th>
 			<th>RIF tests</th>
-			<th>PR = MTB detected, RIF resistance detected</th>
-			<th>T = MTB detected, RIF resistance not detected</th>
+			<th><div>PR = MTB detected,<br>RIF resistance detected</div></th>
+			<th><div>T = MTB detected,<br>RIF resistance not detected</div></th>
 			<th>RIF indeterminant</th>
 			<th>N = MTB not detected</th>
-			<th>I = invalid/ no result/ error</th>
+			<th><div>I = invalid/<br>no result/ error</div></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -136,17 +157,17 @@
 </table>
 
 
-<br>
-<div>Overall report (Total numbers)</div>
-<table>
+<br><br>
+<h3>Overall report (Total numbers)</h3>
+<table class="table-bordered">
 	<thead>
 		<tr>
 			<th>Smears tested</th>
 			<th>Positive</th>
 			<th>Scanty</th>
 			<th>Negative</th>
-			<th>Positive rate among Presumptive TB case in %</th>
-			<th>Positive rate among Follow-ups in %</th>
+			<th><div>Positive rate among<br>Presumptive TB case in %</div></th>
+			<th><div>Positive rate among<br>Follow-ups in %</div></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -160,4 +181,78 @@
 		</tr>
 	</tbody>
 </table>
+</div>
+
+<script>
+var file = '';
+
+ var tablesToExcel = (function () {
+ var uri = 'data:application/vnd.ms-excel; base64,'
+ , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets>'
+ , templateend = '</x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head>'
+ , body = '<body>'
+ , tablevar = '<table>{table'
+ , tablevarend = '}</table>'
+ , bodyend = '</body></html>'
+ , worksheet = '<x:ExcelWorksheet><x:Name>'
+ , worksheetend = '</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet>'
+ , worksheetvar = '{worksheet'
+ , worksheetvarend = '}'
+ , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) }
+ , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+ , wstemplate = ''
+ , tabletemplate = '';
+ 
+ return function (table, name, filename) {
+ if(!filename){
+	file = table+new Date().toISOString()+'.xls';
+ }
+ else {
+	file = filename;
+ }
+ 
+ var tables = table;
+ 
+ for (var i = 0; i < tables.length; ++i) {
+ wstemplate += worksheet + worksheetvar + i + worksheetvarend + worksheetend;
+ tabletemplate += tablevar + i + tablevarend;
+ }
+ 
+ var allTemplate = template + wstemplate + templateend;
+ var allWorksheet = body + tabletemplate + bodyend;
+ var allOfIt = allTemplate + allWorksheet;
+ 
+ var ctx = {};
+ for (var j = 0; j < tables.length; ++j) {
+ ctx['worksheet' + j] = name[j];
+ }
+ 
+ for (var k = 0; k < tables.length; ++k) {
+ var exceltable;
+ if (!tables[k].nodeType) exceltable = document.getElementById(tables[k]);
+ ctx['table' + k] = exceltable.innerHTML;
+ }
+ 
+ //window.location.href = uri + base64(format(allOfIt, ctx));
+ 
+ jQuery('<a style="display:none" href="data:application/vnd.ms-xls;filename=exportData.xls;'+uri+base64(format(allOfIt, ctx))+'" download="'+file+'"><span></span></a>').appendTo(document.body).find('span').trigger("click").parent().remove();
+ 
+ }
+ })();
+ 
+
+function convertToPDF(domId) {
+	elem = jQuery('#lab_findings_on_tb').clone();
+	elem.find('table').css("float", "left");
+	elem.find('table').css("font-size", "9px");
+	elem.find('table').css("width", "700px");
+	elem.find('td').css("text-align", "center");
+	elem.find('th').css("text-align", "center");
+	elem.find('div').css("word-wrap", "break-word");
+	source = elem.html();
+
+	html2pdf(elem.html());
+}
+</script>
+
 </div>

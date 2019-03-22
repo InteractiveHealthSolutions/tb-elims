@@ -16,6 +16,11 @@
 	
 	ui.includeCss("tbelims", "angular-ui-tree.min.css")
 	ui.includeJavascript("tbelims", "angular-ui-tree.min.js")
+	
+	ui.includeJavascript("tbelims", "es6-promise.auto.min.js")
+	ui.includeJavascript("tbelims", "jspdf.min.js")
+	ui.includeJavascript("tbelims", "html2canvas.min.js")
+	ui.includeJavascript("tbelims", "html2pdf.min.js")
 
 	ui.includeJavascript("tbelims", "services/session.js")
 	ui.includeJavascript("tbelims", "services/patientService.js")
